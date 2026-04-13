@@ -46,10 +46,27 @@ function TwoFAPage() {
   }
 
   return (
-    <div className="twofa-page">
+    <div
+      className="twofa-page"
+      style={{
+        position: 'fixed',
+        inset: 0,
+        width: '100vw',
+        height: '100vh',
+        background: '#f4f4f4',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontFamily: 'Inter, sans-serif',
+      }}
+    >
       <div className="twofa-card">
         <div className="twofa-header">
-          <div className="twofa-logo" />
+          <img
+            src="/logo-careofyou.png"
+            alt="Careofyou logo"
+            className="twofa-logo"
+          />
           <p className="twofa-title">Enter 4-digit OTP code</p>
         </div>
 
