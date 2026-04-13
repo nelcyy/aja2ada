@@ -1,0 +1,371 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  font-family: Inter, sans-serif;
+}
+
+/* ══════════════════════════════════════════
+   Full-screen shell
+══════════════════════════════════════════ */
+.profile-page {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+/* ══════════════════════════════════════════
+   Top bar
+══════════════════════════════════════════ */
+.topbar {
+  height: 60px;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  background: #ffffff;
+  border-bottom: 1px solid #f0f0f0;
+  z-index: 10;
+}
+
+.topbar-menu {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 8px;
+  transition: background 0.15s;
+}
+
+.topbar-menu:hover {
+  background: #f5f5f5;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.topbar-bell {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 8px;
+  transition: background 0.15s;
+}
+
+.topbar-bell:hover {
+  background: #f5f5f5;
+}
+
+.topbar-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 4px 10px 4px 4px;
+  border-radius: 30px;
+  transition: background 0.15s;
+}
+
+.topbar-user:hover {
+  background: #f5f5f5;
+}
+
+.topbar-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.topbar-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+/* ══════════════════════════════════════════
+   Body row (sidebar + main)
+══════════════════════════════════════════ */
+.profile-body {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+/* ══════════════════════════════════════════
+   Sidebar
+══════════════════════════════════════════ */
+.sidebar {
+  width: 260px;
+  min-width: 260px;
+  padding: 36px 20px 28px;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  overflow-y: auto;
+}
+
+.sidebar-title {
+  font-size: 19px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 32px;
+  padding-left: 8px;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 12px 13px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  color: #888;
+  border-left: 3px solid transparent;
+  transition: color 0.2s;
+  user-select: none;
+}
+
+.nav-item:hover {
+  color: #d6867c;
+}
+
+.nav-item--active {
+  color: #1a1a1a;
+  font-weight: 600;
+  border-left: 3px solid #d6867c;
+}
+
+.nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  flex-shrink: 0;
+}
+
+.sidebar-logout {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 12px 13px 16px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #d6867c;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: opacity 0.2s;
+  user-select: none;
+}
+
+.sidebar-logout:hover {
+  opacity: 0.7;
+}
+
+/* ── Vertical divider ── */
+.sidebar-divider {
+  width: 1px;
+  background: #eeeeee;
+  align-self: stretch;
+}
+
+/* ══════════════════════════════════════════
+   Main content
+══════════════════════════════════════════ */
+.profile-main {
+  flex: 1;
+  padding: 44px 60px;
+  overflow-y: auto;
+  background: #ffffff;
+}
+
+/* ══════════════════════════════════════════
+   Profile header (avatar + name)
+══════════════════════════════════════════ */
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin-bottom: 44px;
+}
+
+.avatar-wrapper {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  flex-shrink: 0;
+}
+
+.avatar {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.avatar-edit-btn {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background: #d6867c;
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.avatar-edit-btn:hover {
+  background: #b86b6a;
+}
+
+.profile-name {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 6px;
+}
+
+.profile-location {
+  font-size: 14px;
+  color: #999;
+}
+
+/* ══════════════════════════════════════════
+   Form
+══════════════════════════════════════════ */
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-label {
+  font-size: 13px;
+  color: #999;
+  font-weight: 500;
+}
+
+.profile-input {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #e5e5e5;
+  font-size: 14px;
+  outline: none;
+  background: #f9f5f5;
+  font-family: inherit;
+  text-align: center;
+  width: 100%;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.profile-input:focus {
+  border-color: #e09089;
+  box-shadow: 0 0 0 4px rgba(224, 144, 137, 0.16);
+}
+
+/* ══════════════════════════════════════════
+   Save button
+══════════════════════════════════════════ */
+.save-btn-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.save-btn {
+  padding: 14px 72px;
+  border-radius: 30px;
+  border: none;
+  background: #d6867c;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s;
+}
+
+.save-btn:hover {
+  background: #b86b6a;
+}
+
+.save-btn--saved {
+  background: #6dab7c;
+}
+
+.save-btn--saved:hover {
+  background: #5a9268;
+}
+
+/* ══════════════════════════════════════════
+   Placeholder sections (Favorites, etc.)
+══════════════════════════════════════════ */
+.placeholder-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 300px;
+  gap: 10px;
+  color: #bbb;
+}
+
+.placeholder-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #ccc;
+}
+
+.placeholder-sub {
+  font-size: 14px;
+}

@@ -12,7 +12,7 @@ body {
   font-family: Inter, sans-serif;
 }
 
-/* Full screen center */
+/* Page */
 .page {
   height: 100vh;
   width: 100vw;
@@ -56,28 +56,32 @@ body {
   gap: 14px;
 }
 
-/* Input */
+/* Input — same as .login-input */
 .input {
-  width: 100%;
   padding: 12px 14px;
   border-radius: 10px;
   border: 1px solid #e5e5e5;
   font-size: 14px;
   outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: #f9f5f5;
+  width: 100%;
+  box-sizing: border-box;
   font-family: inherit;
+  color: #1a1a1a;
 }
 
 .input::placeholder {
-  color: #b5b5b5;
+  color: #888;
 }
 
 .input:focus {
-  border-color: #e07a73;
+  border-color: #e09089;
+  box-shadow: 0 0 0 4px rgba(224, 144, 137, 0.16);
 }
 
-/* Button */
+/* Button — same as .login-button */
 .btn {
-  width: 100%;
   margin-top: 8px;
   padding: 12px;
   border-radius: 10px;
@@ -87,18 +91,19 @@ body {
   font-size: 15px;
   font-weight: 500;
   cursor: pointer;
-  transition: 0.2s;
+  transition: background 0.2s;
+  width: 100%;
   font-family: inherit;
 }
 
 .btn:hover {
-  opacity: 0.9;
+  background: #b86b6a;
 }
 
 /* Back link */
 .back {
   margin-top: 18px;
-  font-size: 15px;
+  font-size: 14px;
   color: #e07a73;
   cursor: pointer;
   text-decoration: underline;
