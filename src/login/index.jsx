@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./index.css";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -83,13 +84,7 @@ export default function LoginPage() {
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            style={{
-              padding: "12px 14px",
-              borderRadius: "10px",
-              border: "1px solid #e5e5e5",
-              fontSize: "14px",
-              outline: "none",
-            }}
+            className="login-input"
           />
 
           {/* PASSWORD */}
@@ -98,13 +93,7 @@ export default function LoginPage() {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            style={{
-              padding: "12px 14px",
-              borderRadius: "10px",
-              border: "1px solid #e5e5e5",
-              fontSize: "14px",
-              outline: "none",
-            }}
+            className="login-input"
           />
 
           {/* FORGOT PASSWORD */}
@@ -138,18 +127,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            style={{
-              marginTop: "8px",
-              padding: "12px",
-              borderRadius: "10px",
-              border: "none",
-              background: "#d6867c",
-              color: "#ffffff",
-              fontSize: "15px",
-              fontWeight: "500",
-              cursor: "pointer",
-              transition: "0.2s",
-            }}
+            className="login-button"
           >
             {loading ? "Loading..." : "Sign In"}
           </button>
