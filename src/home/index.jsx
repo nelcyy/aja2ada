@@ -101,6 +101,7 @@ export default function HomePage() {
   const [cart, setCart] = useState([]);
   const [cartOpen, setCartOpen] = useState(false);
   const [search, setSearch] = useState("");
+  const [searchOpen, setSearchOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState("All");
   const [favorites, setFavorites] = useState([]);
 
@@ -144,47 +145,64 @@ export default function HomePage() {
   return (
     <div className="home-root">
       {/* NAVBAR */}
-      <nav className="navbar">
-        <div className="navbar-inner">
-          <div className="navbar-logo">
-            <img src="/logo-careofyou.png" alt="Careofyou" className="nav-logo-img" />
-            <span className="nav-brand">careofyou</span>
+      <header className="wl-nav">
+        <div className="wl-nav-inner">
+          <div className="wl-logo" onClick={() => navigate("/")}>
+            <img src="/logo-careofyou.png" alt="Careofyou" className="wl-logo-img" />
+            <span className="wl-logo-text">careofyou</span>
           </div>
 
-          <div className="search-wrap">
-            <span className="search-icon">🔍</span>
-            <input
-              className="search-input"
-              type="text"
-              placeholder="Search products..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </div>
+          <nav className="wl-nav-links">
+            <span onClick={() => navigate("/")}>Home</span>
+            <span>Products</span>
+            <span>Skincare</span>
+            <span>About</span>
+          </nav>
 
-          <div className="navbar-right">
-            <button className="nav-icon-btn" onClick={() => navigate("/favorites")} title="Favorites">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+          <div className="wl-nav-icons">
+            <button className="wl-icon-btn" title="Search" onClick={() => setSearchOpen((o) => !o)}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
               </svg>
             </button>
-            <button className="nav-icon-btn" onClick={() => navigate("/profile")} title="Profile">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
-                <circle cx="12" cy="7" r="4" />
+            <button className="wl-icon-btn" title="Wishlist" onClick={() => navigate("/wishlist")}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
               </svg>
             </button>
-            <button className="cart-btn" onClick={() => setCartOpen(true)}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
-                <line x1="3" y1="6" x2="21" y2="6" />
-                <path d="M16 10a4 4 0 01-8 0" />
+            <button className="wl-icon-btn wl-cart-btn" title="Cart" onClick={() => setCartOpen(true)}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
               </svg>
-              {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
+              {cartCount > 0 && <span className="wl-cart-badge">{cartCount}</span>}
+            </button>
+            <button className="wl-icon-btn" title="Profile" onClick={() => navigate("/myprofile")}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+              </svg>
             </button>
           </div>
         </div>
-      </nav>
+
+        {/* SEARCH BAR — muncul saat icon search diklik */}
+        {searchOpen && (
+          <div className="nav-search-bar">
+            <div className="nav-search-wrap">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+              <input
+                className="nav-search-input"
+                type="text"
+                placeholder="Cari produk..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                autoFocus
+              />
+            </div>
+          </div>
+        )}
+      </header>
 
       {/* HERO */}
       <section className="hero">
@@ -265,48 +283,21 @@ export default function HomePage() {
       </section>
 
       {/* FOOTER */}
-      <footer className="footer">
-        <div className="footer-inner">
-          <div className="footer-brand">
-            <img src="/logo-careofyou.png" alt="Careofyou" className="footer-logo" />
-            <div>
-              <p className="footer-brand-name">careofyou</p>
-              <p className="footer-brand-desc">Skincare terpercaya untuk kulit sehat dan bercahaya setiap hari.</p>
-            </div>
+      <footer className="wl-footer">
+        <div className="wl-footer-inner">
+          <div className="wl-footer-brand">
+            <img src="/logo-careofyou.png" alt="Careofyou" className="wl-footer-logo" />
+            <span className="wl-footer-name">careofyou</span>
           </div>
 
-          <div className="footer-links">
-            <div className="footer-col">
-              <p className="footer-col-title">Produk</p>
-              <ul>
-                <li>Cleanser</li>
-                <li>Toner</li>
-                <li>Serum</li>
-                <li>Moisturizer</li>
-              </ul>
-            </div>
-            <div className="footer-col">
-              <p className="footer-col-title">Bantuan</p>
-              <ul>
-                <li>FAQ</li>
-                <li>Cara Order</li>
-                <li>Kebijakan Retur</li>
-                <li>Hubungi Kami</li>
-              </ul>
-            </div>
-            <div className="footer-col">
-              <p className="footer-col-title">Ikuti Kami</p>
-              <ul>
-                <li>Instagram</li>
-                <li>TikTok</li>
-                <li>YouTube</li>
-              </ul>
-            </div>
+          <div className="wl-footer-links">
+            <span>About Us</span>
+            <span>Products</span>
+            <span>Skincare Guide</span>
+            <span>Contact</span>
           </div>
-        </div>
 
-        <div className="footer-bottom">
-          <p>© 2025 careofyou. All rights reserved.</p>
+          <p className="wl-footer-copy">© 2025 Careofyou. All rights reserved.</p>
         </div>
       </footer>
 
