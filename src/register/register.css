@@ -1,61 +1,106 @@
-.container {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f4f4f4;
-  font-family: Arial, sans-serif;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.card {
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  font-family: Inter, sans-serif;
+}
+
+/* Full screen center */
+.page {
+  height: 100vh;
+  width: 100vw;
+  background: #f4f4f4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+/* Card */
+.wrapper {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
+/* Logo */
 .logo {
-  width: 160px;
-  height: 160px;
-  object-fit: contain;
-  margin-bottom: 25px;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 28px;
 }
 
+/* Form */
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Input */
 .input {
-  width: 320px;
-  padding: 10px;
-  margin: 6px 0;
-  border-radius: 6px;
-  border: 1px solid #ddd;
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #e5e5e5;
   font-size: 14px;
+  outline: none;
+  font-family: inherit;
 }
 
 .input::placeholder {
-  color: #aaa;
+  color: #b5b5b5;
 }
 
+.input:focus {
+  border-color: #e07a73;
+}
+
+/* Button */
 .btn {
-  width: 320px;
-  padding: 10px;
-  margin-top: 10px;
-  background-color: #D58F88;
-  color: white;
+  width: 100%;
+  margin-top: 8px;
+  padding: 12px;
+  border-radius: 10px;
   border: none;
-  border-radius: 6px;
-  font-weight: bold;
+  background: #d6867c;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 500;
   cursor: pointer;
+  transition: 0.2s;
+  font-family: inherit;
 }
 
 .btn:hover {
   opacity: 0.9;
 }
 
+/* Back link */
 .back {
-  margin-top: 12px;
-  color: #D58F88;
-  font-size: 14px;
+  margin-top: 18px;
+  font-size: 15px;
+  color: #e07a73;
   cursor: pointer;
-}
-
-.back:hover {
   text-decoration: underline;
+  font-weight: 500;
 }
