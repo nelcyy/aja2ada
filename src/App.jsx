@@ -7,6 +7,7 @@ import HomePage from './home/index.jsx'
 import WishlistPage from './wishlist/wishlist.jsx'
 import ContactPage from './contact/index.jsx'
 import CheckoutPage from './checkout/index.jsx'
+import AdminPage from './admin/index.jsx'
 import { CartProvider } from './context/CartContext.jsx'
 import { WishlistProvider } from './context/WishlistContext.jsx'
 import { SearchProvider } from './context/SearchContext.jsx'
@@ -23,6 +24,7 @@ function App() {
               <Route path="/register" element={<AuthPage />} />
               <Route path="/2fa" element={<TwoFAPage />} />
               <Route path="/contact" element={<ContactPage />} />
+              <Route path="/admin" element={<AdminPage />} />
               <Route path="/myprofile" element={<MyProfilePage />} />
               <Route path="/" element={<HomePage />} />
               <Route path="/wishlist" element={<WishlistPage />} />
