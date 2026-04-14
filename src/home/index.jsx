@@ -346,7 +346,12 @@ export default function HomePage() {
                 <span>Total</span>
                 <span className="cart-total-val">{formatRupiah(cartTotal)}</span>
               </div>
-              <button className="checkout-btn">Checkout</button>
+              <button
+                className="checkout-btn"
+                onClick={() => { setCartOpen(false); navigate("/checkout", { state: { cartItems: cart } }); }}
+              >
+                Checkout
+              </button>
             </div>
           </>
         )}
