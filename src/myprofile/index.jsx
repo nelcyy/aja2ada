@@ -41,6 +41,37 @@ const IconWallet = () => (
     <path d="M2 10h20"/>
   </svg>
 );
+
+const AdminPaymentApproval = () => (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    {/* User head */}
+    <circle cx="9" cy="7" r="4" />
+
+    {/* User body */}
+    <path d="M3 21c0-3.5 3-6 6-6s6 2.5 6 6" />
+
+    {/* Gear (settings) */}
+    <circle cx="18" cy="17" r="2.5" />
+    <path d="M18 13v1" />
+    <path d="M18 20v1" />
+    <path d="M15.5 14.5l.7.7" />
+    <path d="M19.8 18.8l.7.7" />
+    <path d="M14 17h1" />
+    <path d="M21 17h1" />
+    <path d="M15.5 19.5l.7-.7" />
+    <path d="M19.8 15.2l.7-.7" />
+  </svg>
+);
+
 const IconBox = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
     <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
@@ -85,7 +116,7 @@ const IconLogOut = () => (
 const navItems = [
   { id: "userinfo",      label: "User info",       icon: <IconUser /> },
   { id: "myaddress",     label: "My Address",      icon: <IconMapPin /> },
-  { id: "unpaid",        label: "Unpaid",           icon: <IconWallet /> },
+  { id: "adminapproval", label: "Admin Approval",  icon: <AdminPaymentApproval /> },
   { id: "packing",       label: "Being Packed",     icon: <IconBox /> },
   { id: "shipped",       label: "Shipped",          icon: <IconTruck /> },
   { id: "rateorder",     label: "Rate Order",       icon: <IconStar /> },
@@ -297,9 +328,9 @@ function MyAddressSection() {
   );
 }
 
-/* ── Order Section (Unpaid / Packing / Shipped / Rate Order) ── */
+/* ── Order Section (adminapproval / Packing / Shipped / Rate Order) ── */
 const MOCK_ORDERS = {
-  unpaid: [
+  adminapproval: [
     { id: "ORD-001", store: "Careofyou Official", product: "5X Ceramide Barrier Repair Moisture Gel", qty: 1, total: 149000, date: "14 Apr 2025" },
     { id: "ORD-002", store: "Skintific Store",    product: "AHA BHA PHA 30 Days Miracle Toner",      qty: 2, total: 370000, date: "13 Apr 2025" },
   ],
@@ -318,7 +349,7 @@ const MOCK_ORDERS = {
 };
 
 const STATUS_LABEL = {
-  unpaid:    { text: "Awaiting Payment", color: "#e07a73", bg: "#fff5f5" },
+  adminapproval: { text: "Admin Approval", color: "#e07a73", bg: "#fff5f5" },
   packing:   { text: "Being Packed",     color: "#e09a3a", bg: "#fffaf0" },
   shipped:   { text: "On Delivery",      color: "#4a9fd4", bg: "#f0f8ff" },
   rateorder: { text: "Delivered",        color: "#5aab6d", bg: "#f0faf3" },
@@ -415,7 +446,7 @@ export default function MyProfile() {
     switch (activeNav) {
       case "userinfo":      return <UserInfoSection />;
       case "myaddress":     return <MyAddressSection />;
-      case "unpaid":        return <PlaceholderSection title="Unpaid" />;
+      case "adminapproval": return <PlaceholderSection title="Admin Approval" />;
       case "packing":       return <PlaceholderSection title="Being Packed" />;
       case "shipped":       return <PlaceholderSection title="Shipped" />;
       case "rateorder":     return <PlaceholderSection title="Rate Order" />;
