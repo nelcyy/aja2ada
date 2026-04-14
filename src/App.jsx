@@ -15,19 +15,6 @@ import CartSidebar from './components/CartSidebar.jsx'
 function App() {
   return (
     <CartProvider>
-      <Router>
-        <Routes>
-          <Route path="/login" element={<AuthPage />} />
-          <Route path="/register" element={<AuthPage />} />
-          <Route path="/2fa" element={<TwoFAPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/myprofile" element={<MyProfilePage />} />
-          <Route path="/" element={<HomePage />} />
-          <Route path="/wishlist" element={<WishlistPage />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
-        </Routes>
-        <CartSidebar />
-      </Router>
       <WishlistProvider>
         <SearchProvider>
           <Router>
@@ -35,6 +22,7 @@ function App() {
               <Route path="/login" element={<AuthPage />} />
               <Route path="/register" element={<AuthPage />} />
               <Route path="/2fa" element={<TwoFAPage />} />
+              <Route path="/contact" element={<ContactPage />} />
               <Route path="/myprofile" element={<MyProfilePage />} />
               <Route path="/" element={<HomePage />} />
               <Route path="/wishlist" element={<WishlistPage />} />
