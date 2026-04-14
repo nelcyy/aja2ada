@@ -5,6 +5,7 @@ import TwoFAPage from './2fa/index.jsx'
 import MyProfilePage from './myprofile/index.jsx'
 import HomePage from './home/index.jsx'
 import WishlistPage from './wishlist/wishlist.jsx'
+import ContactPage from './contact/index.jsx'
 import CheckoutPage from './checkout/index.jsx'
 import { CartProvider } from './context/CartContext.jsx'
 import CartSidebar from './components/CartSidebar.jsx'
@@ -17,6 +18,7 @@ function App() {
           <Route path="/login" element={<AuthPage />} />
           <Route path="/register" element={<AuthPage />} />
           <Route path="/2fa" element={<TwoFAPage />} />
+          <Route path="/contact" element={<ContactPage />} />
           <Route path="/myprofile" element={<MyProfilePage />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/wishlist" element={<WishlistPage />} />
