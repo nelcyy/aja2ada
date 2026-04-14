@@ -1,17 +1,27 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./Navbar.css";
 import { useCart } from "../context/CartContext";
+import { useSearch } from "../context/SearchContext";
 
 export default function Navbar({
   activePage = "home",
   onHomeClick = null,
   onProductsClick = null,
+  onSearchClick = null,
+  allProducts = [],
+  searchOpen: externalSearchOpen = null,
+  setSearchOpen: externalSetSearchOpen = null,
 }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const { cartCount, setCartOpen } = useCart();
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [search, setSearch] = useState("");
+  const { searchQuery, setSearchQuery, performSearch, openSearchPanel } = useSearch();
+  const [internalSearchOpen, setInternalSearchOpen] = useState(false);
+  
+  // Use external state if provided, otherwise use internal state
+  const searchOpen = externalSearchOpen !== null ? externalSearchOpen : internalSearchOpen;
+  const setSearchOpen = externalSetSearchOpen !== null ? externalSetSearchOpen : setInternalSearchOpen;
 
   const handleHome = () => {
     if (onHomeClick) onHomeClick();
@@ -21,6 +31,41 @@ export default function Navbar({
   const handleProducts = () => {
     if (onProductsClick) onProductsClick();
     else navigate("/");
+  };
+
+  const handleSearchClick = () => {
+    if (activePage === "home") {
+      // On home page, toggle search or scroll to All Products
+      if (searchOpen) {
+        // Already open, just close it
+        setSearchOpen(false);
+      } else {
+        // Not open, scroll to All Products and open search
+        if (onSearchClick) onSearchClick();
+        setSearchOpen(true);
+      }
+    } else {
+      // Not on home, navigate to home and open search
+      openSearchPanel();
+      navigate("/#all-products");
+    }
+  };
+
+  const handleSearch = (value) => {
+    setSearchQuery(value);
+    if (value.trim()) {
+      performSearch(value, allProducts);
+      if (activePage !== "home") {
+        navigate("/");
+      }
+    }
+  };
+
+  const handleSearchKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSearch(e.target.value);
+      setSearchOpen(false);
+    }
   };
 
   return (
@@ -41,7 +86,7 @@ export default function Navbar({
 
         {/* Right icons */}
         <div className="navbar-icons">
-          <button className="navbar-icon-btn" title="Search" onClick={() => setSearchOpen(o => !o)}>
+          <button className="navbar-icon-btn" title="Search" onClick={handleSearchClick}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
             </svg>
@@ -91,8 +136,10 @@ export default function Navbar({
               className="navbar-search-input"
               type="text"
               placeholder="Cari produk..."
-              value={search}
-              onChange={e => setSearch(e.target.value)}
+              value={searchQuery}
+              onChange={e => handleSearch(e.target.value)}
+              onKeyPress={handleSearchKeyPress}
+              onBlur={() => setSearchOpen(false)}
               autoFocus
             />
           </div>

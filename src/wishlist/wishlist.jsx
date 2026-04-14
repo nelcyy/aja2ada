@@ -1,50 +1,17 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./wishlist.css";
 import Navbar from "../components/Navbar";
-
-const initialItems = [
-  {
-    id: 1,
-    brand: "Skintific",
-    name: "5X Ceramide Barrier Repair Moisture Gel",
-    price: "Rp 149.000",
-    size: "30ml",
-    image: "https://placehold.co/110x110/fce8e6/c4706a?text=Skincare",
-  },
-  {
-    id: 2,
-    brand: "Some By Mi",
-    name: "AHA BHA PHA 30 Days Miracle Toner",
-    price: "Rp 185.000",
-    size: "150ml",
-    image: "https://placehold.co/110x110/fdeaea/c4706a?text=Toner",
-  },
-  {
-    id: 3,
-    brand: "Wardah",
-    name: "Lightening Face Moisturizer SPF 30",
-    price: "Rp 69.000",
-    size: "40ml",
-    image: "https://placehold.co/110x110/f9e0df/c4706a?text=Moisturizer",
-  },
-  {
-    id: 4,
-    brand: "Nacific",
-    name: "Real Floral Toner — Rose Edition",
-    price: "Rp 210.000",
-    size: "200ml",
-    image: "https://placehold.co/110x110/fce8e6/c4706a?text=Rose+Toner",
-  },
-];
+import { useWishlist } from "../context/WishlistContext";
+import { PRODUCTS } from "../data/products.js";
 
 export default function WishlistPage() {
   const navigate = useNavigate();
-  const [items, setItems] = useState(initialItems);
+  const { wishlistItems, removeFromWishlist } = useWishlist();
   const [addedIds, setAddedIds] = useState([]);
 
   const removeItem = (id) => {
-    setItems((prev) => prev.filter((item) => item.id !== id));
+    removeFromWishlist(id);
     setAddedIds((prev) => prev.filter((i) => i !== id));
   };
 
@@ -55,7 +22,7 @@ export default function WishlistPage() {
   };
 
   const addAllToBag = () => {
-    setAddedIds(items.map((i) => i.id));
+    setAddedIds(wishlistItems.map((i) => i.id));
   };
 
   return (
@@ -63,8 +30,9 @@ export default function WishlistPage() {
       {/* NAVBAR */}
       <Navbar 
         activePage="wishlist"
+        allProducts={PRODUCTS}
         onHomeClick={() => navigate("/")}
-        onProductsClick={() => navigate("/")}
+        onProductsClick={() => navigate("/#all-products")}
       />
 
       {/* PAGE CONTENT */}
@@ -74,9 +42,9 @@ export default function WishlistPage() {
           <div className="wl-header">
             <div>
               <h1 className="wl-title">Your Favorite</h1>
-              <p className="wl-subtitle">{items.length} item{items.length !== 1 ? "s" : ""} saved</p>
+              <p className="wl-subtitle">{wishlistItems.length} item{wishlistItems.length !== 1 ? "s" : ""} saved</p>
             </div>
-            {items.length > 0 && (
+            {wishlistItems.length > 0 && (
               <button className="wl-add-all-btn" onClick={addAllToBag}>
                 Add all to bag
               </button>
@@ -87,7 +55,7 @@ export default function WishlistPage() {
           <div className="wl-divider" />
 
           {/* EMPTY STATE */}
-          {items.length === 0 && (
+          {wishlistItems.length === 0 && (
             <div className="wl-empty">
               <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#e0b0ac" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
@@ -100,17 +68,22 @@ export default function WishlistPage() {
 
           {/* ITEM LIST */}
           <div className="wl-list">
-            {items.map((item) => (
+            {wishlistItems.map((item) => (
               <div key={item.id} className="wl-card">
                 <div className="wl-card-img-wrap">
                   <img src={item.image} alt={item.name} className="wl-card-img" />
                 </div>
 
                 <div className="wl-card-info">
-                  <p className="wl-card-brand">{item.brand}</p>
+                  {item.brand && <p className="wl-card-brand">{item.brand}</p>}
                   <p className="wl-card-name">{item.name}</p>
-                  <p className="wl-card-price">{item.price}</p>
-                  <p className="wl-card-size">Size: {item.size}</p>
+                  <p className="wl-card-price">
+                    {typeof item.price === 'number' 
+                      ? `Rp ${item.price.toLocaleString('id-ID')}` 
+                      : item.price}
+                  </p>
+                  {item.category && <p className="wl-card-size">{item.category}</p>}
+                  {item.size && <p className="wl-card-size">Size: {item.size}</p>}
 
                   <button
                     className={`wl-add-btn ${addedIds.includes(item.id) ? "wl-add-btn--added" : ""}`}

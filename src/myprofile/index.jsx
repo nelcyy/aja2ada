@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
 import Navbar from "../components/Navbar";
+import { PRODUCTS } from "../data/products.js";
 
 /* ── Icons ─────────────────────────────────────────────── */
 const IconSearch = () => (
@@ -417,8 +418,9 @@ export default function MyProfile() {
       {/* ── NAVBAR ── */}
       <Navbar 
         activePage="myprofile"
+        allProducts={PRODUCTS}
         onHomeClick={() => navigate("/")}
-        onProductsClick={() => navigate("/")}
+        onProductsClick={() => navigate("/#all-products")}
       />
 
       {/* ── BODY ── */}

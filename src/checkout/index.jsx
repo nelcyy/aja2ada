@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./index.css";
 import Navbar from "../components/Navbar";
+import { PRODUCTS } from "../data/products.js";
 
 /* ─── Icons ──────────────────────────────────────────────── */
 const IconMapPin = () => (
@@ -136,8 +137,9 @@ export default function CheckoutPage() {
       <div className="co-page">
         <Navbar 
           activePage="checkout"
+          allProducts={PRODUCTS}
           onHomeClick={() => navigate("/")}
-          onProductsClick={() => navigate("/")}
+          onProductsClick={() => navigate("/#all-products")}
         />
         <div className="co-success">
           <div className="co-success-icon">✓</div>
@@ -166,9 +168,10 @@ export default function CheckoutPage() {
 
       {/* NAVBAR */}
       <Navbar 
+        allProducts={PRODUCTS}
         activePage="checkout"
         onHomeClick={() => navigate("/")}
-        onProductsClick={() => navigate("/")}
+        onProductsClick={() => navigate("/#all-products")}
       />
 
       {/* ── MAIN ── */}
