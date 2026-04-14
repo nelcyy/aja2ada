@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./wishlist.css";
+import Navbar from "../components/Navbar";
 
 const initialItems = [
   {
@@ -60,44 +61,11 @@ export default function WishlistPage() {
   return (
     <div className="wl-page">
       {/* NAVBAR */}
-      <header className="wl-nav">
-        <div className="wl-nav-inner">
-          <div className="wl-logo" onClick={() => navigate("/")}>
-            <img src="/logo-careofyou.png" alt="Careofyou" className="wl-logo-img" />
-            <span className="wl-logo-text">careofyou</span>
-          </div>
-
-          <nav className="wl-nav-links">
-            <span onClick={() => navigate("/")}>Home</span>
-            <span>Products</span>
-            <span>Contact Us</span>
-          </nav>
-
-          <div className="wl-nav-icons">
-            <button className="wl-icon-btn" title="Search">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-              </svg>
-            </button>
-            <button className="wl-icon-btn wl-icon-active" title="Favorites" onClick={() => navigate("/wishlist")}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-              </svg>
-            </button>
-            <button className="wl-icon-btn wl-cart-btn" title="Cart">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
-              </svg>
-              <span className="wl-cart-badge">{addedIds.length}</span>
-            </button>
-            <button className="wl-icon-btn" title="Profile" onClick={() => navigate("/myprofile")}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-      </header>
+      <Navbar 
+        activePage="wishlist"
+        onHomeClick={() => navigate("/")}
+        onProductsClick={() => navigate("/")}
+      />
 
       {/* PAGE CONTENT */}
       <main className="wl-main">

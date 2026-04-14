@@ -6,62 +6,13 @@
 
 /* ── Page shell ─────────────────────────────────────────── */
 .co-page {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   font-family: Inter, sans-serif;
   background: #fdf6f5;
   color: #2d2d2d;
-}
-
-/* ══════════════════════════════════════════
-   NAVBAR — same as wishlist
-══════════════════════════════════════════ */
-.co-nav {
-  background: #fff;
-  border-bottom: 1px solid #f0e0de;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 2px 12px rgba(214, 134, 124, 0.08);
-  flex-shrink: 0;
-}
-
-.co-nav-inner {
-  max-width: 1160px;
-  margin: 0 auto;
-  padding: 0 40px;
-  height: 68px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-}
-
-.co-logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-.co-logo-img {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #f0d5d2;
-}
-
-.co-logo-text {
-  font-size: 17px;
-  font-weight: 600;
   color: #d6867c;
   letter-spacing: 0.5px;
 }

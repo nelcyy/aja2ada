@@ -1,30 +1,9 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./index.css";
+import Navbar from "../components/Navbar";
 
 /* ─── Icons ──────────────────────────────────────────────── */
-const IconSearch = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-  </svg>
-);
-const IconHeart = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-  </svg>
-);
-const IconBag = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-    <line x1="3" y1="6" x2="21" y2="6"/>
-    <path d="M16 10a4 4 0 0 1-8 0"/>
-  </svg>
-);
-const IconAccount = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-  </svg>
-);
 const IconMapPin = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1 1 18 0z"/>
@@ -155,12 +134,11 @@ export default function CheckoutPage() {
   if (ordered) {
     return (
       <div className="co-page">
-        <header className="co-nav"><div className="co-nav-inner">
-          <div className="co-logo" onClick={() => navigate("/")}>
-            <img src="/logo-careofyou.png" alt="Careofyou" className="co-logo-img"/>
-            <span className="co-logo-text">careofyou</span>
-          </div>
-        </div></header>
+        <Navbar 
+          activePage="checkout"
+          onHomeClick={() => navigate("/")}
+          onProductsClick={() => navigate("/")}
+        />
         <div className="co-success">
           <div className="co-success-icon">✓</div>
           <h2 className="co-success-title">Order Placed!</h2>
@@ -186,26 +164,12 @@ export default function CheckoutPage() {
   return (
     <div className="co-page">
 
-      {/* ── NAVBAR ── */}
-      <header className="co-nav">
-        <div className="co-nav-inner">
-          <div className="co-logo" onClick={() => navigate("/")}>
-            <img src="/logo-careofyou.png" alt="Careofyou" className="co-logo-img"/>
-            <span className="co-logo-text">careofyou</span>
-          </div>
-          <nav className="co-nav-links">
-            <span onClick={() => navigate("/")}>Home</span>
-            <span>Products</span>
-            <span>Contact Us</span>
-          </nav>
-          <div className="co-nav-icons">
-            <button className="co-icon-btn"><IconSearch /></button>
-            <button className="co-icon-btn" onClick={() => navigate("/wishlist")}><IconHeart /></button>
-            <button className="co-icon-btn co-icon-active"><IconBag /></button>
-            <button className="co-icon-btn" onClick={() => navigate("/myprofile")}><IconAccount /></button>
-          </div>
-        </div>
-      </header>
+      {/* NAVBAR */}
+      <Navbar 
+        activePage="checkout"
+        onHomeClick={() => navigate("/")}
+        onProductsClick={() => navigate("/")}
+      />
 
       {/* ── MAIN ── */}
       <main className="co-main">
