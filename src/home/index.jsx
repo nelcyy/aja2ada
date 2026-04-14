@@ -1,6 +1,8 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
+import Navbar from "../components/Navbar";
+import { useCart } from "../context/CartContext";
 
 const PRODUCTS = [
   {
@@ -207,10 +209,7 @@ const HeartIcon = ({ filled }) => (
 export default function HomePage() {
   const navigate = useNavigate();
   const allProductsRef = useRef(null);
-  const [cart, setCart] = useState([]);
-  const [cartOpen, setCartOpen] = useState(false);
-  const [search, setSearch] = useState("");
-  const [searchOpen, setSearchOpen] = useState(false);
+  const { addToCart, cart, cartOpen, setCartOpen, updateQty, removeItem, cartTotal } = useCart();
   const [favorites, setFavorites] = useState([]);
 
   const toggleFavorite = (id) => {
@@ -219,95 +218,19 @@ export default function HomePage() {
     );
   };
 
-  const cartCount = cart.reduce((sum, item) => sum + item.qty, 0);
-  const cartTotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-
-  const addToCart = (product) => {
-    setCart((prev) => {
-      const existing = prev.find((i) => i.id === product.id);
-      if (existing) {
-        return prev.map((i) => i.id === product.id ? { ...i, qty: i.qty + 1 } : i);
-      }
-      return [...prev, { ...product, qty: 1 }];
-    });
-  };
-
-  const updateQty = (id, delta) => {
-    setCart((prev) =>
-      prev
-        .map((i) => i.id === id ? { ...i, qty: i.qty + delta } : i)
-        .filter((i) => i.qty > 0)
-    );
-  };
-
-  const removeItem = (id) => {
-    setCart((prev) => prev.filter((i) => i.id !== id));
-  };
-
   return (
     <div className="home-root">
       {/* NAVBAR */}
-      <header className="wl-nav">
-        <div className="wl-nav-inner">
-          <div className="wl-logo" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
-            <img src="/logo-careofyou.png" alt="Careofyou" className="wl-logo-img" />
-            <span className="wl-logo-text">careofyou</span>
-          </div>
-
-          <nav className="wl-nav-links">
-            <span onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>Home</span>
-            <span onClick={() => {
-              const el = allProductsRef.current;
-              if (!el) return;
-              const top = el.getBoundingClientRect().top + window.scrollY - 80;
-              window.scrollTo({ top, behavior: "smooth" });
-            }}>Products</span>
-            <span>Contact Us</span>
-          </nav>
-
-          <div className="wl-nav-icons">
-            <button className="wl-icon-btn" title="Search" onClick={() => setSearchOpen((o) => !o)}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-              </svg>
-            </button>
-            <button className="wl-icon-btn" title="Wishlist" onClick={() => navigate("/wishlist")}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-              </svg>
-            </button>
-            <button className="wl-icon-btn wl-cart-btn" title="Cart" onClick={() => setCartOpen(true)}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
-              </svg>
-              {cartCount > 0 && <span className="wl-cart-badge">{cartCount}</span>}
-            </button>
-            <button className="wl-icon-btn" title="Profile" onClick={() => navigate("/myprofile")}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        {searchOpen && (
-          <div className="nav-search-bar">
-            <div className="nav-search-wrap">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-              </svg>
-              <input
-                className="nav-search-input"
-                type="text"
-                placeholder="Cari produk..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                autoFocus
-              />
-            </div>
-          </div>
-        )}
-      </header>
+      <Navbar
+        activePage="home"
+        onHomeClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        onProductsClick={() => {
+          const el = allProductsRef.current;
+          if (!el) return;
+          const top = el.getBoundingClientRect().top + window.scrollY - 80;
+          window.scrollTo({ top, behavior: "smooth" });
+        }}
+      />
 
       {/* HERO */}
       <section className="hero">
@@ -323,7 +246,9 @@ export default function HomePage() {
 
       {/* SHOP BY CATEGORY */}
       <section className="home-section">
-        <h2 className="home-section-title">Shop by category</h2>
+        <div className="home-section-header">
+          <h2 className="home-section-title">Shop by category</h2>
+        </div>
         <div className="category-grid">
           {SHOP_CATEGORIES.map((cat) => (
             <div key={cat.id} className="cat-card">
@@ -338,7 +263,9 @@ export default function HomePage() {
 
       {/* BEST SELLERS */}
       <section className="home-section" style={{ marginBottom: 60 }}>
-        <h2 className="home-section-title">Best Sellers</h2>
+        <div className="home-section-header">
+          <h2 className="home-section-title">Best Sellers</h2>
+        </div>
         <div className="bestseller-grid">
           {BEST_SELLERS.map((product) => (
             <div key={product.id} className="bestseller-card">
@@ -366,7 +293,9 @@ export default function HomePage() {
 
       {/* ALL PRODUCTS */}
       <section className="home-section" style={{ marginBottom: 60 }} ref={allProductsRef}>
-        <h2 className="home-section-title">All Products</h2>
+        <div className="home-section-header">
+          <h2 className="home-section-title">All Products</h2>
+        </div>
         <div className="all-products-grid">
           {PRODUCTS.map((product) => (
             <div key={product.id} className="bestseller-card">

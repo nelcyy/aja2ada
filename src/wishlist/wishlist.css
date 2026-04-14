@@ -4,135 +4,14 @@
   padding: 0;
 }
 
-/* Break out of #root constraints entirely */
+/* ── PAGE ROOT ─────────────────────────────────────────── */
 .wl-page {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  overflow-y: auto;
+  min-height: 100vh;
+  background: #fdf6f5;
+  font-family: Inter, sans-serif;
+  color: #2d2d2d;
   display: flex;
   flex-direction: column;
-  font-family: Inter, sans-serif;
-  background: #fdf6f5;
-  color: #2d2d2d;
-  text-align: left;
-}
-
-/* ─── NAVBAR ─────────────────────────────────── */
-.wl-nav {
-  background: #fff;
-  border-bottom: 1px solid #f0e0de;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 2px 12px rgba(214, 134, 124, 0.08);
-}
-
-.wl-nav-inner {
-  max-width: 1160px;
-  margin: 0 auto;
-  padding: 0 40px;
-  height: 68px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-}
-
-.wl-logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-  text-decoration: none;
-  flex-shrink: 0;
-}
-
-.wl-logo-img {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #f0d5d2;
-}
-
-.wl-logo-text {
-  font-size: 17px;
-  font-weight: 600;
-  color: #d6867c;
-  letter-spacing: 0.5px;
-}
-
-.wl-nav-links {
-  display: flex;
-  gap: 32px;
-  align-items: center;
-}
-
-.wl-nav-links span {
-  font-size: 14px;
-  color: #666;
-  cursor: pointer;
-  font-weight: 500;
-  transition: color 0.2s;
-  letter-spacing: 0.2px;
-}
-
-.wl-nav-links span:hover {
-  color: #d6867c;
-}
-
-.wl-nav-icons {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-shrink: 0;
-}
-
-.wl-icon-btn {
-  width: 40px;
-  height: 40px;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  color: #888;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.2s, color 0.2s;
-  position: relative;
-}
-
-.wl-icon-btn:hover {
-  background: #fce8e6;
-  color: #d6867c;
-}
-
-.wl-icon-active {
-  color: #d6867c;
-}
-
-.wl-cart-btn {
-  position: relative;
-}
-
-.wl-cart-badge {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  background: #d6867c;
-  color: #fff;
-  font-size: 10px;
-  font-weight: 700;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   line-height: 1;
 }
 
