@@ -227,8 +227,9 @@
 .pr-content {
   flex: 1;
   padding: 44px 56px;
-  max-width: 900px;
+  max-width: 860px;
   width: 100%;
+  margin: 0 auto;
 }
 
 /* ══════════════════════════════════════════
@@ -307,7 +308,7 @@
   background: #fff;
   font-family: inherit;
   color: #2d2d2d;
-  text-align: center;
+  text-align: left;
   width: 100%;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
@@ -352,6 +353,182 @@
 .pr-save-btn--saved:hover {
   background: #5a9268;
   transform: none;
+}
+
+/* ══════════════════════════════════════════
+   MY ADDRESS SECTION
+══════════════════════════════════════════ */
+.pr-addr-section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.pr-addr-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.pr-section-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #2d2d2d;
+  letter-spacing: -0.3px;
+  margin-bottom: 4px;
+}
+
+.pr-section-sub {
+  font-size: 13px;
+  color: #aaa;
+}
+
+.pr-addr-add-btn {
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: 1.5px solid #d6867c;
+  background: transparent;
+  color: #d6867c;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+
+.pr-addr-add-btn:hover {
+  background: #d6867c;
+  color: #fff;
+}
+
+.pr-addr-form {
+  background: #fff;
+  border: 1px solid #f0e0de;
+  border-radius: 14px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pr-textarea {
+  resize: vertical;
+  min-height: 80px;
+  text-align: left !important;
+  padding-top: 10px;
+}
+
+.pr-addr-error {
+  font-size: 13px;
+  color: #e07a73;
+}
+
+.pr-addr-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.pr-addr-card {
+  background: #fff;
+  border: 1.5px solid #f0e0de;
+  border-radius: 14px;
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: box-shadow 0.2s;
+}
+
+.pr-addr-card:hover {
+  box-shadow: 0 4px 16px rgba(214, 134, 124, 0.1);
+}
+
+.pr-addr-card--main {
+  border-color: #d6867c;
+  background: #fff9f8;
+}
+
+.pr-addr-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pr-addr-label-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pr-addr-label {
+  font-size: 15px;
+  font-weight: 700;
+  color: #2d2d2d;
+}
+
+.pr-addr-badge {
+  font-size: 11px;
+  font-weight: 600;
+  color: #d6867c;
+  background: #fce8e6;
+  padding: 3px 9px;
+  border-radius: 20px;
+  letter-spacing: 0.3px;
+}
+
+.pr-addr-delete {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: #fce8e6;
+  border-radius: 8px;
+  color: #c4706a;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s;
+  flex-shrink: 0;
+}
+
+.pr-addr-delete:hover {
+  background: #d6867c;
+  color: #fff;
+}
+
+.pr-addr-name {
+  font-size: 14px;
+  color: #555;
+  font-weight: 500;
+}
+
+.pr-addr-text {
+  font-size: 14px;
+  color: #888;
+  line-height: 1.5;
+}
+
+.pr-addr-set-main {
+  align-self: flex-start;
+  margin-top: 6px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  border: 1.5px solid #e5e5e5;
+  background: transparent;
+  color: #888;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.pr-addr-set-main:hover {
+  border-color: #d6867c;
+  color: #d6867c;
 }
 
 /* ══════════════════════════════════════════
