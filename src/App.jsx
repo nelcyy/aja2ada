@@ -6,8 +6,6 @@ import RegisterPage from './register/register.jsx'
 import MyProfilePage from './myprofile/index.jsx'
 import HomePage from './home/index.jsx'
 import WishlistPage from './wishlist/wishlist.jsx'
-import HomePage from './home/index.jsx'
-import WishlistPage from './wishlist/wishlist.jsx'
 
 function App() {
   return (
