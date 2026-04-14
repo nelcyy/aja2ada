@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./index.css";
 import Navbar from "../components/Navbar";
 import { useCart } from "../context/CartContext";
+import { PRODUCTS } from "../data/products.js";
 
 function formatRupiah(number) {
   return "Rp " + number.toLocaleString("id-ID");
@@ -79,8 +80,9 @@ export default function ContactPage() {
       {/* NAVBAR */}
       <Navbar
         activePage="contact"
+        allProducts={PRODUCTS}
         onHomeClick={() => navigate("/")}
-        onProductsClick={() => navigate("/")}
+        onProductsClick={() => navigate("/#all-products")}
       />
 
       {/* ── HERO ── */}

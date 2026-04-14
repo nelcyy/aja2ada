@@ -81,7 +81,7 @@ export default function Navbar({
         <nav className="navbar-links">
           <span onClick={handleHome}>Home</span>
           <span onClick={handleProducts}>Products</span>
-          <span>Contact Us</span>
+          <span onClick={() => navigate("/contact")}>Contact Us</span>
         </nav>
 
         {/* Right icons */}
