@@ -5,10 +5,7 @@ import TwoFAPage from './2fa/index.jsx'
 import MyProfilePage from './myprofile/index.jsx'
 import HomePage from './home/index.jsx'
 import WishlistPage from './wishlist/wishlist.jsx'
-<<<<<<< HEAD
-=======
 import CheckoutPage from './checkout/index.jsx'
->>>>>>> 3d6d54a1d5a9ce21202c8d1cfc4a4b9ab3f1e61b
 
 function App() {
   return (

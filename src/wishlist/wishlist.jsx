@@ -70,8 +70,7 @@ export default function WishlistPage() {
           <nav className="wl-nav-links">
             <span onClick={() => navigate("/")}>Home</span>
             <span>Products</span>
-            <span>Skincare</span>
-            <span>About</span>
+            <span>Contact Us</span>
           </nav>
 
           <div className="wl-nav-icons">

@@ -196,8 +196,7 @@ export default function CheckoutPage() {
           <nav className="co-nav-links">
             <span onClick={() => navigate("/")}>Home</span>
             <span>Products</span>
-            <span>Skincare</span>
-            <span>About</span>
+            <span>Contact Us</span>
           </nav>
           <div className="co-nav-icons">
             <button className="co-icon-btn"><IconSearch /></button>

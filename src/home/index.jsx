@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
 
@@ -75,34 +75,142 @@ const PRODUCTS = [
     rating: 4.9,
     reviews: 312,
   },
+  {
+    id: 9,
+    name: "AHA BHA Exfoliating Toner",
+    category: "Toner",
+    price: 135000,
+    image: "https://placehold.co/300x300/f9f0ef/c87a74?text=AHA+BHA",
+    rating: 4.8,
+    reviews: 189,
+  },
+  {
+    id: 10,
+    name: "Ceramide Barrier Cream",
+    category: "Moisturizer",
+    price: 175000,
+    image: "https://placehold.co/300x300/f9f0ef/c87a74?text=Ceramide",
+    rating: 4.7,
+    reviews: 143,
+  },
+  {
+    id: 11,
+    name: "Hyaluronic Acid Serum",
+    category: "Serum",
+    price: 160000,
+    image: "https://placehold.co/300x300/f9f0ef/c87a74?text=HA+Serum",
+    rating: 4.8,
+    reviews: 276,
+  },
+  {
+    id: 12,
+    name: "Rose Water Mist",
+    category: "Essence",
+    price: 85000,
+    image: "https://placehold.co/300x300/f9f0ef/c87a74?text=Rose+Mist",
+    rating: 4.5,
+    reviews: 92,
+  },
+  {
+    id: 13,
+    name: "Micellar Cleansing Water",
+    category: "Cleanser",
+    price: 65000,
+    image: "https://placehold.co/300x300/f9f0ef/c87a74?text=Micellar",
+    rating: 4.6,
+    reviews: 211,
+  },
+  {
+    id: 14,
+    name: "SPF 50 UV Defense Serum",
+    category: "Sunscreen",
+    price: 185000,
+    image: "https://placehold.co/300x300/f9f0ef/c87a74?text=UV+Serum",
+    rating: 4.9,
+    reviews: 134,
+  },
+  {
+    id: 15,
+    name: "Peptide Eye Cream",
+    category: "Night Care",
+    price: 225000,
+    image: "https://placehold.co/300x300/f9f0ef/c87a74?text=Eye+Cream",
+    rating: 4.7,
+    reviews: 68,
+  },
+  {
+    id: 16,
+    name: "Brightening Facial Mask",
+    category: "Essence",
+    price: 45000,
+    image: "https://placehold.co/300x300/f9f0ef/c87a74?text=Mask",
+    rating: 4.6,
+    reviews: 308,
+  },
+  {
+    id: 17,
+    name: "Tea Tree Spot Gel",
+    category: "Serum",
+    price: 78000,
+    image: "https://placehold.co/300x300/f9f0ef/c87a74?text=Tea+Tree",
+    rating: 4.5,
+    reviews: 175,
+  },
+  {
+    id: 18,
+    name: "Collagen Sleeping Pack",
+    category: "Night Care",
+    price: 155000,
+    image: "https://placehold.co/300x300/f9f0ef/c87a74?text=Sleeping+Pack",
+    rating: 4.8,
+    reviews: 99,
+  },
+  {
+    id: 19,
+    name: "Squalane Facial Oil",
+    category: "Moisturizer",
+    price: 195000,
+    image: "https://placehold.co/300x300/f9f0ef/c87a74?text=Squalane",
+    rating: 4.7,
+    reviews: 112,
+  },
+  {
+    id: 20,
+    name: "pH Balancing Cleanser",
+    category: "Cleanser",
+    price: 92000,
+    image: "https://placehold.co/300x300/f9f0ef/c87a74?text=pH+Cleanser",
+    rating: 4.6,
+    reviews: 147,
+  },
 ];
 
-const CATEGORIES = ["All", "Cleanser", "Toner", "Serum", "Moisturizer", "Essence", "Night Care", "Sunscreen"];
+const SHOP_CATEGORIES = [
+  { id: "skincare", name: "Skincare", price: 89000, image: "https://placehold.co/300x300/f9f0ef/c87a74?text=Skincare" },
+  { id: "makeup",   name: "Makeup",   price: 115000, image: "https://placehold.co/300x300/f9f0ef/c87a74?text=Makeup" },
+  { id: "haircare", name: "Haircare", price: 75000, image: "https://placehold.co/300x300/f9f0ef/c87a74?text=Haircare" },
+  { id: "tools",    name: "Tools",    price: 55000, image: "https://placehold.co/300x300/f9f0ef/c87a74?text=Tools" },
+];
+
+const BEST_SELLERS = [PRODUCTS[2], PRODUCTS[3], PRODUCTS[4], PRODUCTS[5]];
 
 function formatRupiah(number) {
   return "Rp " + number.toLocaleString("id-ID");
 }
 
-function StarRating({ rating }) {
-  return (
-    <span className="stars">
-      {[1, 2, 3, 4, 5].map((s) => (
-        <span key={s} style={{ color: s <= Math.round(rating) ? "#e07a73" : "#ddd", fontSize: "13px" }}>
-          ★
-        </span>
-      ))}
-      <span className="rating-text">{rating}</span>
-    </span>
-  );
-}
+const HeartIcon = ({ filled }) => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2">
+    <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+  </svg>
+);
 
 export default function HomePage() {
   const navigate = useNavigate();
+  const allProductsRef = useRef(null);
   const [cart, setCart] = useState([]);
   const [cartOpen, setCartOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [searchOpen, setSearchOpen] = useState(false);
-  const [activeCategory, setActiveCategory] = useState("All");
   const [favorites, setFavorites] = useState([]);
 
   const toggleFavorite = (id) => {
@@ -136,27 +244,25 @@ export default function HomePage() {
     setCart((prev) => prev.filter((i) => i.id !== id));
   };
 
-  const filtered = PRODUCTS.filter((p) => {
-    const matchCat = activeCategory === "All" || p.category === activeCategory;
-    const matchSearch = p.name.toLowerCase().includes(search.toLowerCase());
-    return matchCat && matchSearch;
-  });
-
   return (
     <div className="home-root">
       {/* NAVBAR */}
       <header className="wl-nav">
         <div className="wl-nav-inner">
-          <div className="wl-logo" onClick={() => navigate("/")}>
+          <div className="wl-logo" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
             <img src="/logo-careofyou.png" alt="Careofyou" className="wl-logo-img" />
             <span className="wl-logo-text">careofyou</span>
           </div>
 
           <nav className="wl-nav-links">
-            <span onClick={() => navigate("/")}>Home</span>
-            <span>Products</span>
-            <span>Skincare</span>
-            <span>About</span>
+            <span onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>Home</span>
+            <span onClick={() => {
+              const el = allProductsRef.current;
+              if (!el) return;
+              const top = el.getBoundingClientRect().top + window.scrollY - 80;
+              window.scrollTo({ top, behavior: "smooth" });
+            }}>Products</span>
+            <span>Contact Us</span>
           </nav>
 
           <div className="wl-nav-icons">
@@ -184,7 +290,6 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* SEARCH BAR — muncul saat icon search diklik */}
         {searchOpen && (
           <div className="nav-search-bar">
             <div className="nav-search-wrap">
@@ -210,76 +315,81 @@ export default function HomePage() {
           <p className="hero-sub">Your daily skincare routine</p>
           <h1 className="hero-title">Glow starts with <span>self-care</span></h1>
           <p className="hero-desc">Produk skincare pilihan untuk kulitmu yang sehat dan bercahaya setiap hari.</p>
-          <button className="hero-cta">Shop Now</button>
         </div>
         <div className="hero-img-wrap">
           <img src="/logo-careofyou.png" alt="hero" className="hero-img" />
         </div>
       </section>
 
-      {/* CATEGORY FILTER */}
-      <section className="category-section">
-        <div className="category-scroll">
-          {CATEGORIES.map((cat) => (
-            <button
-              key={cat}
-              className={`cat-chip ${activeCategory === cat ? "cat-chip-active" : ""}`}
-              onClick={() => setActiveCategory(cat)}
-            >
-              {cat}
-            </button>
+      {/* SHOP BY CATEGORY */}
+      <section className="home-section">
+        <h2 className="home-section-title">Shop by category</h2>
+        <div className="category-grid">
+          {SHOP_CATEGORIES.map((cat) => (
+            <div key={cat.id} className="cat-card">
+              <div className="cat-card-img-wrap">
+                <img src={cat.image} alt={cat.name} className="cat-card-img" />
+              </div>
+              <p className="cat-card-name">{cat.name}</p>
+            </div>
           ))}
         </div>
       </section>
 
-      {/* PRODUCTS */}
-      <section className="products-section">
-        <div className="products-header">
-          <h2 className="section-title">
-            {activeCategory === "All" ? "All Products" : activeCategory}
-          </h2>
-          <span className="products-count">{filtered.length} produk</span>
-        </div>
-
-        {filtered.length === 0 ? (
-          <div className="empty-state">
-            <p>Produk tidak ditemukan 😢</p>
-          </div>
-        ) : (
-          <div className="products-grid">
-            {filtered.map((product) => (
-              <div key={product.id} className="product-card">
-                <div className="product-img-wrap">
-                  <img src={product.image} alt={product.name} className="product-img" />
-                  <span className="product-category-badge">{product.category}</span>
-                  <button
-                    className={`fav-btn ${favorites.includes(product.id) ? "fav-btn-active" : ""}`}
-                    onClick={() => toggleFavorite(product.id)}
-                    title="Tambah ke Favorit"
-                  >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill={favorites.includes(product.id) ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2">
-                      <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
-                    </svg>
-                  </button>
-                </div>
-                <div className="product-info">
-                  <h3 className="product-name">{product.name}</h3>
-                  <StarRating rating={product.rating} />
-                  <p className="product-reviews">{product.reviews} reviews</p>
-                  <div className="product-footer">
-                    <span className="product-price">{formatRupiah(product.price)}</span>
-                    <button
-                      className="add-to-cart-btn"
-                      onClick={() => addToCart(product)}
-                    >
-                      + Cart
-                    </button>
-                  </div>
-                </div>
+      {/* BEST SELLERS */}
+      <section className="home-section" style={{ marginBottom: 60 }}>
+        <h2 className="home-section-title">Best Sellers</h2>
+        <div className="bestseller-grid">
+          {BEST_SELLERS.map((product) => (
+            <div key={product.id} className="bestseller-card">
+              <div className="bestseller-img-wrap">
+                <img src={product.image} alt={product.name} className="bestseller-img" />
+                <button
+                  className={`cat-fav-btn${favorites.includes(product.id) ? " cat-fav-btn--active" : ""}`}
+                  onClick={() => toggleFavorite(product.id)}
+                >
+                  <HeartIcon filled={favorites.includes(product.id)} />
+                </button>
               </div>
-            ))}
-          </div>
-        )}
+              <div className="bestseller-info">
+                <p className="bestseller-name">{product.name}</p>
+                <p className="bestseller-reviews">★ {product.rating} · #{product.reviews}</p>
+                <p className="bestseller-price">{formatRupiah(product.price)}</p>
+                <button className="add-to-bag-btn" onClick={() => addToCart(product)}>
+                  Add to Bag
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ALL PRODUCTS */}
+      <section className="home-section" style={{ marginBottom: 60 }} ref={allProductsRef}>
+        <h2 className="home-section-title">All Products</h2>
+        <div className="all-products-grid">
+          {PRODUCTS.map((product) => (
+            <div key={product.id} className="bestseller-card">
+              <div className="bestseller-img-wrap">
+                <img src={product.image} alt={product.name} className="bestseller-img" />
+                <button
+                  className={`cat-fav-btn${favorites.includes(product.id) ? " cat-fav-btn--active" : ""}`}
+                  onClick={() => toggleFavorite(product.id)}
+                >
+                  <HeartIcon filled={favorites.includes(product.id)} />
+                </button>
+              </div>
+              <div className="bestseller-info">
+                <p className="bestseller-name">{product.name}</p>
+                <p className="bestseller-reviews">★ {product.rating} · #{product.reviews}</p>
+                <p className="bestseller-price">{formatRupiah(product.price)}</p>
+                <button className="add-to-bag-btn" onClick={() => addToCart(product)}>
+                  Add to Bag
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* FOOTER */}
@@ -289,14 +399,12 @@ export default function HomePage() {
             <img src="/logo-careofyou.png" alt="Careofyou" className="wl-footer-logo" />
             <span className="wl-footer-name">careofyou</span>
           </div>
-
           <div className="wl-footer-links">
             <span>About Us</span>
             <span>Products</span>
             <span>Skincare Guide</span>
             <span>Contact</span>
           </div>
-
           <p className="wl-footer-copy">© 2025 Careofyou. All rights reserved.</p>
         </div>
       </footer>
