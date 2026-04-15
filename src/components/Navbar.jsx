@@ -79,9 +79,9 @@ export default function Navbar({
 
         {/* Center links */}
         <nav className="navbar-links">
-          <span onClick={handleHome}>Home</span>
+          <span className={activePage === "home" ? "navbar-link--active" : ""} onClick={handleHome}>Home</span>
           <span onClick={handleProducts}>Products</span>
-          <span onClick={() => navigate("/contact")}>Contact Us</span>
+          <span className={activePage === "contact" ? "navbar-link--active" : ""} onClick={() => navigate("/contact")}>Contact Us</span>
         </nav>
 
         {/* Right icons */}
