@@ -7,16 +7,34 @@ import "./index.css";
    MOCK DATA
    ═══════════════════════════════════════════════════════════ */
 const MOCK_ORDERS = [
-  { id: "ORD-001", customer: "Sara Tancredi",    email: "sara@gmail.com",   products: ["Vitamin C Serum", "Sunscreen Aqua Gel"],            total: 294000, date: "15 Apr 2025", status: "pending"    },
-  { id: "ORD-002", customer: "Rina Kusuma",      email: "rina@gmail.com",   products: ["Retinol Night Cream"],                               total: 210000, date: "15 Apr 2025", status: "processing" },
-  { id: "ORD-003", customer: "Dewi Larasati",    email: "dewi@gmail.com",   products: ["Hyaluronic Acid Serum", "Ceramide Barrier Cream"],   total: 335000, date: "14 Apr 2025", status: "shipped"    },
-  { id: "ORD-004", customer: "Bunga Citra",      email: "bunga@gmail.com",  products: ["Brightening Facial Mask"],                           total: 45000,  date: "14 Apr 2025", status: "delivered"  },
-  { id: "ORD-005", customer: "Maya Sari",        email: "maya@gmail.com",   products: ["Daily Moisturizer SPF 30", "Hydra Boost Toner"],     total: 260000, date: "13 Apr 2025", status: "pending"    },
-  { id: "ORD-006", customer: "Tiara Putri",      email: "tiara@gmail.com",  products: ["Gentle Foaming Cleanser", "Rose Water Mist"],        total: 174000, date: "13 Apr 2025", status: "processing" },
-  { id: "ORD-007", customer: "Nadia Rahman",     email: "nadia@gmail.com",  products: ["AHA BHA Exfoliating Toner"],                         total: 135000, date: "12 Apr 2025", status: "delivered"  },
-  { id: "ORD-008", customer: "Fitri Handayani",  email: "fitri@gmail.com",  products: ["SPF 50 UV Defense Serum", "Peptide Eye Cream"],      total: 410000, date: "12 Apr 2025", status: "shipped"    },
-  { id: "ORD-009", customer: "Lilis Permata",    email: "lilis@gmail.com",  products: ["Niacinamide Essence"],                               total: 130000, date: "11 Apr 2025", status: "delivered"  },
-  { id: "ORD-010", customer: "Sinta Wulandari",  email: "sinta@gmail.com",  products: ["Collagen Sleeping Pack", "Tea Tree Spot Gel"],       total: 233000, date: "11 Apr 2025", status: "delivered"  },
+  { id: "ORD-011", customer: "Sara Tancredi",    email: "sara@gmail.com",   products: ["Vitamin C Serum", "Sunscreen Aqua Gel"],            total: 294000, date: "15 Apr 2025", status: "pending",    payment: "BCA Transfer",   address: "Jl. Sudirman No. 12, Jakarta" },
+  { id: "ORD-012", customer: "Maya Sari",        email: "maya@gmail.com",   products: ["Daily Moisturizer SPF 30", "Hydra Boost Toner"],    total: 260000, date: "15 Apr 2025", status: "pending",    payment: "GoPay",          address: "Jl. Gatot Subroto No. 5, Jakarta" },
+  { id: "ORD-013", customer: "Hana Lestari",     email: "hana@gmail.com",   products: ["5X Ceramide Barrier Moisture Gel"],                 total: 149000, date: "14 Apr 2025", status: "pending",    payment: "BNI Transfer",   address: "Perumahan Indah Blok C No. 3, Surabaya" },
+  { id: "ORD-014", customer: "Rina Kusuma",      email: "rina@gmail.com",   products: ["Retinol Night Cream"],                              total: 210000, date: "15 Apr 2025", status: "packing",    payment: "OVO",            address: "Jl. Malioboro No. 88, Yogyakarta" },
+  { id: "ORD-015", customer: "Tiara Putri",      email: "tiara@gmail.com",  products: ["Gentle Foaming Cleanser", "Rose Water Mist"],       total: 174000, date: "14 Apr 2025", status: "packing",    payment: "BCA Transfer",   address: "Jl. Pemuda No. 21, Semarang" },
+  { id: "ORD-016", customer: "Ayu Rahayu",       email: "ayu@gmail.com",    products: ["Niacinamide 10% + Zinc Serum", "Pore Tightening Toner"], total: 318000, date: "13 Apr 2025", status: "packing", payment: "DANA",        address: "Jl. A. Yani No. 44, Bandung" },
+  { id: "ORD-017", customer: "Dewi Larasati",    email: "dewi@gmail.com",   products: ["Hyaluronic Acid Serum", "Ceramide Barrier Cream"],  total: 335000, date: "14 Apr 2025", status: "shipped",    payment: "BNI Transfer",   address: "Jl. Diponegoro No. 7, Medan" },
+  { id: "ORD-018", customer: "Fitri Handayani",  email: "fitri@gmail.com",  products: ["SPF 50 UV Defense Serum", "Peptide Eye Cream"],     total: 410000, date: "13 Apr 2025", status: "shipped",    payment: "GoPay",          address: "Komplek Griya Permai No. 15, Makassar" },
+  { id: "ORD-019", customer: "Sari Dewi",        email: "saridewi@gmail.com", products: ["AHA BHA Exfoliating Toner"],                     total: 135000, date: "12 Apr 2025", status: "shipped",    payment: "BCA Transfer",   address: "Jl. Raya Bogor KM 30, Depok" },
+  { id: "ORD-001", customer: "Bunga Citra",      email: "bunga@gmail.com",  products: ["Brightening Facial Mask"],                          total: 45000,  date: "14 Apr 2025", status: "delivered",  payment: "OVO",            address: "Jl. Kartini No. 9, Surabaya" },
+  { id: "ORD-002", customer: "Nadia Rahman",     email: "nadia@gmail.com",  products: ["AHA BHA Exfoliating Toner"],                        total: 135000, date: "12 Apr 2025", status: "delivered",  payment: "BCA Transfer",   address: "Jl. Imam Bonjol No. 3, Semarang" },
+  { id: "ORD-003", customer: "Lilis Permata",    email: "lilis@gmail.com",  products: ["Niacinamide Essence"],                              total: 130000, date: "11 Apr 2025", status: "delivered",  payment: "DANA",           address: "Jl. Veteran No. 11, Bandung" },
+  { id: "ORD-004", customer: "Sinta Wulandari",  email: "sinta@gmail.com",  products: ["Collagen Sleeping Pack", "Tea Tree Spot Gel"],      total: 233000, date: "11 Apr 2025", status: "delivered",  payment: "GoPay",          address: "Jl. Pahlawan No. 6, Malang" },
+];
+
+const MOCK_NOTIFICATIONS = [
+  { id: 1,  type: "order",    title: "New order received",            body: "ORD-011 from Sara Tancredi — Rp 294,000 via BCA Transfer",       time: "2 min ago",  read: false },
+  { id: 2,  type: "order",    title: "New order received",            body: "ORD-012 from Maya Sari — Rp 260,000 via GoPay",                   time: "8 min ago",  read: false },
+  { id: 3,  type: "order",    title: "New order received",            body: "ORD-013 from Hana Lestari — Rp 149,000 via BNI Transfer",         time: "15 min ago", read: false },
+  { id: 4,  type: "payment",  title: "Payment confirmed",             body: "ORD-014 — Rina Kusuma's OVO payment has been verified",           time: "32 min ago", read: false },
+  { id: 5,  type: "payment",  title: "Payment confirmed",             body: "ORD-015 — Tiara Putri's BCA transfer verified (Rp 174,000)",      time: "1 hr ago",   read: false },
+  { id: 6,  type: "shipped",  title: "Order marked as shipped",       body: "ORD-017 — JNE tracking JNE20250414001 sent to Dewi Larasati",     time: "2 hr ago",   read: true  },
+  { id: 7,  type: "shipped",  title: "Order marked as shipped",       body: "ORD-018 — SiCepat HALU tracking dispatched to Fitri Handayani",  time: "3 hr ago",   read: true  },
+  { id: 8,  type: "return",   title: "Return request submitted",      body: "ORD-007 — Sara Tancredi requested a return: Item arrived damaged", time: "5 hr ago",   read: true  },
+  { id: 9,  type: "review",   title: "New product review",            body: "5★ review on 5X Ceramide Barrier Moisture Gel by Rina Kusuma",   time: "Yesterday",  read: true  },
+  { id: 10, type: "review",   title: "New product review",            body: "4★ review on Retinol Night Cream by Tiara Putri",                 time: "Yesterday",  read: true  },
+  { id: 11, type: "shipped",  title: "Delivery confirmed",            body: "ORD-001 — Bunga Citra confirmed receipt of her order",            time: "2 days ago", read: true  },
+  { id: 12, type: "order",    title: "Order cancelled",               body: "ORD-020 — Wulandari Putri cancelled before payment (BCA)",       time: "2 days ago", read: true  },
 ];
 
 const MOCK_CUSTOMERS = [
@@ -51,11 +69,11 @@ const WEEKLY_REVENUE = [
 const fmt = (n) => "Rp " + n.toLocaleString("id-ID");
 
 const STATUS_META = {
-  pending:    { label: "Pending",    color: "#e09a3a", bg: "rgba(224,154,58,0.1)"  },
-  processing: { label: "Processing", color: "#4a9fd4", bg: "rgba(74,159,212,0.1)"  },
-  shipped:    { label: "Shipped",    color: "#8b5cf6", bg: "rgba(139,92,246,0.1)"  },
-  delivered:  { label: "Delivered",  color: "#22c55e", bg: "rgba(34,197,94,0.1)"   },
-  cancelled:  { label: "Cancelled",  color: "#ef4444", bg: "rgba(239,68,68,0.1)"   },
+  pending:   { label: "Awaiting Approval", color: "#e09a3a", bg: "rgba(224,154,58,0.1)"  },
+  packing:   { label: "Being Packed",      color: "#4a9fd4", bg: "rgba(74,159,212,0.1)"  },
+  shipped:   { label: "Shipped",           color: "#8b5cf6", bg: "rgba(139,92,246,0.1)"  },
+  delivered: { label: "Delivered",         color: "#22c55e", bg: "rgba(34,197,94,0.1)"   },
+  cancelled: { label: "Cancelled",         color: "#ef4444", bg: "rgba(239,68,68,0.1)"   },
 };
 
 /* ═══════════════════════════════════════════════════════════
@@ -81,6 +99,8 @@ const IcMail       = () => <svg width="14" height="14" viewBox="0 0 24 24" fill=
 const IcPhone      = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.09a16 16 0 006 6l1.46-1.46a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z"/></svg>;
 const IcStore      = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>;
 const IcStar       = () => <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>;
+const IcPackage    = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>;
+const IcNotif      = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>;
 
 /* ═══════════════════════════════════════════════════════════
    HELPER: Avatar initials
@@ -170,10 +190,10 @@ function Dashboard({ setActive }) {
             <div className="adm-alert-item adm-alert-item--warn">
               <span className="adm-alert-dot" />
               <div>
-                <p className="adm-alert-title">{pendingCount} Pesanan Pending</p>
-                <p className="adm-alert-sub">Menunggu konfirmasi pembayaran</p>
+                <p className="adm-alert-title">{pendingCount} Orders Awaiting Approval</p>
+                <p className="adm-alert-sub">Payment confirmation pending</p>
               </div>
-              <button className="adm-alert-btn" onClick={() => setActive("orders")}>Lihat</button>
+              <button className="adm-alert-btn" onClick={() => setActive("orders")}>View</button>
             </div>
             <div className="adm-alert-item adm-alert-item--blue">
               <span className="adm-alert-dot adm-alert-dot--blue" />
@@ -271,7 +291,7 @@ function Orders() {
   const [tab, setTab]       = useState("all");
   const [query, setQuery]   = useState("");
 
-  const tabs = ["all", "pending", "processing", "shipped", "delivered"];
+  const tabs = ["all", "pending", "packing", "shipped", "delivered"];
 
   const filtered = orders.filter(o => {
     const matchTab = tab === "all" || o.status === tab;
@@ -281,7 +301,7 @@ function Orders() {
   });
 
   const advance = (id) => {
-    const flow = { pending: "processing", processing: "shipped", shipped: "delivered" };
+    const flow = { pending: "packing", packing: "shipped", shipped: "delivered" };
     setOrders(prev => prev.map(o => o.id === id ? { ...o, status: flow[o.status] ?? o.status } : o));
   };
 
@@ -334,7 +354,7 @@ function Orders() {
               <tr><td colSpan={7} className="adm-empty-row">Tidak ada pesanan ditemukan.</td></tr>
             ) : filtered.map(o => {
               const st = STATUS_META[o.status];
-              const canAdvance = ["pending","processing","shipped"].includes(o.status);
+              const canAdvance = ["pending","packing","shipped"].includes(o.status);
               return (
                 <tr key={o.id}>
                   <td><span className="adm-order-id">{o.id}</span></td>
@@ -360,13 +380,13 @@ function Orders() {
                   <td>
                     <div className="adm-action-btns">
                       {canAdvance && (
-                        <button className="adm-act-btn adm-act-btn--primary" title="Proses lanjut" onClick={() => advance(o.id)}>
-                          {o.status === "pending" ? <IcCheck /> : o.status === "processing" ? <IcTruck /> : <IcCheck />}
-                          {o.status === "pending" ? "Konfirmasi" : o.status === "processing" ? "Kirim" : "Terima"}
+                        <button className="adm-act-btn adm-act-btn--primary" title="Next step" onClick={() => advance(o.id)}>
+                          {o.status === "pending" ? <IcCheck /> : o.status === "packing" ? <IcTruck /> : <IcCheck />}
+                          {o.status === "pending" ? "Approve" : o.status === "packing" ? "Ship" : "Delivered"}
                         </button>
                       )}
                       {o.status !== "delivered" && o.status !== "cancelled" && (
-                        <button className="adm-act-btn adm-act-btn--danger" title="Batalkan" onClick={() => cancel(o.id)}>✕</button>
+                        <button className="adm-act-btn adm-act-btn--danger" title="Cancel" onClick={() => cancel(o.id)}>✕</button>
                       )}
                     </div>
                   </td>
@@ -759,15 +779,109 @@ function Settings() {
 }
 
 /* ═══════════════════════════════════════════════════════════
+   SECTION: NOTIFICATIONS
+   ═══════════════════════════════════════════════════════════ */
+const NOTIF_TYPE_META = {
+  order:   { label: "Order",    color: "#e09a3a", bg: "rgba(224,154,58,0.08)",   icon: "🛍️" },
+  payment: { label: "Payment",  color: "#22c55e", bg: "rgba(34,197,94,0.08)",    icon: "💳" },
+  shipped: { label: "Shipping", color: "#8b5cf6", bg: "rgba(139,92,246,0.08)",  icon: "🚚" },
+  return:  { label: "Return",   color: "#ef4444", bg: "rgba(239,68,68,0.08)",    icon: "↩️" },
+  review:  { label: "Review",   color: "#4a9fd4", bg: "rgba(74,159,212,0.08)",  icon: "⭐" },
+};
+
+function Notifications() {
+  const [notifs, setNotifs] = useState(MOCK_NOTIFICATIONS);
+  const [filter, setFilter] = useState("all");
+
+  const unread = notifs.filter(n => !n.read).length;
+  const types  = ["all", "order", "payment", "shipped", "return", "review"];
+
+  const filtered = notifs.filter(n => filter === "all" || n.type === filter);
+
+  const markRead = (id) => setNotifs(prev => prev.map(n => n.id === id ? { ...n, read: true } : n));
+  const markAllRead = () => setNotifs(prev => prev.map(n => ({ ...n, read: true })));
+  const dismiss = (id) => setNotifs(prev => prev.filter(n => n.id !== id));
+
+  return (
+    <div className="adm-section">
+      <div className="adm-section-header">
+        <div>
+          <h2 className="adm-section-title">Notifications</h2>
+          <p className="adm-section-sub">{unread} unread · {notifs.length} total</p>
+        </div>
+        {unread > 0 && (
+          <button className="adm-ghost-btn" onClick={markAllRead}>Mark all as read</button>
+        )}
+      </div>
+
+      {/* Filter pills */}
+      <div className="adm-notif-filters">
+        {types.map(t => (
+          <button
+            key={t}
+            className={`adm-cat-pill${filter === t ? " adm-cat-pill--active" : ""}`}
+            onClick={() => setFilter(t)}
+          >
+            {t === "all" ? "All" : NOTIF_TYPE_META[t].label}
+            {t === "all"
+              ? <span className="adm-tab-count">{notifs.length}</span>
+              : <span className="adm-tab-count">{notifs.filter(n => n.type === t).length}</span>
+            }
+          </button>
+        ))}
+      </div>
+
+      {/* Notification list */}
+      <div className="adm-notif-list">
+        {filtered.length === 0 ? (
+          <div className="adm-card adm-notif-empty">
+            <p>No notifications in this category.</p>
+          </div>
+        ) : filtered.map(n => {
+          const meta = NOTIF_TYPE_META[n.type];
+          return (
+            <div
+              key={n.id}
+              className={`adm-notif-item${n.read ? "" : " adm-notif-item--unread"}`}
+              onClick={() => markRead(n.id)}
+            >
+              <div className="adm-notif-icon" style={{ background: meta.bg, color: meta.color }}>
+                <span>{meta.icon}</span>
+              </div>
+              <div className="adm-notif-body">
+                <div className="adm-notif-top">
+                  <span className="adm-notif-title">{n.title}</span>
+                  <span className="adm-notif-time">{n.time}</span>
+                </div>
+                <p className="adm-notif-desc">{n.body}</p>
+              </div>
+              <div className="adm-notif-actions">
+                {!n.read && <span className="adm-notif-dot" />}
+                <button
+                  className="adm-notif-dismiss"
+                  title="Dismiss"
+                  onClick={e => { e.stopPropagation(); dismiss(n.id); }}
+                >✕</button>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════
    SIDEBAR NAV CONFIG
    ═══════════════════════════════════════════════════════════ */
 const NAV_ITEMS = [
-  { id: "dashboard", label: "Dashboard",  icon: <IcGrid />      },
-  { id: "orders",    label: "Pesanan",    icon: <IcOrders />    },
-  { id: "products",  label: "Produk",     icon: <IcProducts />  },
-  { id: "customers", label: "Pelanggan",  icon: <IcCustomers /> },
-  { id: "messages",  label: "Pesan",      icon: <IcMessages />  },
-  { id: "settings",  label: "Pengaturan", icon: <IcSettings />  },
+  { id: "dashboard",     label: "Dashboard",      icon: <IcGrid />      },
+  { id: "orders",        label: "Pesanan",         icon: <IcOrders />    },
+  { id: "products",      label: "Produk",          icon: <IcProducts />  },
+  { id: "customers",     label: "Pelanggan",       icon: <IcCustomers /> },
+  { id: "messages",      label: "Pesan",           icon: <IcMessages />  },
+  { id: "notifications", label: "Notifications",   icon: <IcNotif />     },
+  { id: "settings",      label: "Pengaturan",      icon: <IcSettings />  },
 ];
 
 /* ═══════════════════════════════════════════════════════════
@@ -778,8 +892,9 @@ export default function AdminPage() {
   const [active, setActive] = useState("dashboard");
   const [query,  setQuery]  = useState("");
 
-  const unreadMsgs   = MOCK_MESSAGES.filter(m => !m.read).length;
+  const unreadMsgs    = MOCK_MESSAGES.filter(m => !m.read).length;
   const pendingOrders = MOCK_ORDERS.filter(o => o.status === "pending").length;
+  const unreadNotifs  = MOCK_NOTIFICATIONS.filter(n => !n.read).length;
 
   const renderSection = () => {
     switch (active) {
@@ -787,8 +902,9 @@ export default function AdminPage() {
       case "orders":    return <Orders />;
       case "products":  return <Products />;
       case "customers": return <Customers />;
-      case "messages":  return <Messages />;
-      case "settings":  return <Settings />;
+      case "messages":       return <Messages />;
+      case "notifications":  return <Notifications />;
+      case "settings":       return <Settings />;
       default:          return <Dashboard setActive={setActive} />;
     }
   };
@@ -823,6 +939,9 @@ export default function AdminPage() {
               )}
               {item.id === "orders" && pendingOrders > 0 && (
                 <span className="adm-nav-badge adm-nav-badge--amber">{pendingOrders}</span>
+              )}
+              {item.id === "notifications" && unreadNotifs > 0 && (
+                <span className="adm-nav-badge adm-nav-badge--rose">{unreadNotifs}</span>
               )}
             </button>
           ))}

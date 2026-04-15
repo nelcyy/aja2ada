@@ -22,12 +22,6 @@ const WhatsAppIcon = () => (
   </svg>
 );
 
-const ShopeeIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 64 64" fill="currentColor">
-    <path d="M32 4C20.954 4 12 12.954 12 24h4c0-8.836 7.164-16 16-16s16 7.164 16 16h4C52 12.954 43.046 4 32 4z"/>
-    <path d="M8 26l4 32h40l4-32H8zm24 20a6 6 0 110-12 6 6 0 010 12z"/>
-  </svg>
-);
 
 const PhoneIcon = () => (
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -350,14 +344,7 @@ export default function ContactPage() {
               </div>
               <span className="ct-social-arrow"><ArrowIcon /></span>
             </a>
-            <a href="https://shopee.co.id/careofyou.id" target="_blank" rel="noreferrer" className="ct-social-item ct-social-item--shopee">
-              <span className="ct-social-ico"><ShopeeIcon /></span>
-              <div className="ct-social-info">
-                <span className="ct-social-name">Shopee</span>
-                <span className="ct-social-handle">careofyou.id</span>
-              </div>
-              <span className="ct-social-arrow"><ArrowIcon /></span>
-            </a>
+
             <a href="https://wa.me/6281234567890" target="_blank" rel="noreferrer" className="ct-social-item ct-social-item--wa">
               <span className="ct-social-ico"><WhatsAppIcon /></span>
               <div className="ct-social-info">
