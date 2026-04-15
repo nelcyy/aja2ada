@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
 import Navbar from "../components/Navbar";
@@ -63,12 +63,6 @@ const ArrowIcon = () => (
   </svg>
 );
 
-const SendIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-    <line x1="22" y1="2" x2="11" y2="13"/>
-    <polygon points="22,2 15,22 11,13 2,9 22,2"/>
-  </svg>
-);
 
 /* ─── Main Component ──────────────────────────────────────── */
 export default function ContactPage() {
@@ -152,28 +146,6 @@ export default function ContactPage() {
     };
   }, []);
 
-  /* ── Form state ── */
-  const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
-  const [submitted, setSubmitted] = useState(false);
-  const [activeField, setActiveField] = useState("");
-
-  const handleChange = (e) => setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!form.name || !form.email || !form.message) return;
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 5000);
-    setForm({ name: "", email: "", phone: "", message: "" });
-  };
-
-  const fieldProps = (name) => ({
-    name,
-    value: form[name],
-    onChange: handleChange,
-    onFocus: () => setActiveField(name),
-    onBlur: () => setActiveField(""),
-    className: `ct-input${activeField === name ? " ct-input--focus" : ""}`,
-  });
 
   return (
     <div className="ct-root">
@@ -202,21 +174,21 @@ export default function ContactPage() {
         <div className="ct-hero-left">
           <span className="ct-eyebrow">
             <span className="ct-eyebrow-dot" />
-            Hubungi Kami
+            Contact Us
           </span>
           <h1 className="ct-hero-title">
-            Mari Kita<br />
-            <span className="ct-hero-grad">Bicara</span>
-            <br />Bersama
+            Let's<br />
+            <span className="ct-hero-grad">Talk</span>
+            <br />Together
           </h1>
           <p className="ct-hero-desc">
-            Ada pertanyaan, pesanan khusus, atau sekedar mau say hi?
-            Tim Careofyou siap membantu kamu setiap saat 💌
+            Have a question, a special order, or just want to say hi?
+            The Careofyou team is here to help you anytime 💌
           </p>
 
           <div className="ct-hero-stats">
             <div className="ct-stat">
-              <span className="ct-stat-val">~30 Mnt</span>
+              <span className="ct-stat-val">~30 Min</span>
               <span className="ct-stat-label">Avg Response</span>
             </div>
             <div className="ct-stat-divider" />
@@ -241,8 +213,8 @@ export default function ContactPage() {
               <WhatsAppIcon />
               Chat WhatsApp
             </a>
-            <a href="#contact-form" className="ct-btn-outline">
-              Kirim Pesan
+            <a href="mailto:hello@careofyou.id" className="ct-btn-outline">
+              Send Email
               <ArrowIcon />
             </a>
           </div>
@@ -263,20 +235,20 @@ export default function ContactPage() {
             <span className="ct-fc-icon">⚡</span>
             <div className="ct-fc-info">
               <span className="ct-fc-val">Fast Reply</span>
-              <span className="ct-fc-sub">Avg 30 menit</span>
+              <span className="ct-fc-sub">Avg 30 min</span>
             </div>
           </div>
           <div className="ct-float-card ct-fc-2">
             <span className="ct-fc-icon">🛡️</span>
             <div className="ct-fc-info">
-              <span className="ct-fc-val">100% Aman</span>
-              <span className="ct-fc-sub">Bergaransi</span>
+              <span className="ct-fc-val">100% Safe</span>
+              <span className="ct-fc-sub">Guaranteed</span>
             </div>
           </div>
           <div className="ct-float-card ct-fc-3">
             <span className="ct-fc-icon">🚚</span>
             <div className="ct-fc-info">
-              <span className="ct-fc-val">Free Ongkir</span>
+              <span className="ct-fc-val">Free Shipping</span>
               <span className="ct-fc-sub">Min. Rp 150K</span>
             </div>
           </div>
@@ -291,7 +263,7 @@ export default function ContactPage() {
               icon: <PhoneIcon />,
               color: "green",
               label: "WhatsApp",
-              desc: "Chat langsung untuk respons tercepat & teramah!",
+              desc: "Chat directly for the fastest & friendliest response!",
               value: "+62 812-3456-7890",
               href: "https://wa.me/6281234567890",
             },
@@ -299,23 +271,23 @@ export default function ContactPage() {
               icon: <EmailIcon />,
               color: "blue",
               label: "Email",
-              desc: "Kirim pertanyaan detail atau kerjasama bisnis.",
+              desc: "Send detailed inquiries or business partnership requests.",
               value: "hello@careofyou.id",
               href: "mailto:hello@careofyou.id",
             },
             {
               icon: <LocationIcon />,
               color: "rose",
-              label: "Lokasi",
-              desc: "Melayani Manado, Tondano, Tomohon & sekitarnya.",
-              value: "Manado, Sulawesi Utara",
+              label: "Location",
+              desc: "Serving Manado, Tondano, Tomohon & surrounding areas.",
+              value: "Manado, North Sulawesi",
               href: null,
             },
             {
               icon: <ClockIcon />,
               color: "amber",
-              label: "Jam Operasional",
-              desc: "Kami selalu siap membantu kamu setiap hari.",
+              label: "Business Hours",
+              desc: "We're always ready to help you every day.",
               value: "08:00 – 21:00 WITA",
               href: null,
             },
@@ -340,131 +312,73 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* ══════════════ FORM + SIDEBAR ══════════════ */}
-      <section className="ct-main" id="contact-form">
-        {/* Form card */}
-        <div className="ct-form-card">
-          <div className="ct-form-header">
-            <span className="ct-form-label-tag">Formulir Kontak</span>
-            <h2 className="ct-form-title">Kirim Pesan Kamu 💬</h2>
-            <p className="ct-form-sub">
-              Isi form di bawah dan kami akan segera menghubungi kamu!
-            </p>
-          </div>
+      {/* ══════════════ INFO SIDEBAR ══════════════ */}
+      <section className="ct-main ct-main--solo">
 
-          {submitted && (
-            <div className="ct-success">
-              <span className="ct-success-icon">✅</span>
-              <div>
-                <strong>Pesan terkirim!</strong>
-                <span> Kami akan segera menghubungi kamu ya 💕</span>
-              </div>
-            </div>
-          )}
-
-          <form onSubmit={handleSubmit} className="ct-form-body">
-            <div className="ct-row-2">
-              <div className="ct-field">
-                <label className="ct-label">Nama Lengkap <span className="ct-req">*</span></label>
-                <input {...fieldProps("name")} placeholder="Nama kamu..." />
-              </div>
-              <div className="ct-field">
-                <label className="ct-label">Email <span className="ct-req">*</span></label>
-                <input {...fieldProps("email")} type="email" placeholder="email@kamu.com" />
-              </div>
-            </div>
-
-            <div className="ct-field">
-              <label className="ct-label">No. WhatsApp</label>
-              <input {...fieldProps("phone")} placeholder="+62 8xx-xxxx-xxxx" />
-            </div>
-
-            <div className="ct-field">
-              <label className="ct-label">Pesan <span className="ct-req">*</span></label>
-              <textarea
-                {...fieldProps("message")}
-                placeholder="Tulis pesanmu di sini — pertanyaan, pesanan khusus, atau sekedar say hi!"
-                rows={5}
-                className={`ct-input ct-textarea${activeField === "message" ? " ct-input--focus" : ""}`}
-              />
-            </div>
-
-            <button type="submit" className="ct-submit">
-              <SendIcon />
-              Kirim Pesan
-              <span className="ct-submit-shine" />
-            </button>
-          </form>
-        </div>
-
-        {/* Sidebar */}
-        <div className="ct-sidebar">
-          {/* Map */}
-          <div className="ct-map-card">
-            <div className="ct-map-header">
-              <LocationIcon />
-              <div>
-                <h3 className="ct-map-title">Lokasi Kami</h3>
-                <p className="ct-map-sub">Manado, Sulawesi Utara</p>
-              </div>
-            </div>
-            <div className="ct-map-wrap">
-              <iframe
-                title="Careofyou Location Manado"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63874.36706540688!2d124.80235!3d1.47420!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x328726b9b5e5bc4b%3A0x7a0bba4c41d7e020!2sManado%2C%20Kota%20Manado%2C%20Sulawesi%20Utara!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid"
-                width="100%"
-                height="200"
-                style={{ border: 0, display: "block" }}
-                allowFullScreen=""
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
+        {/* Map */}
+        <div className="ct-map-card">
+          <div className="ct-map-header">
+            <LocationIcon />
+            <div>
+              <h3 className="ct-map-title">Our Location</h3>
+              <p className="ct-map-sub">Manado, North Sulawesi</p>
             </div>
           </div>
-
-          {/* Social */}
-          <div className="ct-social-card">
-            <h3 className="ct-social-title">Follow & Shop</h3>
-            <div className="ct-social-list">
-              <a href="https://instagram.com/careofyou.id" target="_blank" rel="noreferrer" className="ct-social-item ct-social-item--ig">
-                <span className="ct-social-ico"><InstagramIcon /></span>
-                <div className="ct-social-info">
-                  <span className="ct-social-name">Instagram</span>
-                  <span className="ct-social-handle">@careofyou.id</span>
-                </div>
-                <span className="ct-social-arrow"><ArrowIcon /></span>
-              </a>
-
-              <a href="https://shopee.co.id/careofyou.id" target="_blank" rel="noreferrer" className="ct-social-item ct-social-item--shopee">
-                <span className="ct-social-ico"><ShopeeIcon /></span>
-                <div className="ct-social-info">
-                  <span className="ct-social-name">Shopee</span>
-                  <span className="ct-social-handle">careofyou.id</span>
-                </div>
-                <span className="ct-social-arrow"><ArrowIcon /></span>
-              </a>
-
-              <a href="https://wa.me/6281234567890" target="_blank" rel="noreferrer" className="ct-social-item ct-social-item--wa">
-                <span className="ct-social-ico"><WhatsAppIcon /></span>
-                <div className="ct-social-info">
-                  <span className="ct-social-name">WhatsApp</span>
-                  <span className="ct-social-handle">Chat sekarang</span>
-                </div>
-                <span className="ct-social-arrow"><ArrowIcon /></span>
-              </a>
-            </div>
-          </div>
-
-          {/* Payment */}
-          <div className="ct-payment-card">
-            <h3 className="ct-payment-title">Metode Pembayaran</h3>
-            <div className="ct-payment-grid">
-              {["BCA", "BNI", "DANA", "COD"].map((p) => (
-                <div key={p} className="ct-payment-chip">{p}</div>
-              ))}
-            </div>
+          <div className="ct-map-wrap">
+            <iframe
+              title="Careofyou Location Manado"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63874.36706540688!2d124.80235!3d1.47420!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x328726b9b5e5bc4b%3A0x7a0bba4c41d7e020!2sManado%2C%20Kota%20Manado%2C%20Sulawesi%20Utara!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid"
+              width="100%"
+              height="220"
+              style={{ border: 0, display: "block" }}
+              allowFullScreen=""
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
           </div>
         </div>
+
+        {/* Social */}
+        <div className="ct-social-card">
+          <h3 className="ct-social-title">Follow & Shop</h3>
+          <div className="ct-social-list">
+            <a href="https://instagram.com/careofyou.id" target="_blank" rel="noreferrer" className="ct-social-item ct-social-item--ig">
+              <span className="ct-social-ico"><InstagramIcon /></span>
+              <div className="ct-social-info">
+                <span className="ct-social-name">Instagram</span>
+                <span className="ct-social-handle">@careofyou.id</span>
+              </div>
+              <span className="ct-social-arrow"><ArrowIcon /></span>
+            </a>
+            <a href="https://shopee.co.id/careofyou.id" target="_blank" rel="noreferrer" className="ct-social-item ct-social-item--shopee">
+              <span className="ct-social-ico"><ShopeeIcon /></span>
+              <div className="ct-social-info">
+                <span className="ct-social-name">Shopee</span>
+                <span className="ct-social-handle">careofyou.id</span>
+              </div>
+              <span className="ct-social-arrow"><ArrowIcon /></span>
+            </a>
+            <a href="https://wa.me/6281234567890" target="_blank" rel="noreferrer" className="ct-social-item ct-social-item--wa">
+              <span className="ct-social-ico"><WhatsAppIcon /></span>
+              <div className="ct-social-info">
+                <span className="ct-social-name">WhatsApp</span>
+                <span className="ct-social-handle">Chat now</span>
+              </div>
+              <span className="ct-social-arrow"><ArrowIcon /></span>
+            </a>
+          </div>
+        </div>
+
+        {/* Payment */}
+        <div className="ct-payment-card">
+          <h3 className="ct-payment-title">Payment Methods</h3>
+          <div className="ct-payment-grid">
+            {["BCA", "BNI", "DANA", "COD"].map((p) => (
+              <div key={p} className="ct-payment-chip">{p}</div>
+            ))}
+          </div>
+        </div>
+
       </section>
 
       {/* ══════════════ FOOTER ══════════════ */}
@@ -496,9 +410,9 @@ export default function ContactPage() {
         {cart.length === 0 ? (
           <div className="cart-empty">
             <span className="cart-empty-icon">🛍️</span>
-            <p>Keranjang kamu kosong</p>
+            <p>Your cart is empty</p>
             <button className="cart-shop-btn" onClick={() => { setCartOpen(false); navigate("/"); }}>
-              Mulai Belanja
+              Start Shopping
             </button>
           </div>
         ) : (

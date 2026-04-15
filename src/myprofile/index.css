@@ -1099,6 +1099,235 @@
 }
 
 /* ══════════════════════════════════════════
+   SETTINGS SECTION
+══════════════════════════════════════════ */
+.pr-setting-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pr-setting-header {
+  margin-bottom: 4px;
+}
+
+/* Success toast */
+.pr-setting-toast {
+  background: #f0faf3;
+  border: 1px solid #b8e0c2;
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #3d8c52;
+}
+
+/* Group card */
+.pr-setting-group {
+  background: #fff;
+  border: 1.5px solid #f0e0de;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.pr-setting-group--danger {
+  border-color: #fdd;
+}
+
+/* Group label */
+.pr-setting-group-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #d6867c;
+  padding: 14px 20px 10px;
+  border-bottom: 1px solid #f5eeee;
+}
+
+.pr-setting-group-label--danger {
+  color: #e05a5a;
+}
+
+/* Row */
+.pr-setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 20px;
+  border-bottom: 1px solid #f9f2f1;
+  transition: background 0.15s;
+}
+
+.pr-setting-row:last-child,
+.pr-setting-row--last {
+  border-bottom: none;
+}
+
+.pr-setting-row:hover {
+  background: #fdf9f8;
+}
+
+.pr-setting-row-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+  min-width: 0;
+}
+
+.pr-setting-row-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #2d2d2d;
+}
+
+.pr-setting-row-sub {
+  font-size: 12px;
+  color: #aaa;
+  line-height: 1.4;
+}
+
+/* Inline action button */
+.pr-setting-action-btn {
+  padding: 8px 18px;
+  border-radius: 8px;
+  border: 1.5px solid #f0e0de;
+  background: #fff;
+  color: #d6867c;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+  transition: background 0.18s, border-color 0.18s;
+  flex-shrink: 0;
+}
+
+.pr-setting-action-btn:hover {
+  background: #fce8e6;
+  border-color: #d6867c;
+}
+
+/* Sub-form (password) */
+.pr-setting-subform {
+  padding: 0 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: #fdf9f8;
+  border-bottom: 1px solid #f5eeee;
+}
+
+/* Toggle switch */
+.pr-toggle {
+  width: 44px;
+  height: 24px;
+  border-radius: 12px;
+  background: #e5e5e5;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+  transition: background 0.22s;
+  padding: 0;
+}
+
+.pr-toggle--on {
+  background: #d6867c;
+}
+
+.pr-toggle-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.18);
+  transition: transform 0.22s cubic-bezier(.4,0,.2,1);
+  display: block;
+}
+
+.pr-toggle--on .pr-toggle-knob {
+  transform: translateX(20px);
+}
+
+/* Select */
+.pr-setting-select {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1.5px solid #f0e0de;
+  background: #fff;
+  color: #2d2d2d;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: inherit;
+  outline: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color 0.18s;
+}
+
+.pr-setting-select:focus {
+  border-color: #d6867c;
+}
+
+/* Info chip */
+.pr-setting-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: #fdf6f5;
+  border: 1px solid #f0e0de;
+  font-size: 12px;
+  font-weight: 600;
+  color: #888;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.pr-setting-chip--green {
+  background: #f0faf3;
+  border-color: #b8e0c2;
+  color: #3d8c52;
+}
+
+/* Danger buttons */
+.pr-setting-danger-btn {
+  padding: 8px 18px;
+  border-radius: 8px;
+  border: 1.5px solid #e05a5a;
+  background: #e05a5a;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+  transition: opacity 0.18s, transform 0.15s;
+  flex-shrink: 0;
+}
+
+.pr-setting-danger-btn:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
+
+.pr-setting-danger-btn--soft {
+  background: #fff;
+  color: #e05a5a;
+}
+
+.pr-setting-danger-btn--soft:hover {
+  background: #fff5f5;
+  opacity: 1;
+}
+
+/* ══════════════════════════════════════════
    FOOTER — same as wishlist
 ══════════════════════════════════════════ */
 .pr-footer {

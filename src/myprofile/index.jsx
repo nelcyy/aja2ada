@@ -743,6 +743,228 @@ function RateOrderSection() {
   );
 }
 
+/* ── Settings Section ───────────────────────────────────── */
+function SettingSection() {
+  const navigate = useNavigate();
+
+  // Password
+  const [showPw, setShowPw]   = useState(false);
+  const [pwForm, setPwForm]   = useState({ current: "", next: "", confirm: "" });
+  const [pwError, setPwError] = useState("");
+  const [pwSaved, setPwSaved] = useState(false);
+
+  // Toggles
+  const [twoFA, setTwoFA] = useState(false);
+  const [notifs, setNotifs] = useState({
+    orderUpdates: true,
+    promotions:   true,
+    newArrivals:  false,
+    whatsapp:     true,
+    email:        false,
+  });
+  const [privacy, setPrivacy] = useState({
+    publicProfile:  false,
+    publicWishlist: false,
+  });
+
+  // Language
+  const [language, setLanguage] = useState("en");
+
+  const handlePasswordSubmit = (e) => {
+    e.preventDefault();
+    if (!pwForm.current || !pwForm.next || !pwForm.confirm) {
+      setPwError("Please fill in all fields."); return;
+    }
+    if (pwForm.next.length < 8) {
+      setPwError("New password must be at least 8 characters."); return;
+    }
+    if (pwForm.next !== pwForm.confirm) {
+      setPwError("New passwords do not match."); return;
+    }
+    setPwError("");
+    setPwSaved(true);
+    setPwForm({ current: "", next: "", confirm: "" });
+    setShowPw(false);
+    setTimeout(() => setPwSaved(false), 3500);
+  };
+
+  const Toggle = ({ checked, onChange }) => (
+    <button
+      type="button"
+      className={`pr-toggle${checked ? " pr-toggle--on" : ""}`}
+      onClick={() => onChange(!checked)}
+    >
+      <span className="pr-toggle-knob" />
+    </button>
+  );
+
+  return (
+    <div className="pr-setting-section">
+
+      <div className="pr-setting-header">
+        <h2 className="pr-section-title">Settings</h2>
+        <p className="pr-section-sub">Manage your account preferences</p>
+      </div>
+
+      {pwSaved && (
+        <div className="pr-setting-toast">✓ Password updated successfully.</div>
+      )}
+
+      {/* ── Account & Security ── */}
+      <div className="pr-setting-group">
+        <p className="pr-setting-group-label">Account &amp; Security</p>
+
+        <div className="pr-setting-row">
+          <div className="pr-setting-row-info">
+            <span className="pr-setting-row-title">Password</span>
+            <span className="pr-setting-row-sub">Last changed 3 months ago</span>
+          </div>
+          <button
+            className="pr-setting-action-btn"
+            onClick={() => { setShowPw(v => !v); setPwError(""); }}
+          >
+            {showPw ? "Cancel" : "Change"}
+          </button>
+        </div>
+
+        {showPw && (
+          <form className="pr-setting-subform" onSubmit={handlePasswordSubmit}>
+            <div className="pr-form-group">
+              <label className="pr-form-label">Current Password</label>
+              <input className="pr-input" type="password" placeholder="••••••••"
+                value={pwForm.current} onChange={e => setPwForm({ ...pwForm, current: e.target.value })} />
+            </div>
+            <div className="pr-form-row">
+              <div className="pr-form-group">
+                <label className="pr-form-label">New Password</label>
+                <input className="pr-input" type="password" placeholder="Min. 8 characters"
+                  value={pwForm.next} onChange={e => setPwForm({ ...pwForm, next: e.target.value })} />
+              </div>
+              <div className="pr-form-group">
+                <label className="pr-form-label">Confirm Password</label>
+                <input className="pr-input" type="password" placeholder="Repeat new password"
+                  value={pwForm.confirm} onChange={e => setPwForm({ ...pwForm, confirm: e.target.value })} />
+              </div>
+            </div>
+            {pwError && <p className="pr-addr-error">{pwError}</p>}
+            <button type="submit" className="pr-save-btn" style={{ padding: "11px 32px", marginTop: 2 }}>
+              Update Password
+            </button>
+          </form>
+        )}
+
+        <div className="pr-setting-row">
+          <div className="pr-setting-row-info">
+            <span className="pr-setting-row-title">Two-Factor Authentication</span>
+            <span className="pr-setting-row-sub">
+              {twoFA ? "Enabled — extra layer of protection active" : "Add an extra layer of login protection"}
+            </span>
+          </div>
+          <Toggle checked={twoFA} onChange={setTwoFA} />
+        </div>
+
+        <div className="pr-setting-row">
+          <div className="pr-setting-row-info">
+            <span className="pr-setting-row-title">Linked Account</span>
+            <span className="pr-setting-row-sub">sara.tancredi@gmail.com</span>
+          </div>
+          <span className="pr-setting-chip pr-setting-chip--green">Verified</span>
+        </div>
+      </div>
+
+      {/* ── Notifications ── */}
+      <div className="pr-setting-group">
+        <p className="pr-setting-group-label">Notifications</p>
+        {[
+          { key: "orderUpdates", title: "Order Updates",          sub: "Shipping, delivery & status changes" },
+          { key: "promotions",   title: "Promotions & Deals",      sub: "Discounts, vouchers & special offers" },
+          { key: "newArrivals",  title: "New Arrivals",            sub: "Be first to know about new products" },
+          { key: "whatsapp",     title: "WhatsApp Notifications",  sub: "Receive updates via WhatsApp" },
+          { key: "email",        title: "Email Notifications",     sub: "Receive updates via email" },
+        ].map(item => (
+          <div key={item.key} className="pr-setting-row">
+            <div className="pr-setting-row-info">
+              <span className="pr-setting-row-title">{item.title}</span>
+              <span className="pr-setting-row-sub">{item.sub}</span>
+            </div>
+            <Toggle checked={notifs[item.key]} onChange={v => setNotifs({ ...notifs, [item.key]: v })} />
+          </div>
+        ))}
+      </div>
+
+      {/* ── Privacy ── */}
+      <div className="pr-setting-group">
+        <p className="pr-setting-group-label">Privacy</p>
+        {[
+          { key: "publicProfile",  title: "Public Profile",  sub: "Allow others to view your profile page" },
+          { key: "publicWishlist", title: "Public Wishlist",  sub: "Show your wishlist to other users" },
+        ].map(item => (
+          <div key={item.key} className="pr-setting-row">
+            <div className="pr-setting-row-info">
+              <span className="pr-setting-row-title">{item.title}</span>
+              <span className="pr-setting-row-sub">{item.sub}</span>
+            </div>
+            <Toggle checked={privacy[item.key]} onChange={v => setPrivacy({ ...privacy, [item.key]: v })} />
+          </div>
+        ))}
+      </div>
+
+      {/* ── Language & Region ── */}
+      <div className="pr-setting-group">
+        <p className="pr-setting-group-label">Language &amp; Region</p>
+        <div className="pr-setting-row">
+          <div className="pr-setting-row-info">
+            <span className="pr-setting-row-title">Language</span>
+            <span className="pr-setting-row-sub">Choose your preferred display language</span>
+          </div>
+          <select
+            className="pr-setting-select"
+            value={language}
+            onChange={e => setLanguage(e.target.value)}
+          >
+            <option value="en">English</option>
+            <option value="id">Bahasa Indonesia</option>
+          </select>
+        </div>
+        <div className="pr-setting-row">
+          <div className="pr-setting-row-info">
+            <span className="pr-setting-row-title">Currency</span>
+            <span className="pr-setting-row-sub">Used for all price displays</span>
+          </div>
+          <span className="pr-setting-chip">IDR — Rp</span>
+        </div>
+        <div className="pr-setting-row">
+          <div className="pr-setting-row-info">
+            <span className="pr-setting-row-title">Time Zone</span>
+            <span className="pr-setting-row-sub">All times shown in your local zone</span>
+          </div>
+          <span className="pr-setting-chip">WITA (UTC+8)</span>
+        </div>
+      </div>
+
+      {/* ── Danger Zone ── */}
+      <div className="pr-setting-group pr-setting-group--danger">
+        <p className="pr-setting-group-label pr-setting-group-label--danger">Danger Zone</p>
+        <div className="pr-setting-row">
+          <div className="pr-setting-row-info">
+            <span className="pr-setting-row-title">Deactivate Account</span>
+            <span className="pr-setting-row-sub">Temporarily disable your account — you can reactivate anytime</span>
+          </div>
+          <button className="pr-setting-danger-btn pr-setting-danger-btn--soft">Deactivate</button>
+        </div>
+        <div className="pr-setting-row pr-setting-row--last">
+          <div className="pr-setting-row-info">
+            <span className="pr-setting-row-title">Delete Account</span>
+            <span className="pr-setting-row-sub">Permanently remove your account and all data. This cannot be undone.</span>
+          </div>
+          <button className="pr-setting-danger-btn" onClick={() => navigate("/")}>Delete</button>
+        </div>
+      </div>
+
+    </div>
+  );
+}
+
 function PlaceholderSection({ title }) {
   return (
     <div className="pr-placeholder">
@@ -765,7 +987,7 @@ export default function MyProfile() {
       case "packing":       return <PlaceholderSection title="Being Packed" />;
       case "shipped":       return <PlaceholderSection title="Shipped" />;
       case "rateorder":     return <RateOrderSection />;
-      case "setting":       return <PlaceholderSection title="Setting" />;
+      case "setting":       return <SettingSection />;
       case "notifications": return <PlaceholderSection title="Notifications" />;
       default:              return null;
     }
