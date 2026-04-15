@@ -1754,4 +1754,62 @@
     grid-template-columns: 1fr;
     gap: 16px;
   }
+
+  .pr-order-card {
+    padding: 16px;
+  }
+
+  .pr-order-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .pr-order-bottom-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .pr-order-info-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .pr-order-info-label {
+    min-width: 0;
+  }
+
+  .pr-order-info-value {
+    text-align: left;
+  }
+
+  .pr-modal-overlay {
+    padding: 14px;
+  }
+
+  .pr-modal {
+    max-height: calc(100vh - 28px);
+    border-radius: 18px;
+  }
+
+  .pr-modal-header {
+    padding: 18px 18px 16px;
+  }
+
+  .pr-modal-header-right {
+    align-items: flex-start;
+  }
+
+  .pr-modal-body {
+    padding: 18px;
+  }
+
+  .pr-modal-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pr-modal-payment {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

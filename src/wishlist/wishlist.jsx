@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./wishlist.css";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import { useWishlist } from "../context/WishlistContext";
 import { PRODUCTS } from "../data/products.js";
 
@@ -32,7 +33,7 @@ export default function WishlistPage() {
         activePage="wishlist"
         allProducts={PRODUCTS}
         onHomeClick={() => navigate("/")}
-        onProductsClick={() => navigate("/#all-products")}
+        onProductsClick={() => navigate("/products")}
       />
 
       {/* PAGE CONTENT */}
@@ -62,7 +63,7 @@ export default function WishlistPage() {
               </svg>
               <p className="wl-empty-text">Your wishlist is empty</p>
               <p className="wl-empty-sub">Save your favorite products here</p>
-              <button className="wl-browse-btn" onClick={() => navigate("/")}>Browse Products</button>
+              <button className="wl-browse-btn" onClick={() => navigate("/products")}>Browse Products</button>
             </div>
           )}
 
@@ -109,24 +110,7 @@ export default function WishlistPage() {
         </div>
       </main>
 
-      {/* FOOTER */}
-      <footer className="wl-footer">
-        <div className="wl-footer-inner">
-          <div className="wl-footer-brand">
-            <img src="/logo-careofyou.png" alt="Careofyou" className="wl-footer-logo" />
-            <span className="wl-footer-name">careofyou</span>
-          </div>
-
-          <div className="wl-footer-links">
-            <span>About Us</span>
-            <span>Products</span>
-            <span>Skincare Guide</span>
-            <span>Contact</span>
-          </div>
-
-          <p className="wl-footer-copy">© 2025 Careofyou. All rights reserved.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import { useCart } from "../context/CartContext";
 import { PRODUCTS } from "../data/products.js";
 
@@ -143,6 +144,15 @@ export default function ContactPage() {
 
   return (
     <div className="ct-root">
+      {/* NAVBAR — outside ct-body so sticky works */}
+      <Navbar
+        activePage="contact"
+        allProducts={PRODUCTS}
+        onHomeClick={() => navigate("/")}
+        onProductsClick={() => navigate("/products")}
+      />
+
+      <div className="ct-body">
       {/* Particle canvas */}
       <canvas ref={canvasRef} className="ct-canvas" />
 
@@ -150,14 +160,6 @@ export default function ContactPage() {
       <div className="ct-orb ct-orb-1" />
       <div className="ct-orb ct-orb-2" />
       <div className="ct-orb ct-orb-3" />
-
-      {/* NAVBAR */}
-      <Navbar
-        activePage="contact"
-        allProducts={PRODUCTS}
-        onHomeClick={() => navigate("/")}
-        onProductsClick={() => navigate("/#all-products")}
-      />
 
       {/* ══════════════ HERO ══════════════ */}
       <section className="ct-hero">
@@ -368,22 +370,8 @@ export default function ContactPage() {
 
       </section>
 
-      {/* ══════════════ FOOTER ══════════════ */}
-      <footer className="ct-footer">
-        <div className="ct-footer-inner">
-          <div className="ct-footer-brand">
-            <img src="/logo-careofyou.png" alt="Careofyou" className="ct-footer-logo" />
-            <span className="ct-footer-name">careofyou</span>
-          </div>
-          <div className="ct-footer-links">
-            <span onClick={() => navigate("/")}>About Us</span>
-            <span onClick={() => navigate("/")}>Products</span>
-            <span>Skincare Guide</span>
-            <span>Contact</span>
-          </div>
-          <p className="ct-footer-copy">© 2025 Careofyou. All rights reserved.</p>
-        </div>
-      </footer>
+      <Footer />
+      </div>{/* end ct-body */}
 
       {/* CART OVERLAY */}
       {cartOpen && <div className="cart-overlay" onClick={() => setCartOpen(false)} />}

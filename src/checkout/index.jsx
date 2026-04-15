@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./index.css";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import { PRODUCTS } from "../data/products.js";
 
 /* ─── Icons ──────────────────────────────────────────────── */
@@ -146,7 +147,7 @@ export default function CheckoutPage() {
           activePage="checkout"
           allProducts={PRODUCTS}
           onHomeClick={() => navigate("/")}
-          onProductsClick={() => navigate("/#all-products")}
+          onProductsClick={() => navigate("/products")}
         />
         <div className="co-success">
           <div className="co-success-icon"><IconClock /></div>
@@ -161,13 +162,7 @@ export default function CheckoutPage() {
           <p className="co-success-note">Once your payment is confirmed by our team, your order will be processed.</p>
           <button className="co-success-home-btn" onClick={() => navigate("/")}>← Home</button>
         </div>
-        <footer className="co-footer"><div className="co-footer-inner">
-          <div className="co-footer-brand">
-            <img src="/logo-careofyou.png" alt="Careofyou" className="co-footer-logo"/>
-            <span className="co-footer-name">careofyou</span>
-          </div>
-          <p className="co-footer-copy">© 2025 Careofyou. All rights reserved.</p>
-        </div></footer>
+        <Footer />
       </div>
     );
   }
@@ -180,7 +175,7 @@ export default function CheckoutPage() {
         allProducts={PRODUCTS}
         activePage="checkout"
         onHomeClick={() => navigate("/")}
-        onProductsClick={() => navigate("/#all-products")}
+        onProductsClick={() => navigate("/products")}
       />
 
       {/* ── MAIN ── */}
@@ -438,22 +433,7 @@ export default function CheckoutPage() {
         </div>
       </main>
 
-      {/* ── FOOTER ── */}
-      <footer className="co-footer">
-        <div className="co-footer-inner">
-          <div className="co-footer-brand">
-            <img src="/logo-careofyou.png" alt="Careofyou" className="co-footer-logo"/>
-            <span className="co-footer-name">careofyou</span>
-          </div>
-          <div className="co-footer-links">
-            <span>About Us</span>
-            <span>Products</span>
-            <span>Skincare Guide</span>
-            <span>Contact</span>
-          </div>
-          <p className="co-footer-copy">© 2025 Careofyou. All rights reserved.</p>
-        </div>
-      </footer>
+      <Footer />
 
     </div>
   );

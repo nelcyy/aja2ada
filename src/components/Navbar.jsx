@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import { useCart } from "../context/CartContext";
 import { useSearch } from "../context/SearchContext";
@@ -14,9 +14,8 @@ export default function Navbar({
   setSearchOpen: externalSetSearchOpen = null,
 }) {
   const navigate = useNavigate();
-  const location = useLocation();
   const { cartCount, setCartOpen } = useCart();
-  const { searchQuery, setSearchQuery, performSearch, openSearchPanel } = useSearch();
+  const { searchQuery, performSearch, openSearchPanel } = useSearch();
   const [internalSearchOpen, setInternalSearchOpen] = useState(false);
   
   // Use external state if provided, otherwise use internal state
@@ -30,34 +29,27 @@ export default function Navbar({
 
   const handleProducts = () => {
     if (onProductsClick) onProductsClick();
-    else navigate("/");
+    else navigate("/products");
   };
 
   const handleSearchClick = () => {
-    if (activePage === "home") {
-      // On home page, toggle search or scroll to All Products
+    if (activePage === "products") {
       if (searchOpen) {
-        // Already open, just close it
         setSearchOpen(false);
       } else {
-        // Not open, scroll to All Products and open search
         if (onSearchClick) onSearchClick();
         setSearchOpen(true);
       }
     } else {
-      // Not on home, navigate to home and open search
       openSearchPanel();
-      navigate("/#all-products");
+      navigate("/products");
     }
   };
 
   const handleSearch = (value) => {
-    setSearchQuery(value);
-    if (value.trim()) {
-      performSearch(value, allProducts);
-      if (activePage !== "home") {
-        navigate("/");
-      }
+    performSearch(value, allProducts);
+    if (value.trim() && activePage !== "products") {
+      navigate("/products");
     }
   };
 
@@ -80,7 +72,7 @@ export default function Navbar({
         {/* Center links */}
         <nav className="navbar-links">
           <span className={activePage === "home" ? "navbar-link--active" : ""} onClick={handleHome}>Home</span>
-          <span onClick={handleProducts}>Products</span>
+          <span className={activePage === "products" ? "navbar-link--active" : ""} onClick={handleProducts}>Products</span>
           <span className={activePage === "contact" ? "navbar-link--active" : ""} onClick={() => navigate("/contact")}>Contact Us</span>
         </nav>
 

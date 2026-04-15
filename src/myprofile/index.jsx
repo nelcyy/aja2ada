@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import { PRODUCTS } from "../data/products.js";
 
 /* ── Icons ─────────────────────────────────────────────── */
@@ -455,7 +456,8 @@ const STATUS_LABEL = {
 const fmt = (n) => "Rp " + n.toLocaleString("id-ID");
 
 function OrderSection({ sectionKey, title }) {
-  const [query, setQuery] = useState("");
+  const [query, setQuery]     = useState("");
+  const [selected, setSelected] = useState(null);
   const orders = MOCK_ORDERS[sectionKey] ?? [];
   const status = STATUS_LABEL[sectionKey];
   const q      = query.toLowerCase();
@@ -463,6 +465,11 @@ function OrderSection({ sectionKey, title }) {
     o.id.toLowerCase().includes(q) ||
     o.products.some(p => p.name.toLowerCase().includes(q))
   );
+
+  const orderTotal = (order) =>
+    order.products.reduce((s, p) => s + p.price * p.qty, 0) + order.deliveryFee;
+
+  const statusEmoji = sectionKey === "adminapproval" ? "⏳" : sectionKey === "packing" ? "📦" : "🚚";
 
   return (
     <div className="pr-order-section">
@@ -493,22 +500,21 @@ function OrderSection({ sectionKey, title }) {
       ) : (
         <div className="pr-order-list">
           {filtered.map(order => {
-            const total = order.products.reduce((s, p) => s + p.price * p.qty, 0) + order.deliveryFee;
+            const total = orderTotal(order);
             const itemCount = order.products.reduce((s, p) => s + p.qty, 0);
             return (
-              <div key={order.id} className="pr-order-card">
-                {/* Status badge */}
+              <div
+                key={order.id}
+                className="pr-order-card pr-order-card--clickable"
+                onClick={() => setSelected(order)}
+              >
                 <div className="pr-order-top">
                   <span className="pr-order-status" style={{ color: status.color, background: status.bg }}>
-                    {sectionKey === "adminapproval" && "⏳ "}
-                    {sectionKey === "packing"       && "📦 "}
-                    {sectionKey === "shipped"       && "🚚 "}
-                    {status.text}
+                    {statusEmoji} {status.text}
                   </span>
                   <span className="pr-order-date">{order.date}</span>
                 </div>
 
-                {/* Thumbnail strip */}
                 <div className="pr-order-thumbs">
                   {order.products.slice(0, 3).map((p, i) => (
                     <img key={i} src={p.image} alt={p.name} className="pr-order-thumb" />
@@ -518,7 +524,6 @@ function OrderSection({ sectionKey, title }) {
                   )}
                 </div>
 
-                {/* Product name summary */}
                 <p className="pr-order-summary">
                   {order.products[0].name}
                   {order.products.length > 1 && (
@@ -526,7 +531,6 @@ function OrderSection({ sectionKey, title }) {
                   )}
                 </p>
 
-                {/* Status-specific info */}
                 {sectionKey === "adminapproval" && (
                   <div className="pr-order-info-row">
                     <span className="pr-order-info-label">Payment</span>
@@ -556,17 +560,136 @@ function OrderSection({ sectionKey, title }) {
                   </>
                 )}
 
-                {/* Bottom row */}
                 <div className="pr-order-bottom">
                   <div className="pr-order-bottom-left">
                     <span className="pr-order-id">{order.id}</span>
                     <span className="pr-order-meta">· {itemCount} item{itemCount !== 1 ? "s" : ""}</span>
                   </div>
-                  <span className="pr-order-total">{fmt(total)}</span>
+                  <div className="pr-order-bottom-right">
+                    <span className="pr-order-unrated">Tap for detail ›</span>
+                    <span className="pr-order-total">{fmt(total)}</span>
+                  </div>
                 </div>
               </div>
             );
           })}
+        </div>
+      )}
+
+      {/* ── Detail Modal ── */}
+      {selected && (
+        <div className="pr-modal-overlay" onClick={() => setSelected(null)}>
+          <div className="pr-modal" onClick={e => e.stopPropagation()}>
+
+            {/* Header */}
+            <div className="pr-modal-header">
+              <div>
+                <p className="pr-modal-order-id">{selected.id} · {selected.date}</p>
+                <h3 className="pr-modal-title">Order Details</h3>
+              </div>
+              <div className="pr-modal-header-right">
+                <span className="pr-modal-status-badge" style={{ color: status.color, background: status.bg }}>
+                  {statusEmoji} {status.text}
+                </span>
+                <button className="pr-modal-close" onClick={() => setSelected(null)}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div className="pr-modal-body">
+              {/* Products */}
+              <div className="pr-modal-section">
+                <p className="pr-modal-section-title">Ordered Products</p>
+                <div className="pr-modal-products">
+                  {selected.products.map((p, i) => (
+                    <div key={i} className="pr-modal-product">
+                      <img src={p.image} alt={p.name} className="pr-modal-product-img" />
+                      <div className="pr-modal-product-info">
+                        <p className="pr-modal-product-name">{p.name}</p>
+                        <p className="pr-modal-product-meta">{p.size} · Qty {p.qty}</p>
+                      </div>
+                      <span className="pr-modal-product-price">{fmt(p.price * p.qty)}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="pr-modal-cost-rows">
+                  <div className="pr-modal-cost-row">
+                    <span>Delivery fee</span><span>{fmt(selected.deliveryFee)}</span>
+                  </div>
+                  <div className="pr-modal-cost-row pr-modal-cost-row--total">
+                    <span>Total</span><span>{fmt(orderTotal(selected))}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Status-specific info */}
+              {sectionKey === "adminapproval" && (
+                <div className="pr-modal-section">
+                  <p className="pr-modal-section-title">Order Status</p>
+                  <div className="pr-modal-info-grid">
+                    <div className="pr-modal-info-item pr-modal-info-item--full">
+                      <span className="pr-modal-info-label">Next update</span>
+                      <span className="pr-modal-info-value">Your payment is being verified by our admin. Please wait up to 1x24 hours.</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {sectionKey === "packing" && (
+                <div className="pr-modal-section">
+                  <p className="pr-modal-section-title">Packing Information</p>
+                  <div className="pr-modal-info-grid">
+                    <div className="pr-modal-info-item">
+                      <span className="pr-modal-info-label">Packed by</span>
+                      <span className="pr-modal-info-value">{selected.packedBy}</span>
+                    </div>
+                    <div className="pr-modal-info-item">
+                      <span className="pr-modal-info-label">Est. ship date</span>
+                      <span className="pr-modal-info-value">{selected.estimatedShip}</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {sectionKey === "shipped" && (
+                <div className="pr-modal-section">
+                  <p className="pr-modal-section-title">Delivery Information</p>
+                  <div className="pr-modal-info-grid">
+                    <div className="pr-modal-info-item">
+                      <span className="pr-modal-info-label">Courier</span>
+                      <span className="pr-modal-info-value">{selected.courier}</span>
+                    </div>
+                    <div className="pr-modal-info-item">
+                      <span className="pr-modal-info-label">Tracking No.</span>
+                      <span className="pr-modal-info-value pr-modal-info-track">{selected.tracking}</span>
+                    </div>
+                    <div className="pr-modal-info-item">
+                      <span className="pr-modal-info-label">Est. arrival</span>
+                      <span className="pr-modal-info-value">{selected.estimatedArrival}</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Payment */}
+              <div className="pr-modal-section">
+                <p className="pr-modal-section-title">Payment Method</p>
+                <div className="pr-modal-payment">
+                  <div className="pr-modal-payment-badge">{selected.payment.method}</div>
+                  <div>
+                    <p className="pr-modal-payment-account">{selected.payment.account}</p>
+                    <p className="pr-modal-payment-holder">
+                      {selected.payment.holder ? `a.n. ${selected.payment.holder}` : "Payment account used for this order"}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
         </div>
       )}
     </div>
@@ -1269,11 +1392,11 @@ export default function MyProfile() {
     <div className="pr-page">
 
       {/* ── NAVBAR ── */}
-      <Navbar 
+      <Navbar
         activePage="myprofile"
         allProducts={PRODUCTS}
         onHomeClick={() => navigate("/")}
-        onProductsClick={() => navigate("/#all-products")}
+        onProductsClick={() => navigate("/products")}
       />
 
       {/* ── BODY ── */}
@@ -1308,22 +1431,7 @@ export default function MyProfile() {
             {renderContent()}
           </div>
 
-          {/* ── FOOTER (same as wishlist) ── */}
-          <footer className="pr-footer">
-            <div className="pr-footer-inner">
-              <div className="pr-footer-brand">
-                <img src="/logo-careofyou.png" alt="Careofyou" className="pr-footer-logo" />
-                <span className="pr-footer-name">careofyou</span>
-              </div>
-              <div className="pr-footer-links">
-                <span>About Us</span>
-                <span>Products</span>
-                <span>Skincare Guide</span>
-                <span>Contact</span>
-              </div>
-              <p className="pr-footer-copy">© 2025 Careofyou. All rights reserved.</p>
-            </div>
-          </footer>
+          <Footer />
         </main>
       </div>
 

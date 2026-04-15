@@ -9,11 +9,17 @@
 .ct-root {
   min-height: 100vh;
   background: #fdf6f5;
-  font-family: 'DM Sans', sans-serif;
   display: flex;
   flex-direction: column;
   position: relative;
+}
+
+.ct-body {
   overflow-x: hidden;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  font-family: 'DM Sans', sans-serif;
   color: #2d2d2d;
 }
 
@@ -68,8 +74,8 @@
   100% { transform: translate(40px, 60px) scale(1.1); }
 }
 
-/* Ensure content above z-0 elements */
-.ct-root > *:not(.ct-canvas):not(.ct-orb):not(.cart-overlay):not(.cart-sidebar) {
+/* Ensure contact page content sits above decorative layers without affecting the shared navbar */
+.ct-body > *:not(.ct-canvas):not(.ct-orb):not(.cart-overlay):not(.cart-sidebar) {
   position: relative;
   z-index: 1;
 }

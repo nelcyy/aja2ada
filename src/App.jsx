@@ -4,6 +4,7 @@ import AuthPage from './auth/index.jsx'
 import TwoFAPage from './2fa/index.jsx'
 import MyProfilePage from './myprofile/index.jsx'
 import HomePage from './home/index.jsx'
+import ProductPage from './product/index.jsx'
 import WishlistPage from './wishlist/wishlist.jsx'
 import ContactPage from './contact/index.jsx'
 import CheckoutPage from './checkout/index.jsx'
@@ -27,6 +28,7 @@ function App() {
               <Route path="/admin" element={<AdminPage />} />
               <Route path="/myprofile" element={<MyProfilePage />} />
               <Route path="/" element={<HomePage />} />
+              <Route path="/products" element={<ProductPage />} />
               <Route path="/wishlist" element={<WishlistPage />} />
               <Route path="/checkout" element={<CheckoutPage />} />
             </Routes>
