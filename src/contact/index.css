@@ -8,13 +8,13 @@
 /* ── ROOT ─────────────────────────────────────────────── */
 .ct-root {
   min-height: 100vh;
-  background: #0f0a1e;
+  background: #fdf6f5;
   font-family: 'DM Sans', sans-serif;
   display: flex;
   flex-direction: column;
   position: relative;
   overflow-x: hidden;
-  color: #fff;
+  color: #2d2d2d;
 }
 
 /* ── PARTICLE CANVAS ──────────────────────────────────── */
@@ -38,7 +38,7 @@
 .ct-orb-1 {
   width: 600px;
   height: 600px;
-  background: radial-gradient(circle, rgba(214, 100, 140, 0.18) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(214, 134, 124, 0.22) 0%, transparent 70%);
   top: -200px;
   right: -150px;
   animation-delay: 0s;
@@ -47,7 +47,7 @@
 .ct-orb-2 {
   width: 500px;
   height: 500px;
-  background: radial-gradient(circle, rgba(120, 80, 220, 0.14) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(214, 134, 124, 0.12) 0%, transparent 70%);
   bottom: 10%;
   left: -100px;
   animation-delay: -7s;
@@ -56,7 +56,7 @@
 .ct-orb-3 {
   width: 350px;
   height: 350px;
-  background: radial-gradient(circle, rgba(240, 140, 100, 0.12) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(240, 160, 130, 0.16) 0%, transparent 70%);
   top: 50%;
   right: 20%;
   animation-delay: -3.5s;
@@ -91,13 +91,13 @@
   position: relative;
 }
 
-/* Subtle grid overlay — fixed so it covers the full dark viewport */
+/* Subtle grid overlay */
 .ct-hero-grid {
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(rgba(255,255,255,0.028) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.028) 1px, transparent 1px);
+    linear-gradient(rgba(214,134,124,0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(214,134,124,0.07) 1px, transparent 1px);
   background-size: 60px 60px;
   pointer-events: none;
   z-index: 0;
@@ -128,7 +128,7 @@
   font-weight: 700;
   letter-spacing: 2.5px;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.5);
+  color: #b09090;
 }
 
 .ct-eyebrow-dot {
@@ -151,7 +151,7 @@
   line-height: 1.08;
   letter-spacing: -2px;
   margin: 0;
-  color: #fff;
+  color: #2d2d2d;
 }
 
 .ct-hero-grad {
@@ -165,7 +165,7 @@
 .ct-hero-desc {
   font-size: 16px;
   line-height: 1.8;
-  color: rgba(255,255,255,0.52);
+  color: #888;
   margin: 0;
   max-width: 440px;
 }
@@ -186,21 +186,21 @@
 .ct-stat-val {
   font-size: 20px;
   font-weight: 800;
-  color: #fff;
+  color: #2d2d2d;
   letter-spacing: -0.5px;
 }
 
 .ct-stat-label {
   font-size: 11px;
   font-weight: 500;
-  color: rgba(255,255,255,0.38);
+  color: #aaa;
   letter-spacing: 0.5px;
 }
 
 .ct-stat-divider {
   width: 1px;
   height: 36px;
-  background: rgba(255,255,255,0.1);
+  background: #f0e0de;
 }
 
 /* Action buttons */
@@ -236,22 +236,20 @@
   align-items: center;
   gap: 10px;
   padding: 14px 28px;
-  background: rgba(255,255,255,0.06);
-  color: rgba(255,255,255,0.85);
-  border: 1.5px solid rgba(255,255,255,0.12);
+  background: #fff;
+  color: #d6867c;
+  border: 1.5px solid #f0ceca;
   border-radius: 50px;
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
   transition: background 0.22s ease, border-color 0.22s ease, transform 0.22s ease;
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
   letter-spacing: 0.2px;
 }
 
 .ct-btn-outline:hover {
-  background: rgba(255,255,255,0.12);
-  border-color: rgba(255,255,255,0.22);
+  background: #fce8e6;
+  border-color: #d6867c;
   transform: translateY(-2px);
 }
 
@@ -342,12 +340,10 @@
   align-items: center;
   gap: 10px;
   padding: 12px 18px;
-  background: rgba(255,255,255,0.06);
-  border: 1.5px solid rgba(255,255,255,0.1);
+  background: #fff;
+  border: 1.5px solid #f0e0de;
   border-radius: 16px;
-  -webkit-backdrop-filter: blur(16px);
-  backdrop-filter: blur(16px);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  box-shadow: 0 8px 24px rgba(214,134,124,0.14);
   white-space: nowrap;
   z-index: 3;
   animation: floatCard 6s ease-in-out infinite;
@@ -386,13 +382,13 @@
 .ct-fc-val {
   font-size: 13px;
   font-weight: 700;
-  color: #fff;
+  color: #2d2d2d;
   line-height: 1;
 }
 
 .ct-fc-sub {
   font-size: 11px;
-  color: rgba(255,255,255,0.45);
+  color: #aaa;
   line-height: 1;
 }
 
@@ -414,24 +410,23 @@
 }
 
 .ct-info-card {
-  background: rgba(255,255,255,0.04);
-  border: 1.5px solid rgba(255,255,255,0.07);
+  background: #fff;
+  border: 1.5px solid #f0e0de;
   border-radius: 24px;
   padding: 28px 24px;
   display: flex;
   align-items: flex-start;
   gap: 16px;
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
+  box-shadow: 0 2px 14px rgba(214,134,124,0.06);
   transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
   cursor: default;
 }
 
 .ct-info-card:hover {
-  background: rgba(255,255,255,0.07);
-  border-color: rgba(255,255,255,0.14);
+  background: #fff9f8;
+  border-color: #e8c5c1;
   transform: translateY(-6px);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+  box-shadow: 0 20px 48px rgba(214,134,124,0.14);
 }
 
 .ct-info-icon-wrap {
@@ -464,14 +459,14 @@
 .ct-info-label {
   font-size: 13px;
   font-weight: 800;
-  color: rgba(255,255,255,0.9);
+  color: #2d2d2d;
   margin: 0;
   letter-spacing: -0.2px;
 }
 
 .ct-info-desc {
   font-size: 12px;
-  color: rgba(255,255,255,0.35);
+  color: #aaa;
   line-height: 1.6;
   margin: 0;
 }
@@ -479,7 +474,7 @@
 .ct-info-val {
   font-size: 13px;
   font-weight: 700;
-  color: rgba(255,255,255,0.7);
+  color: #555;
   margin-top: 4px;
   display: inline-block;
 }
@@ -490,10 +485,11 @@
   gap: 5px;
   text-decoration: none;
   transition: color 0.2s, gap 0.2s;
+  color: #d6867c;
 }
 
 .ct-info-val--link:hover {
-  color: #fff;
+  color: #c4706a;
   gap: 8px;
 }
 
@@ -501,14 +497,14 @@
    MAIN SECTION (FORM + SIDEBAR) — Light background
    ════════════════════════════════════════════════════════ */
 .ct-main {
-  background: #f8f5fc;
+  background: #fdf6f5;
   border-radius: 40px 40px 0 0;
   padding: 72px 56px 80px;
   display: grid;
   grid-template-columns: 1fr 400px;
   gap: 28px;
   max-width: 100%;
-  color: #1a1a2e;
+  color: #2d2d2d;
 }
 
 /* ── Form Card ── */
@@ -715,17 +711,17 @@
 
 /* Social card */
 .ct-social-card {
-  background: linear-gradient(135deg, #1a0d22 0%, #2a1228 100%);
+  background: #fff;
   border-radius: 24px;
   padding: 26px 24px;
-  box-shadow: 0 8px 28px rgba(26,13,34,0.2);
-  border: 1.5px solid rgba(244,132,154,0.12);
+  box-shadow: 0 4px 20px rgba(214,134,124,0.08);
+  border: 1.5px solid #f0e0de;
 }
 
 .ct-social-title {
   font-size: 14px;
   font-weight: 800;
-  color: rgba(255,255,255,0.85);
+  color: #2d2d2d;
   margin: 0 0 16px;
   letter-spacing: -0.2px;
 }
@@ -741,23 +737,21 @@
   align-items: center;
   gap: 12px;
   padding: 12px 14px;
-  background: rgba(255,255,255,0.05);
-  border: 1.5px solid rgba(255,255,255,0.07);
+  background: #fdf6f5;
+  border: 1.5px solid #f0e0de;
   border-radius: 14px;
   text-decoration: none;
   transition: background 0.22s, border-color 0.22s, transform 0.22s;
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
 }
 
 .ct-social-item:hover {
-  background: rgba(255,255,255,0.1);
+  background: #fce8e6;
   transform: translateX(4px);
 }
 
-.ct-social-item--ig:hover  { border-color: rgba(225,48,108,0.4); }
-.ct-social-item--shopee:hover { border-color: rgba(255,87,34,0.4); }
-.ct-social-item--wa:hover  { border-color: rgba(37,211,102,0.4); }
+.ct-social-item--ig:hover  { border-color: rgba(225,48,108,0.35); }
+.ct-social-item--shopee:hover { border-color: rgba(255,87,34,0.35); }
+.ct-social-item--wa:hover  { border-color: rgba(37,211,102,0.35); }
 
 .ct-social-ico {
   width: 36px;
@@ -783,21 +777,21 @@
 .ct-social-name {
   font-size: 13px;
   font-weight: 700;
-  color: rgba(255,255,255,0.9);
+  color: #2d2d2d;
 }
 
 .ct-social-handle {
   font-size: 11px;
-  color: rgba(255,255,255,0.38);
+  color: #aaa;
 }
 
 .ct-social-arrow {
-  color: rgba(255,255,255,0.25);
+  color: #ddd;
   transition: color 0.2s, transform 0.2s;
 }
 
 .ct-social-item:hover .ct-social-arrow {
-  color: rgba(255,255,255,0.7);
+  color: #d6867c;
   transform: translateX(3px);
 }
 

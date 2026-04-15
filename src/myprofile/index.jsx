@@ -330,8 +330,38 @@ const MOCK_ORDERS = {
     { id: "ORD-006", store: "Nacific Store",       product: "Real Floral Toner — Rose Edition",      qty: 1, total: 210000, date: "9 Apr 2025"  },
   ],
   rateorder: [
-    { id: "ORD-007", store: "Careofyou Official", product: "Sunscreen Aqua Gel SPF 50",             qty: 2, total: 198000, date: "5 Apr 2025"  },
-    { id: "ORD-008", store: "Some By Mi Store",    product: "Snail Truecica Miracle Repair Toner",   qty: 1, total: 185000, date: "3 Apr 2025"  },
+    {
+      id: "ORD-007",
+      store: "Careofyou Official",
+      product: "Sunscreen Aqua Gel SPF 50",
+      qty: 2,
+      total: 213000,
+      date: "5 Apr 2025",
+      deliveredDate: "7 Apr 2025",
+      products: [
+        { name: "Sunscreen Aqua Gel SPF 50", brand: "Skintific", size: "40ml", qty: 2, price: 99000, image: "https://placehold.co/72x72/fce8e6/c4706a?text=SPF" },
+      ],
+      deliveryFee: 15000,
+      delivery: { courier: "JNE Regular", tracking: "JNE2025040500123", address: "123 Main Street, New York, NY 10001, USA", recipient: "Sara Tancredi", phone: "(+98) 9123728167" },
+      payment: { method: "BCA", type: "bank", account: "1234-5678-90", holder: "Careofyou Store" },
+      rating: null,
+    },
+    {
+      id: "ORD-008",
+      store: "Some By Mi Store",
+      product: "Snail Truecica Miracle Repair Toner",
+      qty: 1,
+      total: 193000,
+      date: "3 Apr 2025",
+      deliveredDate: "5 Apr 2025",
+      products: [
+        { name: "Snail Truecica Miracle Repair Toner", brand: "Some By Mi", size: "150ml", qty: 1, price: 185000, image: "https://placehold.co/72x72/fdeaea/c4706a?text=Toner" },
+      ],
+      deliveryFee: 8000,
+      delivery: { courier: "SiCepat HALU", tracking: "SICP2025040300456", address: "456 Business Ave, Manhattan, NY 10002, USA", recipient: "Sara Tancredi", phone: "(+98) 9123728167" },
+      payment: { method: "GoPay", type: "ewallet", account: "0812-3456-7890", holder: "Careofyou Store" },
+      rating: null,
+    },
   ],
 };
 
@@ -415,6 +445,304 @@ function OrderSection({ sectionKey, title }) {
   );
 }
 
+/* ── Rate Order Section ─────────────────────────────────── */
+function RateOrderSection() {
+  const [query, setQuery]       = useState("");
+  const [orders, setOrders]     = useState(MOCK_ORDERS.rateorder);
+  const [selected, setSelected] = useState(null);
+  const [hoverStar, setHoverStar] = useState(0);
+  const [returnMsg, setReturnMsg] = useState("");
+  const [activeTab, setActiveTab] = useState("all");
+
+  const q = query.toLowerCase();
+  const filtered = orders
+    .filter(o => {
+      if (activeTab === "rated")   return o.rating !== null;
+      if (activeTab === "unrated") return o.rating === null;
+      return true;
+    })
+    .filter(o =>
+      o.id.toLowerCase().includes(q) ||
+      o.product.toLowerCase().includes(q) ||
+      o.store.toLowerCase().includes(q)
+    );
+
+  const setRating = (orderId, rating) => {
+    setOrders(prev => prev.map(o => o.id === orderId ? { ...o, rating } : o));
+    setSelected(prev => prev ? { ...prev, rating } : prev);
+  };
+
+  const handleDownload = (order) => {
+    const lines = [
+      "==============================",
+      "  CAREOFYOU — ORDER RECEIPT",
+      "==============================",
+      `Order ID   : ${order.id}`,
+      `Store      : ${order.store}`,
+      `Order Date : ${order.date}`,
+      `Delivered  : ${order.deliveredDate}`,
+      "",
+      "── PRODUCTS ──────────────────",
+      ...order.products.map(p =>
+        `${p.brand} ${p.name} (${p.size})  x${p.qty}  ${fmt(p.price * p.qty)}`
+      ),
+      "",
+      `Delivery Fee : ${fmt(order.deliveryFee)}`,
+      `TOTAL        : ${fmt(order.total)}`,
+      "",
+      "── PAYMENT ───────────────────",
+      `Method  : ${order.payment.method}`,
+      `Account : ${order.payment.account}`,
+      `Holder  : a.n. ${order.payment.holder}`,
+      "",
+      "── DELIVERY ──────────────────",
+      `Courier   : ${order.delivery.courier}`,
+      `Tracking  : ${order.delivery.tracking}`,
+      `Recipient : ${order.delivery.recipient}  ${order.delivery.phone}`,
+      `Address   : ${order.delivery.address}`,
+      "",
+      "Thank you for shopping at Careofyou!",
+    ];
+    const blob = new Blob([lines.join("\n")], { type: "text/plain" });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement("a");
+    a.href     = url;
+    a.download = `bill-${order.id}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const openModal = (order) => {
+    setSelected(order);
+    setHoverStar(0);
+    setReturnMsg("");
+  };
+
+  return (
+    <div className="pr-order-section">
+
+      {/* Header */}
+      <div className="pr-order-header">
+        <div>
+          <h2 className="pr-section-title">Rate Order</h2>
+          <p className="pr-section-sub">{orders.length} completed order{orders.length !== 1 ? "s" : ""}</p>
+        </div>
+      </div>
+
+      {/* Tabs */}
+      <div className="pr-rate-tabs">
+        {[["all", "All"], ["unrated", "Not Rated"], ["rated", "Rated"]].map(([key, label]) => (
+          <button
+            key={key}
+            className={`pr-rate-tab${activeTab === key ? " pr-rate-tab--active" : ""}`}
+            onClick={() => setActiveTab(key)}
+          >
+            {label}
+            <span className="pr-rate-tab-count">
+              {key === "all"
+                ? orders.length
+                : orders.filter(o => key === "rated" ? o.rating !== null : o.rating === null).length}
+            </span>
+          </button>
+        ))}
+      </div>
+
+      {/* Search */}
+      <div className="pr-search-wrap">
+        <span className="pr-search-icon"><IconSearch /></span>
+        <input
+          className="pr-search-input"
+          type="text"
+          placeholder="Search by order ID, product, or store…"
+          value={query}
+          onChange={e => setQuery(e.target.value)}
+        />
+        {query && <button className="pr-search-clear" onClick={() => setQuery("")}>✕</button>}
+      </div>
+
+      {/* List */}
+      {filtered.length === 0 ? (
+        <div className="pr-placeholder">
+          <p className="pr-placeholder-title">No orders found</p>
+          <p className="pr-placeholder-sub">Try a different keyword.</p>
+        </div>
+      ) : (
+        <div className="pr-order-list">
+          {filtered.map(order => (
+            <div
+              key={order.id}
+              className="pr-order-card pr-order-card--clickable"
+              onClick={() => openModal(order)}
+            >
+              <div className="pr-order-top">
+                <span className="pr-order-store">{order.store}</span>
+                <span className="pr-order-status" style={{ color: "#5aab6d", background: "#f0faf3" }}>
+                  ✓ Completed
+                </span>
+              </div>
+              <div className="pr-order-mid">
+                <p className="pr-order-product">{order.product}</p>
+                <p className="pr-order-meta">Qty: {order.qty} · Delivered {order.deliveredDate}</p>
+              </div>
+              <div className="pr-order-bottom">
+                <span className="pr-order-id">{order.id}</span>
+                <div className="pr-order-bottom-right">
+                  {order.rating ? (
+                    <span className="pr-order-rated">
+                      {"★".repeat(order.rating)}{"☆".repeat(5 - order.rating)}
+                    </span>
+                  ) : (
+                    <span className="pr-order-unrated">Tap to rate ›</span>
+                  )}
+                  <span className="pr-order-total">{fmt(order.total)}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* ── Modal ── */}
+      {selected && (
+        <div className="pr-modal-overlay" onClick={() => setSelected(null)}>
+          <div className="pr-modal" onClick={e => e.stopPropagation()}>
+
+            {/* Modal header */}
+            <div className="pr-modal-header">
+              <div>
+                <p className="pr-modal-order-id">{selected.id} · {selected.date}</p>
+                <h3 className="pr-modal-title">{selected.store}</h3>
+              </div>
+              <div className="pr-modal-header-right">
+                <span className="pr-modal-status-badge">✓ Completed</span>
+                <button className="pr-modal-close" onClick={() => setSelected(null)}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div className="pr-modal-body">
+
+              {/* Products */}
+              <div className="pr-modal-section">
+                <p className="pr-modal-section-title">Ordered Products</p>
+                <div className="pr-modal-products">
+                  {selected.products.map((p, i) => (
+                    <div key={i} className="pr-modal-product">
+                      <img src={p.image} alt={p.name} className="pr-modal-product-img" />
+                      <div className="pr-modal-product-info">
+                        <span className="pr-modal-product-brand">{p.brand}</span>
+                        <p className="pr-modal-product-name">{p.name}</p>
+                        <p className="pr-modal-product-meta">{p.size} · Qty {p.qty}</p>
+                      </div>
+                      <span className="pr-modal-product-price">{fmt(p.price * p.qty)}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="pr-modal-cost-rows">
+                  <div className="pr-modal-cost-row">
+                    <span>Delivery fee</span><span>{fmt(selected.deliveryFee)}</span>
+                  </div>
+                  <div className="pr-modal-cost-row pr-modal-cost-row--total">
+                    <span>Total</span><span>{fmt(selected.total)}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Delivery */}
+              <div className="pr-modal-section">
+                <p className="pr-modal-section-title">Delivery Information</p>
+                <div className="pr-modal-info-grid">
+                  <div className="pr-modal-info-item">
+                    <span className="pr-modal-info-label">Courier</span>
+                    <span className="pr-modal-info-value">{selected.delivery.courier}</span>
+                  </div>
+                  <div className="pr-modal-info-item">
+                    <span className="pr-modal-info-label">Tracking No.</span>
+                    <span className="pr-modal-info-value pr-modal-info-track">{selected.delivery.tracking}</span>
+                  </div>
+                  <div className="pr-modal-info-item">
+                    <span className="pr-modal-info-label">Delivered On</span>
+                    <span className="pr-modal-info-value">{selected.deliveredDate}</span>
+                  </div>
+                  <div className="pr-modal-info-item">
+                    <span className="pr-modal-info-label">Recipient</span>
+                    <span className="pr-modal-info-value">{selected.delivery.recipient} · {selected.delivery.phone}</span>
+                  </div>
+                  <div className="pr-modal-info-item pr-modal-info-item--full">
+                    <span className="pr-modal-info-label">Address</span>
+                    <span className="pr-modal-info-value">{selected.delivery.address}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Payment */}
+              <div className="pr-modal-section">
+                <p className="pr-modal-section-title">Payment Method</p>
+                <div className="pr-modal-payment">
+                  <div className="pr-modal-payment-badge">{selected.payment.method}</div>
+                  <div>
+                    <p className="pr-modal-payment-account">{selected.payment.account}</p>
+                    <p className="pr-modal-payment-holder">a.n. {selected.payment.holder}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Star rating */}
+              <div className="pr-modal-section">
+                <p className="pr-modal-section-title">Rate This Order</p>
+                <div className="pr-stars">
+                  {[1,2,3,4,5].map(n => (
+                    <button
+                      key={n}
+                      className={`pr-star${(hoverStar || selected.rating || 0) >= n ? " pr-star--filled" : ""}`}
+                      onMouseEnter={() => setHoverStar(n)}
+                      onMouseLeave={() => setHoverStar(0)}
+                      onClick={() => setRating(selected.id, n)}
+                    >★</button>
+                  ))}
+                </div>
+                {selected.rating && (
+                  <p className="pr-rating-label">You rated {selected.rating}/5 — Thank you!</p>
+                )}
+              </div>
+
+              {/* Return message toast */}
+              {returnMsg && (
+                <div className="pr-return-toast">{returnMsg}</div>
+              )}
+
+              {/* Actions */}
+              <div className="pr-modal-actions">
+                <button
+                  className="pr-modal-btn pr-modal-btn--return"
+                  onClick={() => setReturnMsg("Return request submitted. Our team will contact you within 24 hours.")}
+                >
+                  Return Item
+                </button>
+                <button
+                  className="pr-modal-btn pr-modal-btn--download"
+                  onClick={() => handleDownload(selected)}
+                >
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{marginRight:6,verticalAlign:"middle"}}>
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                  </svg>
+                  Download Bill
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function PlaceholderSection({ title }) {
   return (
     <div className="pr-placeholder">
@@ -436,7 +764,7 @@ export default function MyProfile() {
       case "adminapproval": return <PlaceholderSection title="Admin Approval" />;
       case "packing":       return <PlaceholderSection title="Being Packed" />;
       case "shipped":       return <PlaceholderSection title="Shipped" />;
-      case "rateorder":     return <PlaceholderSection title="Rate Order" />;
+      case "rateorder":     return <RateOrderSection />;
       case "setting":       return <PlaceholderSection title="Setting" />;
       case "notifications": return <PlaceholderSection title="Notifications" />;
       default:              return null;

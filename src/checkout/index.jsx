@@ -5,6 +5,13 @@ import Navbar from "../components/Navbar";
 import { PRODUCTS } from "../data/products.js";
 
 /* ─── Icons ──────────────────────────────────────────────── */
+const IconClock = () => (
+  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="10"/>
+    <polyline points="12 6 12 12 16 14"/>
+  </svg>
+);
+
 const IconMapPin = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1 1 18 0z"/>
@@ -142,15 +149,17 @@ export default function CheckoutPage() {
           onProductsClick={() => navigate("/#all-products")}
         />
         <div className="co-success">
-          <div className="co-success-icon">✓</div>
-          <h2 className="co-success-title">Order Placed!</h2>
+          <div className="co-success-icon"><IconClock /></div>
+          <span className="co-success-badge">Pending Review</span>
+          <h2 className="co-success-title">Waiting for Admin<br/>Payment Approval</h2>
           <p className="co-success-sub">Please transfer <strong>{fmt(total)}</strong> to:</p>
           <div className="co-success-payment">
             <p className="co-success-bank">{selectedPayment?.label}</p>
             <p className="co-success-account">{selectedPayment?.account}</p>
             <p className="co-success-holder">a.n. {selectedPayment?.holder}</p>
           </div>
-          <button className="co-checkout-btn" style={{ marginTop: 8 }} onClick={() => navigate("/")}>Back to Home</button>
+          <p className="co-success-note">Once your payment is confirmed by our team, your order will be processed.</p>
+          <button className="co-success-home-btn" onClick={() => navigate("/")}>← Home</button>
         </div>
         <footer className="co-footer"><div className="co-footer-inner">
           <div className="co-footer-brand">
