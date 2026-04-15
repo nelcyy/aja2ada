@@ -48,22 +48,36 @@ const MOCK_CUSTOMERS = [
   { id: 8, name: "Fitri Handayani", email: "fitri@gmail.com", orders: 1, spent: 410000,  joined: "Apr 2025", status: "new"    },
 ];
 
-const MOCK_MESSAGES = [
-  { id: 1, name: "Anisa Putri",   email: "anisa@gmail.com",  phone: "081234567890", message: "Halo kak, apakah Vitamin C Serum cocok untuk kulit sensitif? Kulit aku cenderung merah-merah kalau pakai produk baru.", date: "15 Apr 2025", read: false },
-  { id: 2, name: "Budi Santoso",  email: "budi@gmail.com",   phone: "082345678901", message: "Saya mau tanya soal pengiriman ke luar kota Manado. Apakah bisa dikirim ke Kotamobagu?",                                  date: "14 Apr 2025", read: false },
-  { id: 3, name: "Clara Indah",   email: "clara@gmail.com",  phone: null,           message: "Kak ada promo untuk pembelian pertama? Saya mau order beberapa produk sekaligus.",                                         date: "13 Apr 2025", read: true  },
-  { id: 4, name: "Diana Sari",    email: "diana@gmail.com",  phone: "084567890123", message: "Produknya bagus banget kak! Kulit aku jadi lebih cerah setelah pakai Vitamin C Serum 2 minggu. Terima kasih ya!",          date: "12 Apr 2025", read: true  },
-  { id: 5, name: "Eka Wulandari", email: "eka@gmail.com",    phone: "085678901234", message: "Mau tanya, untuk kulit berminyak dan berjerawat produk yang cocok apa ya kak?",                                            date: "11 Apr 2025", read: true  },
+const DAILY_REVENUE = [
+  { label: "Sen", val: 420000 },
+  { label: "Sel", val: 860000 },
+  { label: "Rab", val: 340000 },
+  { label: "Kam", val: 1200000 },
+  { label: "Jum", val: 780000 },
+  { label: "Sab", val: 1540000 },
+  { label: "Min", val: 960000 },
 ];
-
-const WEEKLY_REVENUE = [
-  { day: "Sen", val: 420000 },
-  { day: "Sel", val: 860000 },
-  { day: "Rab", val: 340000 },
-  { day: "Kam", val: 1200000 },
-  { day: "Jum", val: 780000 },
-  { day: "Sab", val: 1540000 },
-  { day: "Min", val: 960000 },
+const MONTHLY_REVENUE = [
+  { label: "Jan", val: 4200000 },
+  { label: "Feb", val: 5800000 },
+  { label: "Mar", val: 3900000 },
+  { label: "Apr", val: 7200000 },
+  { label: "Mei", val: 6100000 },
+  { label: "Jun", val: 8400000 },
+  { label: "Jul", val: 7800000 },
+  { label: "Agt", val: 9200000 },
+  { label: "Sep", val: 6800000 },
+  { label: "Okt", val: 10500000 },
+  { label: "Nov", val: 12000000 },
+  { label: "Des", val: 15400000 },
+];
+const YEARLY_REVENUE = [
+  { label: "2020", val: 48000000 },
+  { label: "2021", val: 72000000 },
+  { label: "2022", val: 95000000 },
+  { label: "2023", val: 130000000 },
+  { label: "2024", val: 168000000 },
+  { label: "2025", val: 92000000 },
 ];
 
 const fmt = (n) => "Rp " + n.toLocaleString("id-ID");
@@ -83,7 +97,6 @@ const IcGrid       = () => <svg width="18" height="18" viewBox="0 0 24 24" fill=
 const IcOrders     = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>;
 const IcProducts   = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>;
 const IcCustomers  = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>;
-const IcMessages   = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>;
 const IcSettings   = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09a1.65 1.65 0 00-1-1.51 1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09a1.65 1.65 0 001.51-1 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>;
 const IcLogOut     = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>;
 const IcSearch     = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>;
@@ -96,11 +109,165 @@ const IcTruck      = () => <svg width="14" height="14" viewBox="0 0 24 24" fill=
 const IcRevenue    = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>;
 const IcPlus       = () => <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>;
 const IcMail       = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>;
-const IcPhone      = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.09a16 16 0 006 6l1.46-1.46a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z"/></svg>;
 const IcStore      = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>;
 const IcStar       = () => <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>;
 const IcPackage    = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>;
 const IcNotif      = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>;
+
+/* ═══════════════════════════════════════════════════════════
+   COMPONENT: Revenue Chart (modern SVG area chart)
+   ═══════════════════════════════════════════════════════════ */
+function RevenueChart() {
+  const [period, setPeriod] = useState("daily");
+  const [tooltip, setTooltip] = useState(null);
+
+  const data = period === "daily" ? DAILY_REVENUE
+    : period === "monthly" ? MONTHLY_REVENUE
+    : YEARLY_REVENUE;
+
+  const W = 560, H = 200;
+  const PAD = { top: 24, right: 16, bottom: 32, left: 52 };
+  const cW = W - PAD.left - PAD.right;
+  const cH = H - PAD.top - PAD.bottom;
+  const maxVal = Math.max(...data.map(d => d.val));
+
+  const pts = data.map((d, i) => ({
+    x: PAD.left + (i / (data.length - 1)) * cW,
+    y: PAD.top + cH - (d.val / maxVal) * cH,
+    val: d.val,
+    label: d.label,
+  }));
+
+  const linePath = pts.reduce((acc, p, i) => {
+    if (i === 0) return `M ${p.x.toFixed(1)},${p.y.toFixed(1)}`;
+    const prev = pts[i - 1];
+    const cx = ((prev.x + p.x) / 2).toFixed(1);
+    return acc + ` C ${cx},${prev.y.toFixed(1)} ${cx},${p.y.toFixed(1)} ${p.x.toFixed(1)},${p.y.toFixed(1)}`;
+  }, "");
+
+  const areaPath = linePath
+    + ` L ${pts[pts.length - 1].x.toFixed(1)},${(PAD.top + cH).toFixed(1)}`
+    + ` L ${pts[0].x.toFixed(1)},${(PAD.top + cH).toFixed(1)} Z`;
+
+  const gridVals = [0.25, 0.5, 0.75, 1].map(pct => ({
+    y: PAD.top + cH - pct * cH,
+    val: maxVal * pct,
+  }));
+
+  const fmtTick = v =>
+    v >= 1_000_000 ? (v / 1_000_000).toFixed(1) + "M" : (v / 1_000).toFixed(0) + "K";
+
+  const periodLabel = period === "daily" ? "Minggu Ini" : period === "monthly" ? "2025" : "All Time";
+
+  return (
+    <div className="adm-card adm-chart-card">
+      <div className="adm-card-header">
+        <div>
+          <h3 className="adm-card-title">Revenue</h3>
+          <span className="adm-card-tag">{periodLabel}</span>
+        </div>
+        <div className="adm-chart-period-btns">
+          {[["daily", "Harian"], ["monthly", "Bulanan"], ["yearly", "Tahunan"]].map(([key, lbl]) => (
+            <button
+              key={key}
+              className={`adm-period-btn${period === key ? " adm-period-btn--active" : ""}`}
+              onClick={() => setPeriod(key)}
+            >
+              {lbl}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="adm-chart-svg-wrap">
+        <svg viewBox={`0 0 ${W} ${H}`} className="adm-chart-svg">
+          <defs>
+            <linearGradient id="rcGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#c97269" stopOpacity="0.3" />
+              <stop offset="100%" stopColor="#c97269" stopOpacity="0.02" />
+            </linearGradient>
+          </defs>
+
+          {/* Grid lines */}
+          {gridVals.map((g, i) => (
+            <g key={i}>
+              <line
+                x1={PAD.left} y1={g.y.toFixed(1)}
+                x2={W - PAD.right} y2={g.y.toFixed(1)}
+                stroke="#f3e8e7" strokeWidth="1" strokeDasharray="5,5"
+              />
+              <text x={PAD.left - 6} y={g.y + 4} textAnchor="end" fontSize="9" fill="#bbb">
+                {fmtTick(g.val)}
+              </text>
+            </g>
+          ))}
+
+          {/* Baseline */}
+          <line
+            x1={PAD.left} y1={PAD.top + cH}
+            x2={W - PAD.right} y2={PAD.top + cH}
+            stroke="#f0e0df" strokeWidth="1"
+          />
+
+          {/* Area fill */}
+          <path d={areaPath} fill="url(#rcGrad)" />
+
+          {/* Line */}
+          <path
+            d={linePath} fill="none"
+            stroke="url(#lineGrad)" strokeWidth="2.5"
+            strokeLinecap="round" strokeLinejoin="round"
+          />
+          <defs>
+            <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="#e07a73" />
+              <stop offset="100%" stopColor="#c97269" />
+            </linearGradient>
+          </defs>
+
+          {/* Dots + x labels */}
+          {pts.map((p, i) => (
+            <g key={i}>
+              {/* hover hit area */}
+              <circle
+                cx={p.x} cy={p.y} r={16}
+                fill="transparent"
+                style={{ cursor: "pointer" }}
+                onMouseEnter={() => setTooltip(p)}
+                onMouseLeave={() => setTooltip(null)}
+              />
+              {/* outer glow */}
+              <circle cx={p.x} cy={p.y} r={6} fill="#c97269" opacity="0.15" />
+              {/* dot */}
+              <circle cx={p.x} cy={p.y} r={4} fill="white" stroke="#c97269" strokeWidth="2" />
+              {/* x label */}
+              <text
+                x={p.x} y={H - 6}
+                textAnchor="middle" fontSize="9.5" fill="#aaa" fontWeight="600"
+              >
+                {p.label}
+              </text>
+            </g>
+          ))}
+
+          {/* Tooltip */}
+          {tooltip && (() => {
+            const tx = Math.min(Math.max(tooltip.x, 44), W - 44);
+            const ty = tooltip.y > 50 ? tooltip.y - 40 : tooltip.y + 14;
+            return (
+              <g>
+                <rect x={tx - 46} y={ty} width={92} height={28} rx={8} fill="#1e1e1e" opacity="0.9" />
+                <text x={tx} y={ty + 18} textAnchor="middle" fontSize="10.5" fill="white" fontWeight="700">
+                  {fmt(tooltip.val)}
+                </text>
+              </g>
+            );
+          })()}
+        </svg>
+      </div>
+    </div>
+  );
+}
 
 /* ═══════════════════════════════════════════════════════════
    HELPER: Avatar initials
@@ -124,7 +291,6 @@ function Dashboard({ setActive }) {
   const totalRevenue = MOCK_ORDERS.reduce((s, o) => s + o.total, 0);
   const totalOrders  = MOCK_ORDERS.length;
   const totalCustomers = MOCK_CUSTOMERS.length;
-  const maxVal = Math.max(...WEEKLY_REVENUE.map(d => d.val));
 
   const stats = [
     { label: "Total Revenue",   value: fmt(totalRevenue), sub: "+18% bulan ini",  icon: <IcRevenue />,   color: "rose"   },
@@ -162,24 +328,7 @@ function Dashboard({ setActive }) {
       </div>
 
       <div className="adm-dash-grid">
-        {/* Weekly revenue chart */}
-        <div className="adm-card adm-chart-card">
-          <div className="adm-card-header">
-            <h3 className="adm-card-title">Revenue Mingguan</h3>
-            <span className="adm-card-tag">Apr 2025</span>
-          </div>
-          <div className="adm-chart">
-            {WEEKLY_REVENUE.map((d, i) => (
-              <div key={i} className="adm-bar-col">
-                <div className="adm-bar-val">{(d.val / 1000).toFixed(0)}K</div>
-                <div className="adm-bar-wrap">
-                  <div className="adm-bar" style={{ height: `${(d.val / maxVal) * 100}%` }} />
-                </div>
-                <div className="adm-bar-label">{d.day}</div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <RevenueChart />
 
         {/* Pending alert */}
         <div className="adm-card adm-pending-card">
@@ -194,14 +343,6 @@ function Dashboard({ setActive }) {
                 <p className="adm-alert-sub">Payment confirmation pending</p>
               </div>
               <button className="adm-alert-btn" onClick={() => setActive("orders")}>View</button>
-            </div>
-            <div className="adm-alert-item adm-alert-item--blue">
-              <span className="adm-alert-dot adm-alert-dot--blue" />
-              <div>
-                <p className="adm-alert-title">{MOCK_MESSAGES.filter(m => !m.read).length} Pesan Baru</p>
-                <p className="adm-alert-sub">Dari halaman contact</p>
-              </div>
-              <button className="adm-alert-btn" onClick={() => setActive("messages")}>Lihat</button>
             </div>
             <div className="adm-alert-item adm-alert-item--green">
               <span className="adm-alert-dot adm-alert-dot--green" />
@@ -601,87 +742,6 @@ function Customers() {
   );
 }
 
-/* ═══════════════════════════════════════════════════════════
-   SECTION: MESSAGES
-   ═══════════════════════════════════════════════════════════ */
-function Messages() {
-  const [msgs, setMsgs] = useState(MOCK_MESSAGES);
-  const [active, setActive] = useState(msgs[0]);
-
-  const markRead = (id) => setMsgs(prev => prev.map(m => m.id === id ? { ...m, read: true } : m));
-  const unread = msgs.filter(m => !m.read).length;
-
-  const open = (m) => {
-    setActive(m);
-    markRead(m.id);
-  };
-
-  return (
-    <div className="adm-section">
-      <div className="adm-section-header">
-        <div>
-          <h2 className="adm-section-title">Pesan Masuk</h2>
-          <p className="adm-section-sub">{unread} pesan belum dibaca · {msgs.length} total</p>
-        </div>
-      </div>
-
-      <div className="adm-messages-layout">
-        {/* List */}
-        <div className="adm-msg-list">
-          {msgs.map(m => (
-            <div
-              key={m.id}
-              className={`adm-msg-item${active?.id === m.id ? " adm-msg-item--active" : ""}${!m.read ? " adm-msg-item--unread" : ""}`}
-              onClick={() => open(m)}
-            >
-              <Avatar name={m.name} size={36} />
-              <div className="adm-msg-item-body">
-                <div className="adm-msg-item-top">
-                  <span className="adm-msg-sender">{m.name}</span>
-                  <span className="adm-msg-date">{m.date}</span>
-                </div>
-                <p className="adm-msg-preview">{m.message.slice(0, 55)}…</p>
-              </div>
-              {!m.read && <span className="adm-msg-dot" />}
-            </div>
-          ))}
-        </div>
-
-        {/* Detail */}
-        {active ? (
-          <div className="adm-card adm-msg-detail">
-            <div className="adm-msg-detail-header">
-              <Avatar name={active.name} size={44} />
-              <div>
-                <h3 className="adm-msg-detail-name">{active.name}</h3>
-                <div className="adm-msg-detail-meta">
-                  <span><IcMail /> {active.email}</span>
-                  {active.phone && <span><IcPhone /> {active.phone}</span>}
-                </div>
-              </div>
-              <span className="adm-msg-detail-date">{active.date}</span>
-            </div>
-            <div className="adm-msg-detail-body">
-              <p>{active.message}</p>
-            </div>
-            <div className="adm-msg-detail-actions">
-              <a href={`https://wa.me/${active.phone?.replace(/\D/g, "")}`} target="_blank" rel="noreferrer" className="adm-primary-btn" style={{ textDecoration: "none" }}>
-                Balas via WhatsApp
-              </a>
-              <a href={`mailto:${active.email}`} className="adm-ghost-btn" style={{ textDecoration: "none" }}>
-                Balas via Email
-              </a>
-            </div>
-          </div>
-        ) : (
-          <div className="adm-card adm-msg-empty">
-            <p>Pilih pesan untuk melihat detail.</p>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
 
 /* ═══════════════════════════════════════════════════════════
    SECTION: SETTINGS
@@ -879,7 +939,6 @@ const NAV_ITEMS = [
   { id: "orders",        label: "Pesanan",         icon: <IcOrders />    },
   { id: "products",      label: "Produk",          icon: <IcProducts />  },
   { id: "customers",     label: "Pelanggan",       icon: <IcCustomers /> },
-  { id: "messages",      label: "Pesan",           icon: <IcMessages />  },
   { id: "notifications", label: "Notifications",   icon: <IcNotif />     },
   { id: "settings",      label: "Pengaturan",      icon: <IcSettings />  },
 ];
@@ -892,7 +951,6 @@ export default function AdminPage() {
   const [active, setActive] = useState("dashboard");
   const [query,  setQuery]  = useState("");
 
-  const unreadMsgs    = MOCK_MESSAGES.filter(m => !m.read).length;
   const pendingOrders = MOCK_ORDERS.filter(o => o.status === "pending").length;
   const unreadNotifs  = MOCK_NOTIFICATIONS.filter(n => !n.read).length;
 
@@ -902,7 +960,6 @@ export default function AdminPage() {
       case "orders":    return <Orders />;
       case "products":  return <Products />;
       case "customers": return <Customers />;
-      case "messages":       return <Messages />;
       case "notifications":  return <Notifications />;
       case "settings":       return <Settings />;
       default:          return <Dashboard setActive={setActive} />;
@@ -934,9 +991,6 @@ export default function AdminPage() {
             >
               <span className="adm-nav-icon">{item.icon}</span>
               <span className="adm-nav-label">{item.label}</span>
-              {item.id === "messages" && unreadMsgs > 0 && (
-                <span className="adm-nav-badge">{unreadMsgs}</span>
-              )}
               {item.id === "orders" && pendingOrders > 0 && (
                 <span className="adm-nav-badge adm-nav-badge--amber">{pendingOrders}</span>
               )}
@@ -978,8 +1032,8 @@ export default function AdminPage() {
             {/* Notification bell */}
             <button className="adm-topbar-icon-btn">
               <IcBell />
-              {(unreadMsgs + pendingOrders) > 0 && (
-                <span className="adm-notif-dot">{unreadMsgs + pendingOrders}</span>
+              {pendingOrders > 0 && (
+                <span className="adm-notif-dot">{pendingOrders}</span>
               )}
             </button>
 

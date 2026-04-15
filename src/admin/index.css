@@ -488,44 +488,46 @@
 /* Chart */
 .adm-chart-card { padding: 24px; }
 
-.adm-chart {
+.adm-chart-period-btns {
   display: flex;
-  align-items: flex-end;
-  gap: 10px;
-  height: 160px;
+  gap: 4px;
+  background: var(--adm-bg-2);
+  border-radius: 10px;
+  padding: 3px;
 }
 
-.adm-bar-col {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  height: 100%;
+.adm-period-btn {
+  padding: 5px 13px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--adm-text-3);
+  cursor: pointer;
+  transition: all 0.18s;
 }
 
-.adm-bar-val   { font-size: 10px; color: var(--adm-text-3); font-weight: 600; white-space: nowrap; }
+.adm-period-btn:hover { color: var(--adm-text-1); }
 
-.adm-bar-wrap {
-  flex: 1;
+.adm-period-btn--active {
+  background: white;
+  color: var(--adm-brand);
+  box-shadow: 0 1px 6px rgba(201,114,105,0.18);
+}
+
+.adm-chart-svg-wrap {
+  margin-top: 12px;
   width: 100%;
-  display: flex;
-  align-items: flex-end;
-  background: var(--adm-brand-bg);
-  border-radius: 6px 6px 0 0;
-  overflow: hidden;
+  overflow: visible;
 }
 
-.adm-bar {
+.adm-chart-svg {
   width: 100%;
-  background: linear-gradient(180deg, #f4a99a 0%, #c97269 100%);
-  border-radius: 6px 6px 0 0;
-  transition: opacity 0.2s;
-  min-height: 8px;
+  height: auto;
+  display: block;
+  overflow: visible;
 }
-
-.adm-bar-col:hover .adm-bar { opacity: 0.8; }
-.adm-bar-label { font-size: 11px; color: var(--adm-text-3); font-weight: 600; }
 
 /* Alert / pending card */
 .adm-pending-card { padding: 24px; }

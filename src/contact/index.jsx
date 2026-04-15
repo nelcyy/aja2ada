@@ -1,4 +1,3 @@
-import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
 import Navbar from "../components/Navbar";
@@ -63,83 +62,6 @@ const ArrowIcon = () => (
 export default function ContactPage() {
   const navigate = useNavigate();
   const { cart, cartOpen, setCartOpen, updateQty, removeItem, cartTotal } = useCart();
-  const canvasRef = useRef(null);
-  const mouseRef = useRef({ x: -999, y: -999 });
-
-  /* ── Canvas Particle Trail ── */
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    let particles = [];
-    let animId;
-
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-    resize();
-
-    const spawnParticles = (x, y) => {
-      const count = 5;
-      for (let i = 0; i < count; i++) {
-        const angle = Math.random() * Math.PI * 2;
-        const speed = Math.random() * 2.5 + 0.5;
-        const hue = Math.random() < 0.5
-          ? Math.random() * 20 + 340   // rose 340-360
-          : Math.random() * 20 + 10;   // coral 10-30
-        particles.push({
-          x, y,
-          vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed - 1,
-          size: Math.random() * 5 + 2,
-          alpha: Math.random() * 0.55 + 0.35,
-          hue,
-          life: 1,
-        });
-      }
-    };
-
-    const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles = particles.filter((p) => p.alpha > 0.01 && p.size > 0.3);
-      for (const p of particles) {
-        ctx.beginPath();
-        const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size);
-        gradient.addColorStop(0, `hsla(${p.hue}, 80%, 75%, ${p.alpha})`);
-        gradient.addColorStop(1, `hsla(${p.hue}, 80%, 75%, 0)`);
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = gradient;
-        ctx.fill();
-        p.x += p.vx;
-        p.y += p.vy;
-        p.vy += 0.06;
-        p.alpha *= 0.92;
-        p.size *= 0.97;
-      }
-      animId = requestAnimationFrame(animate);
-    };
-
-    const onMove = (e) => {
-      const x = e.clientX ?? e.touches?.[0]?.clientX;
-      const y = e.clientY ?? e.touches?.[0]?.clientY;
-      if (x == null) return;
-      mouseRef.current = { x, y };
-      spawnParticles(x, y);
-    };
-
-    window.addEventListener("mousemove", onMove);
-    window.addEventListener("touchmove", onMove, { passive: true });
-    window.addEventListener("resize", resize);
-    animate();
-
-    return () => {
-      window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("touchmove", onMove);
-      window.removeEventListener("resize", resize);
-      cancelAnimationFrame(animId);
-    };
-  }, []);
 
 
   return (
@@ -153,8 +75,6 @@ export default function ContactPage() {
       />
 
       <div className="ct-body">
-      {/* Particle canvas */}
-      <canvas ref={canvasRef} className="ct-canvas" />
 
       {/* Ambient background orbs */}
       <div className="ct-orb ct-orb-1" />
