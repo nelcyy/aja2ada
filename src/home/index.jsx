@@ -16,9 +16,9 @@ const SHOP_CATEGORIES = [
 const BEST_SELLERS = [PRODUCTS[2], PRODUCTS[3], PRODUCTS[4], PRODUCTS[5]];
 
 const TRUST_ITEMS = [
-  { icon: "Original", title: "Produk Original", sub: "Pilihan aman untuk restock rutin" },
+  { icon: "Original", title: "Produk Original", sub: "Pilihan aman untuk beauty routine harian" },
   { icon: "Trusted", title: "Belanja Terpercaya", sub: "Kurasi yang terasa lebih aman untuk beauty routine" },
-  { icon: "Fresh", title: "Restock Rutin", sub: "Favorit lama dan temuan baru terus masuk" },
+  { icon: "Fresh", title: "Fresh Picks", sub: "Favorit lama dan temuan baru terus masuk" },
   { icon: "Easy", title: "Checkout Gampang", sub: "Wishlist, add to bag, lalu langsung bayar" },
 ];
 
@@ -37,12 +37,12 @@ const STORE_HIGHLIGHTS = [
   {
     label: "Why It Feels Trusted",
     title: "Original picks you can count on",
-    desc: "Pilihan di toko ini diarahkan ke produk yang terasa aman buat dicari ulang, dicoba, dan dijadikan bagian dari restock rutin.",
+    desc: "Pilihan di toko ini diarahkan ke produk yang terasa aman buat dicari, dicoba, dan dipakai dalam beauty routine sehari-hari.",
   },
   {
     label: "Worth Coming Back To",
-    title: "Staples with fresh restocks",
-    desc: "Ada produk yang selalu kepakai, tapi juga ada restock dan temuan baru yang tetap terasa relevan buat rutinitas.",
+    title: "Staples with fresh finds",
+    desc: "Ada produk yang selalu kepakai, tapi juga ada temuan baru yang tetap terasa relevan buat rutinitas.",
   },
   {
     label: "Built for Everyday Use",
@@ -121,7 +121,7 @@ export default function HomePage() {
         <div className="hero-text">
           <p className="hero-sub">Trusted beauty essentials</p>
           <h1 className="hero-title">
-            Original beauty picks that make <span>restocking</span> feel easy
+            Original beauty picks for <span>everyday care</span>
           </h1>
           <p className="hero-desc">
             Dari skincare basics sampai makeup favorites, website ini dibuat untuk toko beauty yang menekankan produk original, trusted, dan nyaman buat belanja rutin.
@@ -129,7 +129,7 @@ export default function HomePage() {
 
           <div className="hero-chip-row">
             <span className="hero-chip">Original beauty picks</span>
-            <span className="hero-chip">Trusted for daily restock</span>
+            <span className="hero-chip">Trusted for daily beauty needs</span>
             <span className="hero-chip">Curated for real routines</span>
           </div>
 
@@ -142,7 +142,7 @@ export default function HomePage() {
             </button>
             <div className="hero-rating-badge">
               <span className="hero-stars">Original and trusted</span>
-              <span className="hero-rating-text">Beauty essentials chosen for repeat restock</span>
+              <span className="hero-rating-text">Beauty essentials chosen for everyday confidence</span>
             </div>
           </div>
 
@@ -177,14 +177,14 @@ export default function HomePage() {
           </div>
           <div className="hero-pill hero-pill--right">
             <span className="hero-pill-tag">Ready</span>
-            <strong>Restock shelf ready</strong>
+            <strong>Daily shelf ready</strong>
           </div>
           <div className="hero-img-wrap">
             <img src="/logo-careofyou.png" alt="Careofyou store" className="hero-img" />
           </div>
           <div className="hero-visual-caption">
             <span className="hero-float-icon">Beauty selection</span>
-            <p className="hero-visual-caption-text">Original picks and fresh restocks</p>
+            <p className="hero-visual-caption-text">Original picks and fresh finds</p>
           </div>
         </div>
       </section>
@@ -308,7 +308,7 @@ export default function HomePage() {
         <div className="promo-banner">
           <div className="promo-text">
             <span className="promo-label">Trusted beauty store</span>
-            <h3 className="promo-title">Original picks untuk daily restock, seru untuk lihat temuan baru</h3>
+            <h3 className="promo-title">Original picks untuk kebutuhan beauty harian, seru untuk lihat temuan baru</h3>
             <p className="promo-sub">
               Home sekarang lebih fokus jadi halaman yang ngajak orang masuk, lihat suasana toko yang terasa aman dan terpercaya, lalu lanjut belanja ke katalog utama.
             </p>
