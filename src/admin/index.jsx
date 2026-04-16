@@ -156,6 +156,10 @@ const IcStar       = () => <svg width="13" height="13" viewBox="0 0 24 24" fill=
 const IcPackage    = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>;
 const IcNotif      = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>;
 const IcReturn     = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>;
+const IcReceipt    = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>;
+const IcShield     = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>;
+const IcHistory    = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/><polyline points="12 7 12 12 15 14"/></svg>;
+const IcCreditCard = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>;
 const IcQr         = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="5" y="5" width="3" height="3" fill="currentColor" stroke="none"/><rect x="16" y="5" width="3" height="3" fill="currentColor" stroke="none"/><rect x="16" y="16" width="3" height="3" fill="currentColor" stroke="none"/><rect x="5" y="16" width="3" height="3" fill="currentColor" stroke="none"/></svg>;
 
 /* ═══════════════════════════════════════════════════════════
@@ -1428,16 +1432,636 @@ function Returns() {
 }
 
 /* ═══════════════════════════════════════════════════════════
+   MOCK DATA: Payment Approval & Receipt Verification
+   ═══════════════════════════════════════════════════════════ */
+const PENDING_PAYMENT_ORDER = {
+  id: "ORD-015",
+  customer: "Tiara Putri",
+  email: "tiara@gmail.com",
+  phone: "082198765432",
+  date: "14 Apr 2025",
+  items: [
+    { name: "Gentle Foaming Cleanser", qty: 1, price: 89000 },
+    { name: "Rose Water Mist",         qty: 1, price: 85000 },
+  ],
+  total: 174000,
+  payment: "BCA Transfer",
+  address: "Jl. Pemuda No. 21, Semarang",
+  fraud: { status: "safe" },
+};
+
+const VALID_RECEIPT_DATA = {
+  orderId:         "ORD-017",
+  customer:        "Dewi Larasati",
+  total:           335000,
+  date:            "14 April 2025",
+  verifiedAt:      "16 April 2025, 16:08",
+  signatureStatus: "Cocok dengan database ✓",
+};
+
+const VERIFY_HISTORY_DATA = [
+  { id: "VRF-001", orderId: "ORD-017", customer: "Dewi Larasati",   date: "16 Apr 2025 16:08", result: "valid",   admin: "Admin", file: "receipt-ORD-017.pdf"           },
+  { id: "VRF-002", orderId: "ORD-012", customer: "Maya Sari",       date: "15 Apr 2025 09:30", result: "invalid", admin: "Admin", file: "bukti-transfer-edited.pdf"      },
+  { id: "VRF-003", orderId: "ORD-018", customer: "Fitri Handayani", date: "14 Apr 2025 14:22", result: "valid",   admin: "Admin", file: "receipt-ORD-018.pdf"           },
+  { id: "VRF-004", orderId: "ORD-011", customer: "Sara Tancredi",   date: "13 Apr 2025 11:15", result: "invalid", admin: "Admin", file: "receipt-modified.pdf"          },
+  { id: "VRF-005", orderId: "ORD-001", customer: "Bunga Citra",     date: "12 Apr 2025 08:45", result: "valid",   admin: "Admin", file: "receipt-ORD-001.pdf"           },
+  { id: "VRF-006", orderId: "ORD-016", customer: "Ayu Rahayu",      date: "11 Apr 2025 16:50", result: "valid",   admin: "Admin", file: "receipt-ORD-016.pdf"           },
+];
+
+/* ═══════════════════════════════════════════════════════════
+   SECTION: PAYMENT APPROVAL
+   ═══════════════════════════════════════════════════════════ */
+function PaymentApproval() {
+  const [approveModal, setApproveModal] = useState(false);
+  const [rejectModal,  setRejectModal]  = useState(false);
+  const [rejectReason, setRejectReason] = useState("");
+  const [approveStep,  setApproveStep]  = useState("confirm"); // confirm | loading | success
+
+  const handleApprove = () => {
+    setApproveStep("loading");
+    setTimeout(() => setApproveStep("success"), 2500);
+  };
+
+  const order = PENDING_PAYMENT_ORDER;
+
+  return (
+    <div className="adm-section">
+      <div className="adm-section-header">
+        <div>
+          <h2 className="adm-section-title">Verifikasi Pembayaran</h2>
+          <p className="adm-section-sub">Review dan setujui pembayaran customer</p>
+        </div>
+        <div className="adm-pa-pending-badge">
+          <IcCreditCard /> 1 pesanan menunggu persetujuan
+        </div>
+      </div>
+
+      {/* ── Order Ticket ── */}
+      <div className="adm-pa-ticket">
+
+        {/* Ticket header bar */}
+        <div className="adm-pa-ticket-bar">
+          <div className="adm-pa-ticket-bar-left">
+            <span className="adm-pa-ticket-id">#{order.id}</span>
+            <span className="adm-pa-ticket-date">{order.date}</span>
+          </div>
+          <span className="adm-status-pill" style={{ color: "#b45309", background: "rgba(224,154,58,0.12)", fontSize: 12.5, fontWeight: 700 }}>
+            ● Menunggu Persetujuan
+          </span>
+        </div>
+
+        {/* Ticket body */}
+        <div className="adm-pa-ticket-body">
+
+          {/* ── LEFT: customer + items + address ── */}
+          <div className="adm-pa-body-left">
+
+            <div className="adm-pa-block">
+              <p className="adm-pa-block-label">Informasi Customer</p>
+              <div className="adm-pa-customer">
+                <Avatar name={order.customer} size={48} />
+                <div>
+                  <p className="adm-pa-customer-name">{order.customer}</p>
+                  <p className="adm-pa-customer-sub">{order.email}</p>
+                  <p className="adm-pa-customer-sub">{order.phone}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="adm-pa-block">
+              <p className="adm-pa-block-label">Produk Dipesan</p>
+              <div className="adm-pa-items">
+                {order.items.map((item, i) => (
+                  <div key={i} className="adm-pa-item">
+                    <div className="adm-pa-item-info">
+                      <span className="adm-pa-item-name">{item.name}</span>
+                      <span className="adm-pa-item-qty">×{item.qty}</span>
+                    </div>
+                    <span className="adm-pa-item-price">{fmt(item.price * item.qty)}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="adm-pa-total-row">
+                <span>Total Pembayaran</span>
+                <span className="adm-pa-total-val">{fmt(order.total)}</span>
+              </div>
+            </div>
+
+            <div className="adm-pa-block adm-pa-block--last">
+              <p className="adm-pa-block-label">Alamat Pengiriman</p>
+              <p className="adm-pa-shipping-val">{order.address}</p>
+            </div>
+          </div>
+
+          {/* ── Vertical divider ── */}
+          <div className="adm-pa-vdivider" />
+
+          {/* ── RIGHT: proof + fraud + actions ── */}
+          <div className="adm-pa-body-right">
+
+            <div className="adm-pa-block">
+              <p className="adm-pa-block-label">Bukti Transfer</p>
+              <div className="adm-pa-proof">
+                <div className="adm-pa-proof-icon-wrap">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
+                  </svg>
+                </div>
+                <div>
+                  <p className="adm-pa-proof-method">{order.payment}</p>
+                  <p className="adm-pa-proof-time">15 Apr 2025 · 14:32 WIB</p>
+                  <p className="adm-pa-proof-amount">{fmt(order.total)}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="adm-pa-block">
+              <p className="adm-pa-block-label">Fraud Monitoring</p>
+              {order.fraud.status === "safe" ? (
+                <div className="adm-pa-fraud adm-pa-fraud--safe">
+                  <div className="adm-pa-fraud-ico">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+                  </div>
+                  <div>
+                    <p className="adm-pa-fraud-title">Transaksi Aman</p>
+                    <p className="adm-pa-fraud-desc">Tidak ada aktivitas mencurigakan terdeteksi</p>
+                  </div>
+                </div>
+              ) : (
+                <div className="adm-pa-fraud adm-pa-fraud--flagged">
+                  <div className="adm-pa-fraud-ico">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                  </div>
+                  <div>
+                    <p className="adm-pa-fraud-title">Peringatan Fraud</p>
+                    <p className="adm-pa-fraud-desc">{order.fraud.reason}</p>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="adm-pa-block adm-pa-block--last">
+              <p className="adm-pa-block-label">Keputusan</p>
+              <div className="adm-pa-actions">
+                <button
+                  className="adm-pa-approve-btn"
+                  onClick={() => { setApproveModal(true); setApproveStep("confirm"); }}
+                >
+                  <IcCheck /> Approve Pembayaran
+                </button>
+                <button className="adm-pa-reject-btn" onClick={() => setRejectModal(true)}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                  Tolak Pembayaran
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ════ MODAL APPROVE ════ */}
+      {approveModal && (
+        <div className="adm-modal-overlay" onClick={() => approveStep !== "loading" && setApproveModal(false)}>
+          <div className="adm-modal" onClick={e => e.stopPropagation()}>
+
+            {approveStep === "confirm" && <>
+              <div className="adm-modal-header">
+                <h3>Konfirmasi Persetujuan</h3>
+                <button className="adm-modal-close" onClick={() => setApproveModal(false)}>✕</button>
+              </div>
+              <div className="adm-modal-body">
+                <p>Yakin ingin menyetujui pembayaran <strong>{fmt(order.total)}</strong> dari <strong>{order.customer}</strong>?</p>
+                <p className="adm-modal-hint">E-Receipt akan otomatis digenerate dan siap diunduh oleh customer setelah approval.</p>
+              </div>
+              <div className="adm-modal-footer">
+                <button className="adm-pa-approve-btn" onClick={handleApprove}><IcCheck /> Ya, Setujui</button>
+                <button className="adm-ghost-btn" onClick={() => setApproveModal(false)}>Batal</button>
+              </div>
+            </>}
+
+            {approveStep === "loading" && (
+              <div className="adm-modal-center">
+                <div className="adm-modal-spinner" />
+                <p className="adm-modal-loading-title">Memproses pembayaran…</p>
+                <p className="adm-modal-loading-sub">Sedang generate E-Receipt untuk customer</p>
+              </div>
+            )}
+
+            {approveStep === "success" && (
+              <div className="adm-modal-center">
+                <div className="adm-modal-success-icon">
+                  <IcCheck />
+                </div>
+                <h3 className="adm-modal-success-title">Pembayaran Disetujui!</h3>
+                <p className="adm-modal-success-sub">E-Receipt berhasil digenerate dan tersedia untuk customer.</p>
+                <div className="adm-modal-receipt-badge">
+                  <IcReceipt /> E-Receipt #{order.id} siap
+                </div>
+                <div className="adm-modal-footer" style={{marginTop:20}}>
+                  <button className="adm-pa-approve-btn" onClick={() => setApproveModal(false)}>
+                    <IcReceipt /> Lihat Receipt
+                  </button>
+                  <button className="adm-ghost-btn" onClick={() => setApproveModal(false)}>
+                    Kembali ke Dashboard
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* ════ MODAL REJECT ════ */}
+      {rejectModal && (
+        <div className="adm-modal-overlay" onClick={() => setRejectModal(false)}>
+          <div className="adm-modal" onClick={e => e.stopPropagation()}>
+            <div className="adm-modal-header">
+              <h3>Tolak Pembayaran</h3>
+              <button className="adm-modal-close" onClick={() => setRejectModal(false)}>✕</button>
+            </div>
+            <div className="adm-modal-body">
+              <p style={{marginBottom:12}}>Masukkan alasan penolakan pembayaran:</p>
+              <textarea
+                className="adm-modal-textarea"
+                rows={4}
+                placeholder="Contoh: Bukti transfer tidak sesuai, nominal tidak cocok, dll."
+                value={rejectReason}
+                onChange={e => setRejectReason(e.target.value)}
+              />
+            </div>
+            <div className="adm-modal-footer">
+              <button
+                className="adm-pa-reject-btn"
+                onClick={() => setRejectModal(false)}
+                disabled={!rejectReason.trim()}
+              >
+                Konfirmasi Tolak
+              </button>
+              <button className="adm-ghost-btn" onClick={() => setRejectModal(false)}>Batal</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SECTION: RECEIPT VERIFY  ← HALAMAN PALING PENTING
+   Admin upload PDF receipt → sistem ekstrak hidden signature
+   → tampilkan hasil VALID atau INVALID
+   ═══════════════════════════════════════════════════════════ */
+function ReceiptVerify() {
+  const [file,      setFile]      = useState(null);
+  const [dragOver,  setDragOver]  = useState(false);
+  const [verifying, setVerifying] = useState(false);
+  const [result,    setResult]    = useState(null); // null | "valid" | "invalid"
+
+  /* Simulasi proses verifikasi */
+  const runVerify = (simulatedResult) => {
+    setVerifying(true);
+    setResult(null);
+    setTimeout(() => {
+      setVerifying(false);
+      setResult(simulatedResult);
+    }, 2200);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setDragOver(false);
+    const f = e.dataTransfer.files[0];
+    if (f) { setFile(f); setResult(null); }
+  };
+
+  const handleFileInput = (e) => {
+    const f = e.target.files[0];
+    if (f) { setFile(f); setResult(null); }
+  };
+
+  const handleVerify = () => runVerify("valid"); // default: anggap valid bila upload manual
+
+  const simulateValid   = () => { setFile({ name: "receipt-ORD-2024-001.pdf" }); runVerify("valid"); };
+  const simulateInvalid = () => { setFile({ name: "receipt-tampered.pdf" });     runVerify("invalid"); };
+
+  return (
+    <div className="adm-section">
+      <div className="adm-section-header">
+        <div>
+          <h2 className="adm-section-title">Verifikasi Keaslian E-Receipt</h2>
+          <p className="adm-section-sub">Upload e-receipt untuk memverifikasi keaslian tanda tangan digital</p>
+        </div>
+      </div>
+
+      <div className="adm-rv-layout">
+
+        {/* ── Upload area ── */}
+        <div className="adm-card adm-rv-upload-card">
+          <h3 className="adm-card-title" style={{marginBottom:20}}>Upload E-Receipt</h3>
+
+          {/* Drag & drop zone */}
+          <div
+            className={`adm-rv-dropzone${dragOver ? " adm-rv-dropzone--over" : ""}`}
+            onDragOver={e => { e.preventDefault(); setDragOver(true); }}
+            onDragLeave={() => setDragOver(false)}
+            onDrop={handleDrop}
+            onClick={() => document.getElementById("rv-file-input").click()}
+          >
+            <div className="adm-rv-drop-icon">
+              <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+              </svg>
+            </div>
+            <p className="adm-rv-drop-text">Drag &amp; drop file PDF di sini</p>
+            <p className="adm-rv-drop-sub">atau klik untuk pilih file</p>
+            <button className="adm-rv-browse-btn" type="button" onClick={e => { e.stopPropagation(); document.getElementById("rv-file-input").click(); }}>
+              Pilih File
+            </button>
+            <p className="adm-rv-drop-hint">Hanya file PDF yang diterima</p>
+          </div>
+          <input
+            id="rv-file-input"
+            type="file"
+            accept=".pdf"
+            style={{ display: "none" }}
+            onChange={handleFileInput}
+          />
+
+          {/* File terpilih */}
+          {file && !verifying && (
+            <div className="adm-rv-file-preview">
+              <IcReceipt />
+              <span className="adm-rv-file-name">{file.name}</span>
+              <button className="adm-rv-file-remove" onClick={() => { setFile(null); setResult(null); }}>✕</button>
+            </div>
+          )}
+
+          {/* Tombol verifikasi */}
+          {file && !verifying && !result && (
+            <button className="adm-rv-verify-btn" onClick={handleVerify}>
+              Verifikasi Sekarang
+            </button>
+          )}
+
+          {/* Loading state */}
+          {verifying && (
+            <div className="adm-rv-verifying">
+              <div className="adm-modal-spinner" />
+              <span>Mengekstrak digital signature…</span>
+            </div>
+          )}
+
+          {/* ── Demo/Testing toggle buttons ── */}
+          <div className="adm-rv-demo">
+            <p className="adm-rv-demo-label">Demo / Testing:</p>
+            <div className="adm-rv-demo-row">
+              <button className="adm-rv-sim-btn adm-rv-sim--valid"   onClick={simulateValid}>Simulasi Valid</button>
+              <button className="adm-rv-sim-btn adm-rv-sim--invalid" onClick={simulateInvalid}>Simulasi Invalid</button>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Hasil Verifikasi ── */}
+        {result && (
+          <div className="adm-rv-result">
+
+            {result === "valid" ? (
+              <>
+                {/* Banner VALID */}
+                <div className="adm-rv-banner adm-rv-banner--valid">
+                  <div className="adm-rv-banner-icon">
+                    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  </div>
+                  <div>
+                    <h2 className="adm-rv-result-title">E-Receipt VALID ✓</h2>
+                    <p className="adm-rv-result-sub">Tanda tangan digital berhasil diverifikasi</p>
+                  </div>
+                </div>
+
+                {/* Detail terverifikasi */}
+                <div className="adm-card adm-rv-detail-card">
+                  <h3 className="adm-card-title" style={{marginBottom:16}}>Informasi Terverifikasi</h3>
+                  {[
+                    ["Order ID",           VALID_RECEIPT_DATA.orderId],
+                    ["Nama Customer",      VALID_RECEIPT_DATA.customer],
+                    ["Total Pembayaran",   fmt(VALID_RECEIPT_DATA.total)],
+                    ["Tanggal Transaksi",  VALID_RECEIPT_DATA.date],
+                    ["Diverifikasi pada",  VALID_RECEIPT_DATA.verifiedAt],
+                    ["Status Signature",   VALID_RECEIPT_DATA.signatureStatus],
+                  ].map(([label, val]) => (
+                    <div key={label} className="adm-rv-detail-row">
+                      <span className="adm-rv-detail-label">{label}</span>
+                      <span className="adm-rv-detail-val">{val}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <p className="adm-rv-footer-text adm-rv-footer--valid">
+                  ✓ Receipt ini asli dan dikeluarkan oleh sistem careofyou
+                </p>
+              </>
+            ) : (
+              <>
+                {/* Banner INVALID */}
+                <div className="adm-rv-banner adm-rv-banner--invalid">
+                  <div className="adm-rv-banner-icon">
+                    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                  </div>
+                  <div>
+                    <h2 className="adm-rv-result-title">E-Receipt INVALID ✗</h2>
+                    <p className="adm-rv-result-sub">Tanda tangan digital tidak ditemukan atau tidak cocok</p>
+                  </div>
+                </div>
+
+                {/* Detail pemeriksaan */}
+                <div className="adm-card adm-rv-detail-card">
+                  <h3 className="adm-card-title" style={{marginBottom:16}}>Detail Pemeriksaan</h3>
+                  <div className="adm-rv-detail-row">
+                    <span className="adm-rv-detail-label">Status</span>
+                    <span className="adm-rv-detail-val" style={{color:"#ef4444",fontWeight:700}}>Signature tidak ditemukan dalam file</span>
+                  </div>
+                  <div style={{marginTop:16}}>
+                    <p className="adm-rv-causes-title">Kemungkinan penyebab:</p>
+                    <ul className="adm-rv-causes-list">
+                      <li>Receipt telah dimodifikasi atau diedit</li>
+                      <li>Receipt bukan berasal dari sistem careofyou</li>
+                      <li>File PDF telah dikompresi atau dikonversi ulang</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <p className="adm-rv-footer-text adm-rv-footer--invalid">
+                  ✗ Receipt ini tidak dapat dipercaya — lakukan investigasi manual
+                </p>
+
+                <button className="adm-rv-report-btn">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                  Laporkan ke Log
+                </button>
+              </>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SECTION: VERIFY HISTORY
+   Riwayat semua verifikasi receipt yang pernah dilakukan admin.
+   ═══════════════════════════════════════════════════════════ */
+function VerifyHistory() {
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [query,        setQuery]        = useState("");
+
+  const filtered = VERIFY_HISTORY_DATA.filter(v => {
+    const matchStatus = statusFilter === "all" || v.result === statusFilter;
+    const q = query.toLowerCase();
+    const matchQ = !q || v.orderId.toLowerCase().includes(q) || v.customer.toLowerCase().includes(q);
+    return matchStatus && matchQ;
+  });
+
+  const validCount   = VERIFY_HISTORY_DATA.filter(v => v.result === "valid").length;
+  const invalidCount = VERIFY_HISTORY_DATA.filter(v => v.result === "invalid").length;
+
+  const validRate = Math.round((validCount / VERIFY_HISTORY_DATA.length) * 100);
+  const circleLen = 2 * Math.PI * 20; // r=20
+
+  return (
+    <div className="adm-section">
+      <div className="adm-section-header">
+        <div>
+          <h2 className="adm-section-title">Riwayat Verifikasi Receipt</h2>
+          <p className="adm-section-sub">{VERIFY_HISTORY_DATA.length} verifikasi tercatat</p>
+        </div>
+      </div>
+
+      {/* ── Stat cards ── */}
+      <div className="adm-vh-stats">
+        <div className="adm-vh-stat-card adm-vh-stat-card--total">
+          <div className="adm-vh-stat-icon-wrap adm-vh-stat-icon--brand">
+            <IcHistory />
+          </div>
+          <div>
+            <span className="adm-vh-stat-num">{VERIFY_HISTORY_DATA.length}</span>
+            <span className="adm-vh-stat-lbl">Total Verifikasi</span>
+          </div>
+        </div>
+        <div className="adm-vh-stat-card adm-vh-stat-card--valid">
+          <div className="adm-vh-stat-icon-wrap adm-vh-stat-icon--green">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div>
+            <span className="adm-vh-stat-num">{validCount}</span>
+            <span className="adm-vh-stat-lbl">Receipt Valid</span>
+          </div>
+        </div>
+        <div className="adm-vh-stat-card adm-vh-stat-card--invalid">
+          <div className="adm-vh-stat-icon-wrap adm-vh-stat-icon--red">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </div>
+          <div>
+            <span className="adm-vh-stat-num">{invalidCount}</span>
+            <span className="adm-vh-stat-lbl">Receipt Invalid</span>
+          </div>
+        </div>
+        <div className="adm-vh-stat-card adm-vh-stat-card--rate">
+          <div className="adm-vh-rate-circle">
+            <svg width="52" height="52" viewBox="0 0 52 52">
+              <circle cx="26" cy="26" r="20" fill="none" stroke="#f0e0de" strokeWidth="5"/>
+              <circle
+                cx="26" cy="26" r="20" fill="none"
+                stroke="#22c55e" strokeWidth="5"
+                strokeDasharray={`${circleLen * validRate / 100} ${circleLen}`}
+                strokeLinecap="round"
+                transform="rotate(-90 26 26)"
+              />
+              <text x="26" y="30" textAnchor="middle" fontSize="12" fontWeight="800" fill="#2d2d2d">{validRate}%</text>
+            </svg>
+          </div>
+          <div>
+            <span className="adm-vh-stat-num" style={{color:"#15803d"}}>{validRate}%</span>
+            <span className="adm-vh-stat-lbl">Tingkat Valid</span>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Filter bar ── */}
+      <div className="adm-vh-filter-row">
+        <div className="adm-search-bar" style={{flex:1}}>
+          <IcSearch />
+          <input
+            value={query}
+            onChange={e => setQuery(e.target.value)}
+            placeholder="Cari Order ID atau nama customer…"
+            className="adm-search-input"
+          />
+          {query && <button className="adm-search-clear" onClick={() => setQuery("")}>✕</button>}
+        </div>
+        <div className="adm-vh-filter-pills">
+          {[["all","Semua"],["valid","Valid"],["invalid","Invalid"]].map(([val, lbl]) => (
+            <button
+              key={val}
+              className={`adm-vh-pill${statusFilter === val ? " adm-vh-pill--active" : ""}${val !== "all" ? ` adm-vh-pill--${val}` : ""}`}
+              onClick={() => setStatusFilter(val)}
+            >
+              {lbl}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Card list ── */}
+      <div className="adm-vh-list">
+        {filtered.length === 0 ? (
+          <div className="adm-card" style={{padding:"32px", textAlign:"center", color:"var(--adm-text-3)"}}>
+            Tidak ada data ditemukan.
+          </div>
+        ) : filtered.map((v, i) => (
+          <div key={v.id} className={`adm-vh-item adm-vh-item--${v.result}`}>
+            <span className="adm-vh-item-num">{String(i + 1).padStart(2, "0")}</span>
+            <div className="adm-vh-item-customer">
+              <Avatar name={v.customer} size={36} />
+              <div>
+                <p className="adm-vh-item-name">{v.customer}</p>
+                <p className="adm-vh-item-sub">{v.orderId} · {v.file}</p>
+              </div>
+            </div>
+            <div className="adm-vh-item-date">
+              <p className="adm-vh-item-date-val">{v.date.split(" ").slice(0, 3).join(" ")}</p>
+              <p className="adm-vh-item-date-time">{v.date.split(" ").slice(3).join(" ")}</p>
+            </div>
+            <div className={`adm-vh-result-badge adm-vh-result-badge--${v.result}`}>
+              {v.result === "valid"
+                ? <><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Valid</>
+                : <><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Invalid</>
+              }
+            </div>
+            <button className="adm-act-btn adm-act-btn--edit" title="Lihat Detail">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════
    SIDEBAR NAV CONFIG
    ═══════════════════════════════════════════════════════════ */
 const NAV_ITEMS = [
-  { id: "dashboard",     label: "Dashboard",      icon: <IcGrid />      },
-  { id: "orders",        label: "Pesanan",         icon: <IcOrders />    },
-  { id: "products",      label: "Produk",          icon: <IcProducts />  },
-  { id: "customers",     label: "Pelanggan",       icon: <IcCustomers /> },
-  { id: "returns",       label: "Return Verify",   icon: <IcReturn />    },
-  { id: "notifications", label: "Notifications",   icon: <IcNotif />     },
-  { id: "settings",      label: "Pengaturan",      icon: <IcSettings />  },
+  { id: "dashboard",       label: "Dashboard",        icon: <IcGrid />       },
+  { id: "orders",          label: "Pesanan",           icon: <IcOrders />     },
+  { id: "payment-approval",label: "Approval Bayar",   icon: <IcCreditCard /> },
+  { id: "products",        label: "Produk",            icon: <IcProducts />   },
+  { id: "customers",       label: "Pelanggan",         icon: <IcCustomers />  },
+  { id: "returns",         label: "Return Verify",     icon: <IcReturn />     },
+  { id: "receipt-verify",  label: "Verifikasi Receipt",icon: <IcShield />     },
+  { id: "verify-history",  label: "Riwayat Verifikasi",icon: <IcHistory />    },
+  { id: "notifications",   label: "Notifications",     icon: <IcNotif />      },
+  { id: "settings",        label: "Pengaturan",        icon: <IcSettings />   },
 ];
 
 /* ═══════════════════════════════════════════════════════════
@@ -1458,9 +2082,12 @@ export default function AdminPage() {
       case "orders":    return <Orders />;
       case "products":  return <Products />;
       case "customers": return <Customers />;
-      case "returns":        return <Returns />;
-      case "notifications":  return <Notifications />;
-      case "settings":       return <Settings />;
+      case "payment-approval": return <PaymentApproval />;
+      case "receipt-verify":   return <ReceiptVerify />;
+      case "verify-history":   return <VerifyHistory />;
+      case "returns":          return <Returns />;
+      case "notifications":    return <Notifications />;
+      case "settings":         return <Settings />;
       default:          return <Dashboard setActive={setActive} />;
     }
   };
