@@ -7,19 +7,19 @@ import "./index.css";
    MOCK DATA
    ═══════════════════════════════════════════════════════════ */
 const MOCK_ORDERS = [
-  { id: "ORD-011", customer: "Sara Tancredi",    email: "sara@gmail.com",   products: ["Vitamin C Serum", "Sunscreen Aqua Gel"],            total: 294000, date: "15 Apr 2025", status: "pending",   payment: "BCA Transfer",  address: "Jl. Sudirman No. 12, Jakarta",            qrCode: null },
-  { id: "ORD-012", customer: "Maya Sari",        email: "maya@gmail.com",   products: ["Daily Moisturizer SPF 30", "Hydra Boost Toner"],    total: 260000, date: "15 Apr 2025", status: "pending",   payment: "GoPay",         address: "Jl. Gatot Subroto No. 5, Jakarta",        qrCode: null },
-  { id: "ORD-013", customer: "Hana Lestari",     email: "hana@gmail.com",   products: ["5X Ceramide Barrier Moisture Gel"],                 total: 149000, date: "14 Apr 2025", status: "pending",   payment: "BNI Transfer",  address: "Perumahan Indah Blok C No. 3, Surabaya",  qrCode: null },
-  { id: "ORD-014", customer: "Rina Kusuma",      email: "rina@gmail.com",   products: ["Retinol Night Cream"],                              total: 210000, date: "15 Apr 2025", status: "packing",   payment: "OVO",           address: "Jl. Malioboro No. 88, Yogyakarta",        qrCode: null },
-  { id: "ORD-015", customer: "Tiara Putri",      email: "tiara@gmail.com",  products: ["Gentle Foaming Cleanser", "Rose Water Mist"],       total: 174000, date: "14 Apr 2025", status: "packing",   payment: "BCA Transfer",  address: "Jl. Pemuda No. 21, Semarang",             qrCode: null },
-  { id: "ORD-016", customer: "Ayu Rahayu",       email: "ayu@gmail.com",    products: ["Niacinamide 10% + Zinc Serum", "Pore Tightening Toner"], total: 318000, date: "13 Apr 2025", status: "packing", payment: "DANA",        address: "Jl. A. Yani No. 44, Bandung",             qrCode: null },
-  { id: "ORD-017", customer: "Dewi Larasati",    email: "dewi@gmail.com",   products: ["Hyaluronic Acid Serum", "Ceramide Barrier Cream"],  total: 335000, date: "14 Apr 2025", status: "shipped",   payment: "BNI Transfer",  address: "Jl. Diponegoro No. 7, Medan",             qrCode: "ORD-017-QR-XK8MNJP2" },
-  { id: "ORD-018", customer: "Fitri Handayani",  email: "fitri@gmail.com",  products: ["SPF 50 UV Defense Serum", "Peptide Eye Cream"],     total: 410000, date: "13 Apr 2025", status: "shipped",   payment: "GoPay",         address: "Komplek Griya Permai No. 15, Makassar",   qrCode: "ORD-018-QR-L3RVTH9W" },
-  { id: "ORD-019", customer: "Sari Dewi",        email: "saridewi@gmail.com", products: ["AHA BHA Exfoliating Toner"],                     total: 135000, date: "12 Apr 2025", status: "shipped",   payment: "BCA Transfer",  address: "Jl. Raya Bogor KM 30, Depok",             qrCode: "ORD-019-QR-B7ZSQC4E" },
-  { id: "ORD-001", customer: "Bunga Citra",      email: "bunga@gmail.com",  products: ["Brightening Facial Mask"],                          total: 45000,  date: "14 Apr 2025", status: "delivered", payment: "OVO",           address: "Jl. Kartini No. 9, Surabaya",             qrCode: "ORD-001-QR-P5YNFU6D" },
-  { id: "ORD-002", customer: "Nadia Rahman",     email: "nadia@gmail.com",  products: ["AHA BHA Exfoliating Toner"],                        total: 135000, date: "12 Apr 2025", status: "delivered", payment: "BCA Transfer",  address: "Jl. Imam Bonjol No. 3, Semarang",         qrCode: "ORD-002-QR-R9GWTD1H" },
-  { id: "ORD-003", customer: "Lilis Permata",    email: "lilis@gmail.com",  products: ["Niacinamide Essence"],                              total: 130000, date: "11 Apr 2025", status: "delivered", payment: "DANA",          address: "Jl. Veteran No. 11, Bandung",             qrCode: "ORD-003-QR-A2KXEM7N" },
-  { id: "ORD-004", customer: "Sinta Wulandari",  email: "sinta@gmail.com",  products: ["Collagen Sleeping Pack", "Tea Tree Spot Gel"],      total: 233000, date: "11 Apr 2025", status: "delivered", payment: "GoPay",         address: "Jl. Pahlawan No. 6, Malang",              qrCode: "ORD-004-QR-J6CQBV3S" },
+  { id: "ORD-011", customer: "Sara Tancredi",    email: "sara@gmail.com",     products: ["Vitamin C Serum", "Sunscreen Aqua Gel"],                 total: 294000, date: "15 Apr 2025", status: "pending",   payment: "BCA Transfer",  address: "Jl. Sudirman No. 12, Jakarta" },
+  { id: "ORD-012", customer: "Maya Sari",        email: "maya@gmail.com",     products: ["Daily Moisturizer SPF 30", "Hydra Boost Toner"],         total: 260000, date: "15 Apr 2025", status: "pending",   payment: "GoPay",         address: "Jl. Gatot Subroto No. 5, Jakarta" },
+  { id: "ORD-013", customer: "Hana Lestari",     email: "hana@gmail.com",     products: ["5X Ceramide Barrier Moisture Gel"],                      total: 149000, date: "14 Apr 2025", status: "pending",   payment: "BNI Transfer",  address: "Perumahan Indah Blok C No. 3, Surabaya" },
+  { id: "ORD-014", customer: "Rina Kusuma",      email: "rina@gmail.com",     products: ["Retinol Night Cream"],                                   total: 210000, date: "15 Apr 2025", status: "packing",   payment: "OVO",           address: "Jl. Malioboro No. 88, Yogyakarta" },
+  { id: "ORD-015", customer: "Tiara Putri",      email: "tiara@gmail.com",    products: ["Gentle Foaming Cleanser", "Rose Water Mist"],            total: 174000, date: "14 Apr 2025", status: "packing",   payment: "BCA Transfer",  address: "Jl. Pemuda No. 21, Semarang" },
+  { id: "ORD-016", customer: "Ayu Rahayu",       email: "ayu@gmail.com",      products: ["Niacinamide 10% + Zinc Serum", "Pore Tightening Toner"], total: 318000, date: "13 Apr 2025", status: "packing",   payment: "DANA",          address: "Jl. A. Yani No. 44, Bandung" },
+  { id: "ORD-017", customer: "Dewi Larasati",    email: "dewi@gmail.com",     products: ["Hyaluronic Acid Serum", "Ceramide Barrier Cream"],       total: 335000, date: "14 Apr 2025", status: "shipped",   payment: "BNI Transfer",  address: "Jl. Diponegoro No. 7, Medan" },
+  { id: "ORD-018", customer: "Fitri Handayani",  email: "fitri@gmail.com",    products: ["SPF 50 UV Defense Serum", "Peptide Eye Cream"],          total: 410000, date: "13 Apr 2025", status: "shipped",   payment: "GoPay",         address: "Komplek Griya Permai No. 15, Makassar" },
+  { id: "ORD-019", customer: "Sari Dewi",        email: "saridewi@gmail.com", products: ["AHA BHA Exfoliating Toner"],                             total: 135000, date: "12 Apr 2025", status: "shipped",   payment: "BCA Transfer",  address: "Jl. Raya Bogor KM 30, Depok" },
+  { id: "ORD-001", customer: "Bunga Citra",      email: "bunga@gmail.com",    products: ["Brightening Facial Mask"],                               total: 45000,  date: "14 Apr 2025", status: "delivered", payment: "OVO",           address: "Jl. Kartini No. 9, Surabaya" },
+  { id: "ORD-002", customer: "Nadia Rahman",     email: "nadia@gmail.com",    products: ["AHA BHA Exfoliating Toner"],                             total: 135000, date: "12 Apr 2025", status: "delivered", payment: "BCA Transfer",  address: "Jl. Imam Bonjol No. 3, Semarang" },
+  { id: "ORD-003", customer: "Lilis Permata",    email: "lilis@gmail.com",    products: ["Niacinamide Essence"],                                   total: 130000, date: "11 Apr 2025", status: "delivered", payment: "DANA",          address: "Jl. Veteran No. 11, Bandung" },
+  { id: "ORD-004", customer: "Sinta Wulandari",  email: "sinta@gmail.com",    products: ["Collagen Sleeping Pack", "Tea Tree Spot Gel"],           total: 233000, date: "11 Apr 2025", status: "delivered", payment: "GoPay",         address: "Jl. Pahlawan No. 6, Malang" },
 ];
 
 const MOCK_NOTIFICATIONS = [
@@ -471,50 +471,10 @@ function Dashboard({ setActive }) {
 /* ═══════════════════════════════════════════════════════════
    SECTION: ORDERS
    ═══════════════════════════════════════════════════════════ */
-/* Deterministic fake QR code visual */
-function MockQr({ seed }) {
-  const n = 21, cell = 9;
-  const isFinder = (r, c) => [[0,0],[0,14],[14,0]].some(([sr, sc]) => {
-    const dr = r - sr, dc = c - sc;
-    if (dr < 0 || dr > 6 || dc < 0 || dc > 6) return false;
-    if (dr === 0 || dr === 6 || dc === 0 || dc === 6) return true;
-    if (dr >= 2 && dr <= 4 && dc >= 2 && dc <= 4) return true;
-    return false;
-  });
-  const isSep = (r, c) =>
-    (r === 7 && c <= 7) || (c === 7 && r <= 7) ||
-    (r === 7 && c >= 14) || (c === 13 && r <= 7) ||
-    (r >= 14 && c === 7) || (r === 13 && c <= 7);
-  const isTiming = (r, c) =>
-    (r === 6 && c > 7 && c < 13) || (c === 6 && r > 7 && r < 13);
-  const h = seed.split('').reduce((a, ch, i) => (a + ch.charCodeAt(0) * (i * 7 + 13)) | 0, 0x5a5a);
-  const isData = (r, c) => ((Math.abs(h * (r * n + c + 1)) ^ ((r * n + c) * 2654435761)) >>> 0) % 5 < 3;
-  const filled = (r, c) => {
-    if (isFinder(r, c)) return true;
-    if (isSep(r, c))    return false;
-    if (isTiming(r, c)) return (r === 6 ? c : r) % 2 === 0;
-    return isData(r, c);
-  };
-  const size = n * cell;
-  const rects = [];
-  for (let r = 0; r < n; r++)
-    for (let c = 0; c < n; c++)
-      if (filled(r, c))
-        rects.push(<rect key={`${r}-${c}`} x={c*cell} y={r*cell} width={cell} height={cell} fill="#1f2937" rx="1" />);
-  return (
-    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ display: "block" }}>
-      <rect width={size} height={size} fill="#fff" />
-      {rects}
-    </svg>
-  );
-}
-
 function Orders() {
-  const [orders,       setOrders]       = useState(MOCK_ORDERS);
-  const [tab,          setTab]          = useState("all");
-  const [query,        setQuery]        = useState("");
-  const [qrModal,      setQrModal]      = useState(null);   // orderId | null
-  const [generatingQr, setGeneratingQr] = useState(false);
+  const [orders, setOrders] = useState(MOCK_ORDERS);
+  const [tab, setTab]       = useState("all");
+  const [query, setQuery]   = useState("");
 
   const tabs = ["all", "pending", "packing", "shipped", "delivered"];
 
@@ -525,9 +485,8 @@ function Orders() {
     return matchTab && matchQ;
   });
 
-  // pending→packing is handled via QR modal; this covers packing→shipped→delivered
   const advance = (id) => {
-    const flow = { packing: "shipped", shipped: "delivered" };
+    const flow = { pending: "packing", packing: "shipped", shipped: "delivered" };
     setOrders(prev => prev.map(o => o.id === id ? { ...o, status: flow[o.status] ?? o.status } : o));
   };
 
@@ -535,29 +494,7 @@ function Orders() {
     setOrders(prev => prev.map(o => o.id === id ? { ...o, status: "cancelled" } : o));
   };
 
-  const openQrModal = (id) => { setQrModal(id); setGeneratingQr(false); };
-  const closeQrModal = () => { if (!generatingQr) { setQrModal(null); setGeneratingQr(false); } };
-
-  const handleGenerate = () => {
-    if (!qrModal || generatingQr) return;
-    setGeneratingQr(true);
-    setTimeout(() => {
-      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-      const hash = Array.from({ length: 8 }, () => chars[Math.floor(Math.random() * chars.length)]).join("");
-      const code = `${qrModal}-QR-${hash}`;
-      setOrders(prev => prev.map(o => o.id === qrModal ? { ...o, qrCode: code } : o));
-      setGeneratingQr(false);
-    }, 1600);
-  };
-
-  const handleConfirmApprove = () => {
-    if (!qrModal) return;
-    setOrders(prev => prev.map(o => o.id === qrModal ? { ...o, status: "packing" } : o));
-    setQrModal(null);
-  };
-
   return (
-    <>
     <div className="adm-section">
       <div className="adm-section-header">
         <div>
@@ -626,24 +563,9 @@ function Orders() {
                   </td>
                   <td>
                     <div className="adm-action-btns">
-                      {o.status === "pending" && (
-                        <button className="adm-act-btn adm-act-btn--primary" onClick={() => openQrModal(o.id)}>
-                          <IcCheck /> Approve
-                        </button>
-                      )}
-                      {o.status === "packing" && !o.qrCode && (
-                        <button className="adm-act-btn adm-act-btn--qr" onClick={() => openQrModal(o.id)}>
-                          <IcQr /> Gen QR
-                        </button>
-                      )}
-                      {o.status === "packing" && o.qrCode && (
+                      {["pending","packing","shipped"].includes(o.status) && (
                         <button className="adm-act-btn adm-act-btn--primary" onClick={() => advance(o.id)}>
-                          <IcTruck /> Ship
-                        </button>
-                      )}
-                      {o.status === "shipped" && (
-                        <button className="adm-act-btn adm-act-btn--primary" onClick={() => advance(o.id)}>
-                          <IcCheck /> Delivered
+                          {o.status === "pending" ? <><IcCheck /> Approve</> : o.status === "packing" ? <><IcTruck /> Ship</> : <><IcCheck /> Delivered</>}
                         </button>
                       )}
                       {o.status !== "delivered" && o.status !== "cancelled" && (
@@ -658,138 +580,54 @@ function Orders() {
         </table>
       </div>
     </div>
+  );
+}
 
-    {/* QR Generation Modal */}
-    {qrModal && (() => {
-      const order = orders.find(o => o.id === qrModal);
-      if (!order) return null;
-      const isGenerated = !!order.qrCode;
-      const isPending   = order.status === "pending";
-      return (
-        <div className="adm-modal-overlay" onClick={closeQrModal}>
-          <div className="adm-modal adm-qrgen-modal" onClick={e => e.stopPropagation()}>
+/* ═══════════════════════════════════════════════════════════
+   HELPER: Mock QR visual (deterministic SVG)
+   ═══════════════════════════════════════════════════════════ */
+function MockQr({ value, size = 120 }) {
+  const GRID = 21;
+  const cell = size / GRID;
 
-            {/* Header */}
-            <div className="adm-modal-header">
-              <div className="adm-modal-header-info">
-                <div className="adm-modal-header-row">
-                  <h3 className="adm-modal-title">{order.id}</h3>
-                  <span className="adm-status-pill" style={{ color: STATUS_META[order.status].color, background: STATUS_META[order.status].bg, fontSize: 12, padding: "3px 10px" }}>
-                    {STATUS_META[order.status].label}
-                  </span>
-                </div>
-                <p className="adm-modal-sub">{order.customer} · {order.date} · {order.payment}</p>
-              </div>
-              <button className="adm-modal-close" onClick={closeQrModal} disabled={generatingQr}>✕</button>
-            </div>
+  // Finder patterns at three corners
+  const finderCells = [];
+  [[0,0],[14,0],[0,14]].forEach(([dr,dc]) => {
+    for (let r = 0; r < 7; r++) for (let c = 0; c < 7; c++) {
+      if (r===0||r===6||c===0||c===6||(r>=2&&r<=4&&c>=2&&c<=4))
+        finderCells.push([dr+r, dc+c]);
+    }
+  });
 
-            {/* Body */}
-            <div className="adm-qrgen-body">
+  // Reserve finder + separator + timing zones
+  const reserved = new Set();
+  [[0,0],[14,0],[0,14]].forEach(([dr,dc]) => {
+    for (let r=dr-1;r<=dr+7;r++) for (let c=dc-1;c<=dc+7;c++)
+      if (r>=0&&r<GRID&&c>=0&&c<GRID) reserved.add(`${r},${c}`);
+  });
+  for (let i=8;i<13;i++) { reserved.add(`6,${i}`); reserved.add(`${i},6`); }
 
-              {/* Left: order details */}
-              <div className="adm-qrgen-info">
-                <div className="adm-return-info-block">
-                  <p className="adm-return-info-label">Produk</p>
-                  <div className="adm-products-cell" style={{ flexWrap: "wrap", gap: 6 }}>
-                    {order.products.map((p, i) => <span key={i} className="adm-product-tag">{p}</span>)}
-                  </div>
-                </div>
-                <div className="adm-return-info-block">
-                  <p className="adm-return-info-label">Total Pesanan</p>
-                  <p className="adm-qrgen-total">{fmt(order.total)}</p>
-                </div>
-                <div className="adm-return-info-block">
-                  <p className="adm-return-info-label">Metode Pembayaran</p>
-                  <p className="adm-qrgen-meta-val">{order.payment}</p>
-                </div>
-                <div className="adm-return-info-block">
-                  <p className="adm-return-info-label">Alamat Pengiriman</p>
-                  <p className="adm-return-condition-note">{order.address}</p>
-                </div>
-              </div>
+  // Timing dots
+  const timingCells = [];
+  for (let i=8;i<13;i+=2) { timingCells.push([6,i]); timingCells.push([i,6]); }
 
-              {/* Right: QR panel */}
-              <div className="adm-qrgen-qr">
-                <div className="adm-qrgen-panel">
+  // Deterministic data cells seeded from value
+  let hash = 0;
+  for (let i=0;i<value.length;i++) hash = ((hash<<5)-hash+value.charCodeAt(i))|0;
+  const dataCells = [];
+  for (let r=0;r<GRID;r++) for (let c=0;c<GRID;c++) {
+    if (reserved.has(`${r},${c}`)) continue;
+    const seed = (hash^(r*31+c*17))|0;
+    if ((seed^(seed>>>7))&1) dataCells.push([r,c]);
+  }
 
-                  {/* Panel header */}
-                  <div className="adm-qr-panel-hdr">
-                    <div className="adm-qr-icon-wrap"><IcQr /></div>
-                    <div>
-                      <p className="adm-qr-panel-title">QR Code Pesanan</p>
-                      <p className="adm-qr-panel-sub">Satu QR unik per pesanan</p>
-                    </div>
-                  </div>
-
-                  {/* Before generation */}
-                  {!isGenerated && !generatingQr && (
-                    <div className="adm-qrgen-placeholder">
-                      <div className="adm-qrgen-placeholder-icon"><IcQr /></div>
-                      <p className="adm-qrgen-placeholder-text">QR code belum dibuat</p>
-                      <p className="adm-qrgen-placeholder-sub">
-                        Buat QR code unik untuk pesanan ini. QR akan digunakan untuk verifikasi saat customer mengajukan return.
-                      </p>
-                    </div>
-                  )}
-
-                  {/* Generating */}
-                  {generatingQr && (
-                    <div className="adm-qrgen-generating">
-                      <span className="adm-qr-scan-spinner adm-qrgen-big-spinner" />
-                      <p className="adm-qrgen-generating-text">Generating QR code…</p>
-                    </div>
-                  )}
-
-                  {/* Generated result */}
-                  {isGenerated && !generatingQr && (
-                    <div className="adm-qrgen-result">
-                      <div className="adm-qrgen-visual">
-                        <MockQr seed={order.qrCode} />
-                      </div>
-                      <div className="adm-qrgen-code-wrap">
-                        <p className="adm-return-info-label">QR Code String</p>
-                        <code className="adm-qr-code-chip">{order.qrCode}</code>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Generate button — only when not yet generated */}
-                  {!isGenerated && (
-                    <button className="adm-qrgen-btn" onClick={handleGenerate} disabled={generatingQr}>
-                      {generatingQr
-                        ? <><span className="adm-qr-scan-spinner" /> Generating…</>
-                        : <><IcQr /> Generate QR Code</>}
-                    </button>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Footer */}
-            <div className="adm-qrgen-footer">
-              <button className="adm-ghost-btn" onClick={closeQrModal} disabled={generatingQr}>
-                {isGenerated && !isPending ? "Selesai" : "Batal"}
-              </button>
-              <div className="adm-qrgen-footer-right">
-                {!isGenerated && (
-                  <p className="adm-qrgen-footer-hint">Generate QR code terlebih dahulu untuk melanjutkan.</p>
-                )}
-                {isGenerated && isPending && (
-                  <button className="adm-primary-btn" onClick={handleConfirmApprove}>
-                    <IcCheck /> Approve Pesanan
-                  </button>
-                )}
-                {isGenerated && !isPending && (
-                  <p className="adm-qrgen-footer-ok">✓ QR berhasil dibuat · Pesanan siap dikirim</p>
-                )}
-              </div>
-            </div>
-
-          </div>
-        </div>
-      );
-    })()}
-    </>
+  return (
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ display: "block" }}>
+      <rect width={size} height={size} fill="white" />
+      {[...finderCells, ...timingCells, ...dataCells].map(([r,c],i) => (
+        <rect key={i} x={c*cell} y={r*cell} width={cell} height={cell} fill="#1a1a1a" />
+      ))}
+    </svg>
   );
 }
 
@@ -802,6 +640,7 @@ function Products() {
   const [catFilter, setCat]     = useState("all");
   const [showAdd, setShowAdd]   = useState(false);
   const [newProd, setNewProd]   = useState({ name: "", category: "", price: "", image: "" });
+  const [qrView,  setQrView]    = useState(null);
 
   const cats = ["all", ...Array.from(new Set(PRODUCTS.map(p => p.category)))];
   const filtered = products.filter(p => {
@@ -813,123 +652,171 @@ function Products() {
 
   const remove = (id) => setProducts(prev => prev.filter(p => p.id !== id));
 
+  const genQrCode = (id, category, name) => {
+    const catCode = category.replace(/\s+/g, "").toUpperCase().slice(0, 3);
+    let hash = 0;
+    const str = `${id}-${name}`;
+    for (let i = 0; i < str.length; i++) hash = ((hash << 5) - hash + str.charCodeAt(i)) | 0;
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let suffix = "";
+    let h = Math.abs(hash) || 7919;
+    for (let i = 0; i < 8; i++) { suffix += chars[h % chars.length]; h = Math.floor(h / chars.length) || 7919; }
+    return `PROD-NEW-${catCode}-QR-${suffix}`;
+  };
+
   const handleAdd = (e) => {
     e.preventDefault();
     if (!newProd.name || !newProd.category || !newProd.price) return;
+    const id = Date.now();
+    const qrCode = genQrCode(id, newProd.category, newProd.name);
     setProducts(prev => [...prev, {
-      id: Date.now(),
+      id,
       name: newProd.name,
       category: newProd.category,
       price: Number(newProd.price),
       image: newProd.image || `https://placehold.co/300x300/f9f0ef/c87a74?text=${encodeURIComponent(newProd.name)}`,
       rating: 0,
       reviews: 0,
+      qrCode,
     }]);
     setNewProd({ name: "", category: "", price: "", image: "" });
     setShowAdd(false);
   };
 
   return (
-    <div className="adm-section">
-      <div className="adm-section-header">
-        <div>
-          <h2 className="adm-section-title">Manajemen Produk</h2>
-          <p className="adm-section-sub">{products.length} produk terdaftar</p>
+    <>
+      <div className="adm-section">
+        <div className="adm-section-header">
+          <div>
+            <h2 className="adm-section-title">Manajemen Produk</h2>
+            <p className="adm-section-sub">{products.length} produk terdaftar</p>
+          </div>
+          <button className="adm-primary-btn" onClick={() => setShowAdd(v => !v)}>
+            <IcPlus /> Tambah Produk
+          </button>
         </div>
-        <button className="adm-primary-btn" onClick={() => setShowAdd(v => !v)}>
-          <IcPlus /> Tambah Produk
-        </button>
+
+        {/* Add Product Form */}
+        {showAdd && (
+          <div className="adm-card adm-add-form-card">
+            <h3 className="adm-card-title" style={{ marginBottom: 20 }}>Produk Baru</h3>
+            <form className="adm-add-form" onSubmit={handleAdd}>
+              <div className="adm-form-row">
+                <div className="adm-form-group">
+                  <label>Nama Produk *</label>
+                  <input placeholder="e.g. Vitamin C Serum" value={newProd.name} onChange={e => setNewProd(p => ({ ...p, name: e.target.value }))} className="adm-input" />
+                </div>
+                <div className="adm-form-group">
+                  <label>Kategori *</label>
+                  <input placeholder="e.g. Serum" value={newProd.category} onChange={e => setNewProd(p => ({ ...p, category: e.target.value }))} className="adm-input" />
+                </div>
+              </div>
+              <div className="adm-form-row">
+                <div className="adm-form-group">
+                  <label>Harga (Rp) *</label>
+                  <input type="number" placeholder="e.g. 150000" value={newProd.price} onChange={e => setNewProd(p => ({ ...p, price: e.target.value }))} className="adm-input" />
+                </div>
+                <div className="adm-form-group">
+                  <label>URL Gambar</label>
+                  <input placeholder="https://..." value={newProd.image} onChange={e => setNewProd(p => ({ ...p, image: e.target.value }))} className="adm-input" />
+                </div>
+              </div>
+              <div className="adm-form-actions">
+                <button type="submit" className="adm-primary-btn">Simpan Produk</button>
+                <button type="button" className="adm-ghost-btn" onClick={() => setShowAdd(false)}>Batal</button>
+              </div>
+            </form>
+          </div>
+        )}
+
+        {/* Filters */}
+        <div className="adm-filter-row">
+          <div className="adm-search-bar">
+            <IcSearch />
+            <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Cari produk…" className="adm-search-input" />
+            {query && <button className="adm-search-clear" onClick={() => setQuery("")}>✕</button>}
+          </div>
+          <div className="adm-cat-pills">
+            {cats.map(c => (
+              <button key={c} className={`adm-cat-pill${catFilter === c ? " adm-cat-pill--active" : ""}`} onClick={() => setCat(c)}>
+                {c === "all" ? "Semua" : c}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Product table */}
+        <div className="adm-card adm-table-card">
+          <table className="adm-table adm-table--products">
+            <thead>
+              <tr>
+                <th>Produk</th>
+                <th>Kategori</th>
+                <th>Harga</th>
+                <th>Rating</th>
+                <th>Reviews</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.map(p => (
+                <tr key={p.id}>
+                  <td>
+                    <div className="adm-product-cell">
+                      <img src={p.image} alt={p.name} className="adm-product-thumb" />
+                      <span className="adm-product-name">{p.name}</span>
+                    </div>
+                  </td>
+                  <td><span className="adm-cat-badge">{p.category}</span></td>
+                  <td><strong>{fmt(p.price)}</strong></td>
+                  <td>
+                    <span className="adm-rating-cell"><IcStar /> {p.rating}</span>
+                  </td>
+                  <td className="adm-date-cell">{p.reviews}</td>
+                  <td>
+                    <div className="adm-action-btns">
+                      <button className="adm-act-btn adm-act-btn--qr" title="View QR" onClick={() => setQrView(p)}><IcQr /></button>
+                      <button className="adm-act-btn adm-act-btn--edit" title="Edit"><IcEdit /></button>
+                      <button className="adm-act-btn adm-act-btn--danger" title="Hapus" onClick={() => remove(p.id)}><IcTrash /></button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      {/* Add Product Form */}
-      {showAdd && (
-        <div className="adm-card adm-add-form-card">
-          <h3 className="adm-card-title" style={{ marginBottom: 20 }}>Produk Baru</h3>
-          <form className="adm-add-form" onSubmit={handleAdd}>
-            <div className="adm-form-row">
-              <div className="adm-form-group">
-                <label>Nama Produk *</label>
-                <input placeholder="e.g. Vitamin C Serum" value={newProd.name} onChange={e => setNewProd(p => ({ ...p, name: e.target.value }))} className="adm-input" />
+      {/* QR View Modal */}
+      {qrView && (
+        <div className="adm-modal-overlay" onClick={() => setQrView(null)}>
+          <div className="adm-modal adm-pqr-modal" onClick={e => e.stopPropagation()}>
+            <div className="adm-modal-header">
+              <div className="adm-modal-header-info">
+                <div className="adm-modal-header-row">
+                  <h3 className="adm-modal-title">Product QR Code</h3>
+                  <span className="adm-cat-badge">{qrView.category}</span>
+                </div>
+                <p className="adm-modal-sub">{qrView.name}</p>
               </div>
-              <div className="adm-form-group">
-                <label>Kategori *</label>
-                <input placeholder="e.g. Serum" value={newProd.category} onChange={e => setNewProd(p => ({ ...p, category: e.target.value }))} className="adm-input" />
+              <button className="adm-modal-close" onClick={() => setQrView(null)}>✕</button>
+            </div>
+            <div className="adm-pqr-body">
+              <div className="adm-pqr-visual">
+                <MockQr value={qrView.qrCode || qrView.name} size={160} />
+              </div>
+              <div className="adm-pqr-info">
+                <p className="adm-pqr-label">QR Code</p>
+                <code className="adm-qr-code-chip adm-qr-code-chip--neutral">{qrView.qrCode || "–"}</code>
+                <p className="adm-pqr-desc">
+                  Auto-generated when this product was added. Print and attach to product packaging to enable return verification.
+                </p>
               </div>
             </div>
-            <div className="adm-form-row">
-              <div className="adm-form-group">
-                <label>Harga (Rp) *</label>
-                <input type="number" placeholder="e.g. 150000" value={newProd.price} onChange={e => setNewProd(p => ({ ...p, price: e.target.value }))} className="adm-input" />
-              </div>
-              <div className="adm-form-group">
-                <label>URL Gambar</label>
-                <input placeholder="https://..." value={newProd.image} onChange={e => setNewProd(p => ({ ...p, image: e.target.value }))} className="adm-input" />
-              </div>
-            </div>
-            <div className="adm-form-actions">
-              <button type="submit" className="adm-primary-btn">Simpan Produk</button>
-              <button type="button" className="adm-ghost-btn" onClick={() => setShowAdd(false)}>Batal</button>
-            </div>
-          </form>
+          </div>
         </div>
       )}
-
-      {/* Filters */}
-      <div className="adm-filter-row">
-        <div className="adm-search-bar">
-          <IcSearch />
-          <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Cari produk…" className="adm-search-input" />
-          {query && <button className="adm-search-clear" onClick={() => setQuery("")}>✕</button>}
-        </div>
-        <div className="adm-cat-pills">
-          {cats.map(c => (
-            <button key={c} className={`adm-cat-pill${catFilter === c ? " adm-cat-pill--active" : ""}`} onClick={() => setCat(c)}>
-              {c === "all" ? "Semua" : c}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Product table */}
-      <div className="adm-card adm-table-card">
-        <table className="adm-table adm-table--products">
-          <thead>
-            <tr>
-              <th>Produk</th>
-              <th>Kategori</th>
-              <th>Harga</th>
-              <th>Rating</th>
-              <th>Reviews</th>
-              <th>Aksi</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.map(p => (
-              <tr key={p.id}>
-                <td>
-                  <div className="adm-product-cell">
-                    <img src={p.image} alt={p.name} className="adm-product-thumb" />
-                    <span className="adm-product-name">{p.name}</span>
-                  </div>
-                </td>
-                <td><span className="adm-cat-badge">{p.category}</span></td>
-                <td><strong>{fmt(p.price)}</strong></td>
-                <td>
-                  <span className="adm-rating-cell"><IcStar /> {p.rating}</span>
-                </td>
-                <td className="adm-date-cell">{p.reviews}</td>
-                <td>
-                  <div className="adm-action-btns">
-                    <button className="adm-act-btn adm-act-btn--edit" title="Edit"><IcEdit /></button>
-                    <button className="adm-act-btn adm-act-btn--danger" title="Hapus" onClick={() => remove(p.id)}><IcTrash /></button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
+    </>
   );
 }
 
