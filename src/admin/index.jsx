@@ -7,19 +7,19 @@ import "./index.css";
    MOCK DATA
    ═══════════════════════════════════════════════════════════ */
 const MOCK_ORDERS = [
-  { id: "ORD-011", customer: "Sara Tancredi",    email: "sara@gmail.com",   products: ["Vitamin C Serum", "Sunscreen Aqua Gel"],            total: 294000, date: "15 Apr 2025", status: "pending",    payment: "BCA Transfer",   address: "Jl. Sudirman No. 12, Jakarta" },
-  { id: "ORD-012", customer: "Maya Sari",        email: "maya@gmail.com",   products: ["Daily Moisturizer SPF 30", "Hydra Boost Toner"],    total: 260000, date: "15 Apr 2025", status: "pending",    payment: "GoPay",          address: "Jl. Gatot Subroto No. 5, Jakarta" },
-  { id: "ORD-013", customer: "Hana Lestari",     email: "hana@gmail.com",   products: ["5X Ceramide Barrier Moisture Gel"],                 total: 149000, date: "14 Apr 2025", status: "pending",    payment: "BNI Transfer",   address: "Perumahan Indah Blok C No. 3, Surabaya" },
-  { id: "ORD-014", customer: "Rina Kusuma",      email: "rina@gmail.com",   products: ["Retinol Night Cream"],                              total: 210000, date: "15 Apr 2025", status: "packing",    payment: "OVO",            address: "Jl. Malioboro No. 88, Yogyakarta" },
-  { id: "ORD-015", customer: "Tiara Putri",      email: "tiara@gmail.com",  products: ["Gentle Foaming Cleanser", "Rose Water Mist"],       total: 174000, date: "14 Apr 2025", status: "packing",    payment: "BCA Transfer",   address: "Jl. Pemuda No. 21, Semarang" },
-  { id: "ORD-016", customer: "Ayu Rahayu",       email: "ayu@gmail.com",    products: ["Niacinamide 10% + Zinc Serum", "Pore Tightening Toner"], total: 318000, date: "13 Apr 2025", status: "packing", payment: "DANA",        address: "Jl. A. Yani No. 44, Bandung" },
-  { id: "ORD-017", customer: "Dewi Larasati",    email: "dewi@gmail.com",   products: ["Hyaluronic Acid Serum", "Ceramide Barrier Cream"],  total: 335000, date: "14 Apr 2025", status: "shipped",    payment: "BNI Transfer",   address: "Jl. Diponegoro No. 7, Medan" },
-  { id: "ORD-018", customer: "Fitri Handayani",  email: "fitri@gmail.com",  products: ["SPF 50 UV Defense Serum", "Peptide Eye Cream"],     total: 410000, date: "13 Apr 2025", status: "shipped",    payment: "GoPay",          address: "Komplek Griya Permai No. 15, Makassar" },
-  { id: "ORD-019", customer: "Sari Dewi",        email: "saridewi@gmail.com", products: ["AHA BHA Exfoliating Toner"],                     total: 135000, date: "12 Apr 2025", status: "shipped",    payment: "BCA Transfer",   address: "Jl. Raya Bogor KM 30, Depok" },
-  { id: "ORD-001", customer: "Bunga Citra",      email: "bunga@gmail.com",  products: ["Brightening Facial Mask"],                          total: 45000,  date: "14 Apr 2025", status: "delivered",  payment: "OVO",            address: "Jl. Kartini No. 9, Surabaya" },
-  { id: "ORD-002", customer: "Nadia Rahman",     email: "nadia@gmail.com",  products: ["AHA BHA Exfoliating Toner"],                        total: 135000, date: "12 Apr 2025", status: "delivered",  payment: "BCA Transfer",   address: "Jl. Imam Bonjol No. 3, Semarang" },
-  { id: "ORD-003", customer: "Lilis Permata",    email: "lilis@gmail.com",  products: ["Niacinamide Essence"],                              total: 130000, date: "11 Apr 2025", status: "delivered",  payment: "DANA",           address: "Jl. Veteran No. 11, Bandung" },
-  { id: "ORD-004", customer: "Sinta Wulandari",  email: "sinta@gmail.com",  products: ["Collagen Sleeping Pack", "Tea Tree Spot Gel"],      total: 233000, date: "11 Apr 2025", status: "delivered",  payment: "GoPay",          address: "Jl. Pahlawan No. 6, Malang" },
+  { id: "ORD-011", customer: "Sara Tancredi",    email: "sara@gmail.com",   products: ["Vitamin C Serum", "Sunscreen Aqua Gel"],            total: 294000, date: "15 Apr 2025", status: "pending",   payment: "BCA Transfer",  address: "Jl. Sudirman No. 12, Jakarta",            qrCode: null },
+  { id: "ORD-012", customer: "Maya Sari",        email: "maya@gmail.com",   products: ["Daily Moisturizer SPF 30", "Hydra Boost Toner"],    total: 260000, date: "15 Apr 2025", status: "pending",   payment: "GoPay",         address: "Jl. Gatot Subroto No. 5, Jakarta",        qrCode: null },
+  { id: "ORD-013", customer: "Hana Lestari",     email: "hana@gmail.com",   products: ["5X Ceramide Barrier Moisture Gel"],                 total: 149000, date: "14 Apr 2025", status: "pending",   payment: "BNI Transfer",  address: "Perumahan Indah Blok C No. 3, Surabaya",  qrCode: null },
+  { id: "ORD-014", customer: "Rina Kusuma",      email: "rina@gmail.com",   products: ["Retinol Night Cream"],                              total: 210000, date: "15 Apr 2025", status: "packing",   payment: "OVO",           address: "Jl. Malioboro No. 88, Yogyakarta",        qrCode: null },
+  { id: "ORD-015", customer: "Tiara Putri",      email: "tiara@gmail.com",  products: ["Gentle Foaming Cleanser", "Rose Water Mist"],       total: 174000, date: "14 Apr 2025", status: "packing",   payment: "BCA Transfer",  address: "Jl. Pemuda No. 21, Semarang",             qrCode: null },
+  { id: "ORD-016", customer: "Ayu Rahayu",       email: "ayu@gmail.com",    products: ["Niacinamide 10% + Zinc Serum", "Pore Tightening Toner"], total: 318000, date: "13 Apr 2025", status: "packing", payment: "DANA",        address: "Jl. A. Yani No. 44, Bandung",             qrCode: null },
+  { id: "ORD-017", customer: "Dewi Larasati",    email: "dewi@gmail.com",   products: ["Hyaluronic Acid Serum", "Ceramide Barrier Cream"],  total: 335000, date: "14 Apr 2025", status: "shipped",   payment: "BNI Transfer",  address: "Jl. Diponegoro No. 7, Medan",             qrCode: "ORD-017-QR-XK8MNJP2" },
+  { id: "ORD-018", customer: "Fitri Handayani",  email: "fitri@gmail.com",  products: ["SPF 50 UV Defense Serum", "Peptide Eye Cream"],     total: 410000, date: "13 Apr 2025", status: "shipped",   payment: "GoPay",         address: "Komplek Griya Permai No. 15, Makassar",   qrCode: "ORD-018-QR-L3RVTH9W" },
+  { id: "ORD-019", customer: "Sari Dewi",        email: "saridewi@gmail.com", products: ["AHA BHA Exfoliating Toner"],                     total: 135000, date: "12 Apr 2025", status: "shipped",   payment: "BCA Transfer",  address: "Jl. Raya Bogor KM 30, Depok",             qrCode: "ORD-019-QR-B7ZSQC4E" },
+  { id: "ORD-001", customer: "Bunga Citra",      email: "bunga@gmail.com",  products: ["Brightening Facial Mask"],                          total: 45000,  date: "14 Apr 2025", status: "delivered", payment: "OVO",           address: "Jl. Kartini No. 9, Surabaya",             qrCode: "ORD-001-QR-P5YNFU6D" },
+  { id: "ORD-002", customer: "Nadia Rahman",     email: "nadia@gmail.com",  products: ["AHA BHA Exfoliating Toner"],                        total: 135000, date: "12 Apr 2025", status: "delivered", payment: "BCA Transfer",  address: "Jl. Imam Bonjol No. 3, Semarang",         qrCode: "ORD-002-QR-R9GWTD1H" },
+  { id: "ORD-003", customer: "Lilis Permata",    email: "lilis@gmail.com",  products: ["Niacinamide Essence"],                              total: 130000, date: "11 Apr 2025", status: "delivered", payment: "DANA",          address: "Jl. Veteran No. 11, Bandung",             qrCode: "ORD-003-QR-A2KXEM7N" },
+  { id: "ORD-004", customer: "Sinta Wulandari",  email: "sinta@gmail.com",  products: ["Collagen Sleeping Pack", "Tea Tree Spot Gel"],      total: 233000, date: "11 Apr 2025", status: "delivered", payment: "GoPay",         address: "Jl. Pahlawan No. 6, Malang",              qrCode: "ORD-004-QR-J6CQBV3S" },
 ];
 
 const MOCK_NOTIFICATIONS = [
@@ -35,6 +35,48 @@ const MOCK_NOTIFICATIONS = [
   { id: 10, type: "review",   title: "New product review",            body: "4★ review on Retinol Night Cream by Tiara Putri",                 time: "Yesterday",  read: true  },
   { id: 11, type: "shipped",  title: "Delivery confirmed",            body: "ORD-001 — Bunga Citra confirmed receipt of her order",            time: "2 days ago", read: true  },
   { id: 12, type: "order",    title: "Order cancelled",               body: "ORD-020 — Wulandari Putri cancelled before payment (BCA)",       time: "2 days ago", read: true  },
+];
+
+const MOCK_RETURN_REQUESTS = [
+  {
+    id: "RET-001", orderId: "ORD-001", customer: "Bunga Citra", email: "bunga@gmail.com",
+    date: "14 Apr 2025", reason: "Product received damaged",
+    status: "pending", monitoringFlag: null,
+    products: [{ name: "Brightening Facial Mask", qty: 1, price: 45000 }],
+    conditionNote: "Box arrived crushed, product was leaking from the seal.",
+    photos: ["photo1.jpg", "photo2.jpg"],
+    qrCode: "PROD-UNIT-20250401-0001", scannedQr: "PROD-UNIT-20250401-0001", qrStatus: null, total: 45000,
+  },
+  {
+    id: "RET-002", orderId: "ORD-002", customer: "Nadia Rahman", email: "nadia@gmail.com",
+    date: "13 Apr 2025", reason: "Wrong item received",
+    status: "pending", monitoringFlag: "Return abuse risk",
+    products: [{ name: "AHA BHA Exfoliating Toner", qty: 1, price: 135000 }],
+    conditionNote: "Received a different product than what was ordered.",
+    photos: ["photo3.jpg"],
+    qrCode: "PROD-UNIT-20250330-0042", scannedQr: "PROD-UNIT-20250405-0017", qrStatus: null, total: 135000,
+  },
+  {
+    id: "RET-003", orderId: "ORD-003", customer: "Lilis Permata", email: "lilis@gmail.com",
+    date: "12 Apr 2025", reason: "Product does not match description",
+    status: "flagged", monitoringFlag: "Unusual login activity",
+    products: [{ name: "Niacinamide Essence", qty: 1, price: 130000 }],
+    conditionNote: "Product texture and scent differ from store description.",
+    photos: ["photo4.jpg"],
+    qrCode: "PROD-UNIT-20250311-0089", scannedQr: "PROD-UNIT-20250312-0099", qrStatus: "invalid", total: 130000,
+  },
+  {
+    id: "RET-004", orderId: "ORD-004", customer: "Sinta Wulandari", email: "sinta@gmail.com",
+    date: "11 Apr 2025", reason: "Allergic reaction to product",
+    status: "approved", monitoringFlag: null,
+    products: [
+      { name: "Collagen Sleeping Pack", qty: 1, price: 155000 },
+      { name: "Tea Tree Spot Gel",      qty: 1, price: 78000 },
+    ],
+    conditionNote: "Developed rash after first use, stopped immediately.",
+    photos: ["photo5.jpg", "photo6.jpg"],
+    qrCode: "PROD-UNIT-20250311-0088", scannedQr: "PROD-UNIT-20250311-0088", qrStatus: "valid", total: 233000,
+  },
 ];
 
 const MOCK_CUSTOMERS = [
@@ -113,6 +155,8 @@ const IcStore      = () => <svg width="16" height="16" viewBox="0 0 24 24" fill=
 const IcStar       = () => <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>;
 const IcPackage    = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>;
 const IcNotif      = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>;
+const IcReturn     = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>;
+const IcQr         = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="5" y="5" width="3" height="3" fill="currentColor" stroke="none"/><rect x="16" y="5" width="3" height="3" fill="currentColor" stroke="none"/><rect x="16" y="16" width="3" height="3" fill="currentColor" stroke="none"/><rect x="5" y="16" width="3" height="3" fill="currentColor" stroke="none"/></svg>;
 
 /* ═══════════════════════════════════════════════════════════
    COMPONENT: Revenue Chart (modern SVG area chart)
@@ -427,10 +471,50 @@ function Dashboard({ setActive }) {
 /* ═══════════════════════════════════════════════════════════
    SECTION: ORDERS
    ═══════════════════════════════════════════════════════════ */
+/* Deterministic fake QR code visual */
+function MockQr({ seed }) {
+  const n = 21, cell = 9;
+  const isFinder = (r, c) => [[0,0],[0,14],[14,0]].some(([sr, sc]) => {
+    const dr = r - sr, dc = c - sc;
+    if (dr < 0 || dr > 6 || dc < 0 || dc > 6) return false;
+    if (dr === 0 || dr === 6 || dc === 0 || dc === 6) return true;
+    if (dr >= 2 && dr <= 4 && dc >= 2 && dc <= 4) return true;
+    return false;
+  });
+  const isSep = (r, c) =>
+    (r === 7 && c <= 7) || (c === 7 && r <= 7) ||
+    (r === 7 && c >= 14) || (c === 13 && r <= 7) ||
+    (r >= 14 && c === 7) || (r === 13 && c <= 7);
+  const isTiming = (r, c) =>
+    (r === 6 && c > 7 && c < 13) || (c === 6 && r > 7 && r < 13);
+  const h = seed.split('').reduce((a, ch, i) => (a + ch.charCodeAt(0) * (i * 7 + 13)) | 0, 0x5a5a);
+  const isData = (r, c) => ((Math.abs(h * (r * n + c + 1)) ^ ((r * n + c) * 2654435761)) >>> 0) % 5 < 3;
+  const filled = (r, c) => {
+    if (isFinder(r, c)) return true;
+    if (isSep(r, c))    return false;
+    if (isTiming(r, c)) return (r === 6 ? c : r) % 2 === 0;
+    return isData(r, c);
+  };
+  const size = n * cell;
+  const rects = [];
+  for (let r = 0; r < n; r++)
+    for (let c = 0; c < n; c++)
+      if (filled(r, c))
+        rects.push(<rect key={`${r}-${c}`} x={c*cell} y={r*cell} width={cell} height={cell} fill="#1f2937" rx="1" />);
+  return (
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ display: "block" }}>
+      <rect width={size} height={size} fill="#fff" />
+      {rects}
+    </svg>
+  );
+}
+
 function Orders() {
-  const [orders, setOrders] = useState(MOCK_ORDERS);
-  const [tab, setTab]       = useState("all");
-  const [query, setQuery]   = useState("");
+  const [orders,       setOrders]       = useState(MOCK_ORDERS);
+  const [tab,          setTab]          = useState("all");
+  const [query,        setQuery]        = useState("");
+  const [qrModal,      setQrModal]      = useState(null);   // orderId | null
+  const [generatingQr, setGeneratingQr] = useState(false);
 
   const tabs = ["all", "pending", "packing", "shipped", "delivered"];
 
@@ -441,8 +525,9 @@ function Orders() {
     return matchTab && matchQ;
   });
 
+  // pending→packing is handled via QR modal; this covers packing→shipped→delivered
   const advance = (id) => {
-    const flow = { pending: "packing", packing: "shipped", shipped: "delivered" };
+    const flow = { packing: "shipped", shipped: "delivered" };
     setOrders(prev => prev.map(o => o.id === id ? { ...o, status: flow[o.status] ?? o.status } : o));
   };
 
@@ -450,7 +535,29 @@ function Orders() {
     setOrders(prev => prev.map(o => o.id === id ? { ...o, status: "cancelled" } : o));
   };
 
+  const openQrModal = (id) => { setQrModal(id); setGeneratingQr(false); };
+  const closeQrModal = () => { if (!generatingQr) { setQrModal(null); setGeneratingQr(false); } };
+
+  const handleGenerate = () => {
+    if (!qrModal || generatingQr) return;
+    setGeneratingQr(true);
+    setTimeout(() => {
+      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+      const hash = Array.from({ length: 8 }, () => chars[Math.floor(Math.random() * chars.length)]).join("");
+      const code = `${qrModal}-QR-${hash}`;
+      setOrders(prev => prev.map(o => o.id === qrModal ? { ...o, qrCode: code } : o));
+      setGeneratingQr(false);
+    }, 1600);
+  };
+
+  const handleConfirmApprove = () => {
+    if (!qrModal) return;
+    setOrders(prev => prev.map(o => o.id === qrModal ? { ...o, status: "packing" } : o));
+    setQrModal(null);
+  };
+
   return (
+    <>
     <div className="adm-section">
       <div className="adm-section-header">
         <div>
@@ -495,7 +602,6 @@ function Orders() {
               <tr><td colSpan={7} className="adm-empty-row">Tidak ada pesanan ditemukan.</td></tr>
             ) : filtered.map(o => {
               const st = STATUS_META[o.status];
-              const canAdvance = ["pending","packing","shipped"].includes(o.status);
               return (
                 <tr key={o.id}>
                   <td><span className="adm-order-id">{o.id}</span></td>
@@ -520,10 +626,24 @@ function Orders() {
                   </td>
                   <td>
                     <div className="adm-action-btns">
-                      {canAdvance && (
-                        <button className="adm-act-btn adm-act-btn--primary" title="Next step" onClick={() => advance(o.id)}>
-                          {o.status === "pending" ? <IcCheck /> : o.status === "packing" ? <IcTruck /> : <IcCheck />}
-                          {o.status === "pending" ? "Approve" : o.status === "packing" ? "Ship" : "Delivered"}
+                      {o.status === "pending" && (
+                        <button className="adm-act-btn adm-act-btn--primary" onClick={() => openQrModal(o.id)}>
+                          <IcCheck /> Approve
+                        </button>
+                      )}
+                      {o.status === "packing" && !o.qrCode && (
+                        <button className="adm-act-btn adm-act-btn--qr" onClick={() => openQrModal(o.id)}>
+                          <IcQr /> Gen QR
+                        </button>
+                      )}
+                      {o.status === "packing" && o.qrCode && (
+                        <button className="adm-act-btn adm-act-btn--primary" onClick={() => advance(o.id)}>
+                          <IcTruck /> Ship
+                        </button>
+                      )}
+                      {o.status === "shipped" && (
+                        <button className="adm-act-btn adm-act-btn--primary" onClick={() => advance(o.id)}>
+                          <IcCheck /> Delivered
                         </button>
                       )}
                       {o.status !== "delivered" && o.status !== "cancelled" && (
@@ -538,6 +658,138 @@ function Orders() {
         </table>
       </div>
     </div>
+
+    {/* QR Generation Modal */}
+    {qrModal && (() => {
+      const order = orders.find(o => o.id === qrModal);
+      if (!order) return null;
+      const isGenerated = !!order.qrCode;
+      const isPending   = order.status === "pending";
+      return (
+        <div className="adm-modal-overlay" onClick={closeQrModal}>
+          <div className="adm-modal adm-qrgen-modal" onClick={e => e.stopPropagation()}>
+
+            {/* Header */}
+            <div className="adm-modal-header">
+              <div className="adm-modal-header-info">
+                <div className="adm-modal-header-row">
+                  <h3 className="adm-modal-title">{order.id}</h3>
+                  <span className="adm-status-pill" style={{ color: STATUS_META[order.status].color, background: STATUS_META[order.status].bg, fontSize: 12, padding: "3px 10px" }}>
+                    {STATUS_META[order.status].label}
+                  </span>
+                </div>
+                <p className="adm-modal-sub">{order.customer} · {order.date} · {order.payment}</p>
+              </div>
+              <button className="adm-modal-close" onClick={closeQrModal} disabled={generatingQr}>✕</button>
+            </div>
+
+            {/* Body */}
+            <div className="adm-qrgen-body">
+
+              {/* Left: order details */}
+              <div className="adm-qrgen-info">
+                <div className="adm-return-info-block">
+                  <p className="adm-return-info-label">Produk</p>
+                  <div className="adm-products-cell" style={{ flexWrap: "wrap", gap: 6 }}>
+                    {order.products.map((p, i) => <span key={i} className="adm-product-tag">{p}</span>)}
+                  </div>
+                </div>
+                <div className="adm-return-info-block">
+                  <p className="adm-return-info-label">Total Pesanan</p>
+                  <p className="adm-qrgen-total">{fmt(order.total)}</p>
+                </div>
+                <div className="adm-return-info-block">
+                  <p className="adm-return-info-label">Metode Pembayaran</p>
+                  <p className="adm-qrgen-meta-val">{order.payment}</p>
+                </div>
+                <div className="adm-return-info-block">
+                  <p className="adm-return-info-label">Alamat Pengiriman</p>
+                  <p className="adm-return-condition-note">{order.address}</p>
+                </div>
+              </div>
+
+              {/* Right: QR panel */}
+              <div className="adm-qrgen-qr">
+                <div className="adm-qrgen-panel">
+
+                  {/* Panel header */}
+                  <div className="adm-qr-panel-hdr">
+                    <div className="adm-qr-icon-wrap"><IcQr /></div>
+                    <div>
+                      <p className="adm-qr-panel-title">QR Code Pesanan</p>
+                      <p className="adm-qr-panel-sub">Satu QR unik per pesanan</p>
+                    </div>
+                  </div>
+
+                  {/* Before generation */}
+                  {!isGenerated && !generatingQr && (
+                    <div className="adm-qrgen-placeholder">
+                      <div className="adm-qrgen-placeholder-icon"><IcQr /></div>
+                      <p className="adm-qrgen-placeholder-text">QR code belum dibuat</p>
+                      <p className="adm-qrgen-placeholder-sub">
+                        Buat QR code unik untuk pesanan ini. QR akan digunakan untuk verifikasi saat customer mengajukan return.
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Generating */}
+                  {generatingQr && (
+                    <div className="adm-qrgen-generating">
+                      <span className="adm-qr-scan-spinner adm-qrgen-big-spinner" />
+                      <p className="adm-qrgen-generating-text">Generating QR code…</p>
+                    </div>
+                  )}
+
+                  {/* Generated result */}
+                  {isGenerated && !generatingQr && (
+                    <div className="adm-qrgen-result">
+                      <div className="adm-qrgen-visual">
+                        <MockQr seed={order.qrCode} />
+                      </div>
+                      <div className="adm-qrgen-code-wrap">
+                        <p className="adm-return-info-label">QR Code String</p>
+                        <code className="adm-qr-code-chip">{order.qrCode}</code>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Generate button — only when not yet generated */}
+                  {!isGenerated && (
+                    <button className="adm-qrgen-btn" onClick={handleGenerate} disabled={generatingQr}>
+                      {generatingQr
+                        ? <><span className="adm-qr-scan-spinner" /> Generating…</>
+                        : <><IcQr /> Generate QR Code</>}
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="adm-qrgen-footer">
+              <button className="adm-ghost-btn" onClick={closeQrModal} disabled={generatingQr}>
+                {isGenerated && !isPending ? "Selesai" : "Batal"}
+              </button>
+              <div className="adm-qrgen-footer-right">
+                {!isGenerated && (
+                  <p className="adm-qrgen-footer-hint">Generate QR code terlebih dahulu untuk melanjutkan.</p>
+                )}
+                {isGenerated && isPending && (
+                  <button className="adm-primary-btn" onClick={handleConfirmApprove}>
+                    <IcCheck /> Approve Pesanan
+                  </button>
+                )}
+                {isGenerated && !isPending && (
+                  <p className="adm-qrgen-footer-ok">✓ QR berhasil dibuat · Pesanan siap dikirim</p>
+                )}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      );
+    })()}
+    </>
   );
 }
 
@@ -932,6 +1184,363 @@ function Notifications() {
 }
 
 /* ═══════════════════════════════════════════════════════════
+   SECTION: RETURNS — QR-Based Return Verification
+   ═══════════════════════════════════════════════════════════ */
+const RETURN_STATUS_META = {
+  pending:  { label: "Pending Review", color: "#e09a3a", bg: "rgba(224,154,58,0.1)"  },
+  flagged:  { label: "Flagged",        color: "#ef4444", bg: "rgba(239,68,68,0.1)"   },
+  approved: { label: "Approved",       color: "#22c55e", bg: "rgba(34,197,94,0.1)"   },
+  rejected: { label: "Rejected",       color: "#7a7a7a", bg: "rgba(122,122,122,0.1)" },
+};
+
+function Returns() {
+  const [requests,     setRequests]     = useState(MOCK_RETURN_REQUESTS);
+  const [tab,          setTab]          = useState("all");
+  const [selected,     setSelected]     = useState(null);
+  const [scanning,     setScanning]     = useState(false);
+  const [verifyResult, setVerifyResult] = useState(null); // null | "valid" | "invalid" | "used"
+
+  const tabs = ["all", "pending", "flagged", "approved", "rejected"];
+  const filtered = tab === "all" ? requests : requests.filter(r => r.status === tab);
+
+  const openDetail = (r) => { setSelected(r); setScanning(false); setVerifyResult(null); };
+  const closeDetail = () => { setSelected(null); setScanning(false); setVerifyResult(null); };
+
+  const scanQR = () => {
+    if (!selected || scanning) return;
+    setScanning(true);
+    setVerifyResult(null);
+    setTimeout(() => {
+      setScanning(false);
+      if (selected.status === "approved" || selected.status === "rejected") {
+        setVerifyResult("used");
+        return;
+      }
+      const matched = selected.scannedQr === selected.qrCode;
+      if (matched) {
+        setVerifyResult("valid");
+        setRequests(prev => prev.map(r => r.id === selected.id ? { ...r, qrStatus: "valid" } : r));
+        setSelected(prev => ({ ...prev, qrStatus: "valid" }));
+      } else {
+        setVerifyResult("invalid");
+        setRequests(prev => prev.map(r =>
+          r.id === selected.id
+            ? { ...r, qrStatus: "invalid", status: r.status === "pending" ? "flagged" : r.status }
+            : r
+        ));
+        setSelected(prev => ({
+          ...prev, qrStatus: "invalid",
+          status: prev.status === "pending" ? "flagged" : prev.status,
+        }));
+      }
+    }, 1400);
+  };
+
+  const approveReturn = () => {
+    setRequests(prev => prev.map(r => r.id === selected.id ? { ...r, status: "approved" } : r));
+    setSelected(prev => ({ ...prev, status: "approved" }));
+  };
+
+  const rejectReturn = () => {
+    setRequests(prev => prev.map(r => r.id === selected.id ? { ...r, status: "rejected" } : r));
+    setSelected(prev => ({ ...prev, status: "rejected" }));
+  };
+
+  const pendingCount = requests.filter(r => r.status === "pending").length;
+  const flaggedCount = requests.filter(r => r.status === "flagged").length;
+
+  return (
+    <div className="adm-section">
+      <div className="adm-section-header">
+        <div>
+          <h2 className="adm-section-title">Return Verification</h2>
+          <p className="adm-section-sub">
+            {requests.length} total · {pendingCount} pending · {flaggedCount} flagged
+          </p>
+        </div>
+      </div>
+
+      {/* Tabs */}
+      <div className="adm-tabs">
+        {tabs.map(t => (
+          <button key={t} className={`adm-tab${tab === t ? " adm-tab--active" : ""}`} onClick={() => setTab(t)}>
+            {t === "all" ? "Semua" : RETURN_STATUS_META[t]?.label}
+            <span className="adm-tab-count">
+              {t === "all" ? requests.length : requests.filter(r => r.status === t).length}
+            </span>
+          </button>
+        ))}
+      </div>
+
+      {/* Return request list */}
+      <div className="adm-return-list">
+        {filtered.length === 0 ? (
+          <div className="adm-card adm-notif-empty"><p>No return requests in this category.</p></div>
+        ) : filtered.map(r => {
+          const st = RETURN_STATUS_META[r.status];
+          return (
+            <div key={r.id} className={`adm-card adm-return-card adm-return-card--${r.status}`} onClick={() => openDetail(r)}>
+              <div className="adm-return-card-left">
+                <div className="adm-return-card-id">
+                  <span className="adm-order-id">{r.id}</span>
+                  <span className="adm-return-order-ref">→ {r.orderId}</span>
+                </div>
+                <div className="adm-customer-cell" style={{ marginTop: 8 }}>
+                  <Avatar name={r.customer} size={28} />
+                  <div>
+                    <p className="adm-customer-name">{r.customer}</p>
+                    <p className="adm-customer-email">{r.email}</p>
+                  </div>
+                </div>
+                <p className="adm-return-reason-preview">"{r.reason}"</p>
+              </div>
+              <div className="adm-return-card-right">
+                <div className="adm-return-card-meta">
+                  <span className="adm-status-pill" style={{ color: st.color, background: st.bg }}>{st.label}</span>
+                  {r.monitoringFlag && <span className="adm-return-flag">⚠ {r.monitoringFlag}</span>}
+                </div>
+                <p className="adm-return-date">{r.date}</p>
+                <p className="adm-return-total"><strong>{fmt(r.total)}</strong></p>
+                <button
+                  className="adm-act-btn adm-act-btn--primary"
+                  style={{ marginTop: 10 }}
+                  onClick={e => { e.stopPropagation(); openDetail(r); }}
+                >
+                  Review →
+                </button>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Detail Modal */}
+      {selected && (
+        <div className="adm-modal-overlay" onClick={closeDetail}>
+          <div className="adm-modal adm-return-modal" onClick={e => e.stopPropagation()}>
+
+            {/* Modal header */}
+            <div className="adm-modal-header">
+              <div className="adm-modal-header-info">
+                <div className="adm-modal-header-row">
+                  <h3 className="adm-modal-title">{selected.id}</h3>
+                  <span className="adm-status-pill" style={{ color: RETURN_STATUS_META[selected.status].color, background: RETURN_STATUS_META[selected.status].bg, fontSize: 12, padding: "3px 10px" }}>
+                    {RETURN_STATUS_META[selected.status].label}
+                  </span>
+                  {selected.monitoringFlag && (
+                    <span className="adm-return-flag">⚠ {selected.monitoringFlag}</span>
+                  )}
+                </div>
+                <p className="adm-modal-sub">{selected.customer} · {selected.orderId} · {selected.date}</p>
+              </div>
+              <button className="adm-modal-close" onClick={closeDetail}>✕</button>
+            </div>
+
+            <div className="adm-return-modal-body">
+
+              {/* Left column: order & customer info */}
+              <div className="adm-return-modal-info">
+
+                {/* Customer */}
+                <div className="adm-return-info-block">
+                  <p className="adm-return-info-label">Customer</p>
+                  <div className="adm-customer-cell">
+                    <Avatar name={selected.customer} size={32} />
+                    <div>
+                      <p className="adm-customer-name">{selected.customer}</p>
+                      <p className="adm-customer-email">{selected.email}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Monitoring flag warning */}
+                {selected.monitoringFlag && (
+                  <div className="adm-return-flag-block">
+                    <span className="adm-return-flag adm-return-flag--lg">⚠ {selected.monitoringFlag}</span>
+                    <p className="adm-return-flag-note">
+                      Fraud monitoring flagged this customer's return activity. Review carefully before approving.
+                    </p>
+                  </div>
+                )}
+
+                {/* Products */}
+                <div className="adm-return-info-block">
+                  <p className="adm-return-info-label">Items to Return</p>
+                  {selected.products.map((p, i) => (
+                    <div key={i} className="adm-return-product-row">
+                      <span className="adm-product-tag">{p.name}</span>
+                      <span className="adm-return-product-qty">×{p.qty}</span>
+                      <span className="adm-return-product-price">{fmt(p.price)}</span>
+                    </div>
+                  ))}
+                  <div className="adm-return-total-row">
+                    <span>Total Refund</span>
+                    <strong>{fmt(selected.total)}</strong>
+                  </div>
+                </div>
+
+                {/* Return reason */}
+                <div className="adm-return-info-block">
+                  <p className="adm-return-info-label">Return Reason</p>
+                  <p className="adm-return-reason-text">{selected.reason}</p>
+                  {selected.conditionNote && (
+                    <p className="adm-return-condition-note">{selected.conditionNote}</p>
+                  )}
+                </div>
+
+                {/* Customer photos */}
+                <div className="adm-return-info-block">
+                  <p className="adm-return-info-label">Customer Photos ({selected.photos.length})</p>
+                  <div className="adm-return-photos">
+                    {selected.photos.map((_, i) => (
+                      <div key={i} className="adm-return-photo-placeholder">
+                        <span style={{ fontSize: 22 }}>📷</span>
+                        <span>Photo {i + 1}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Right column: QR verification panel */}
+              <div className="adm-return-modal-qr">
+                <div className="adm-qr-panel">
+
+                  {/* Panel header */}
+                  <div className="adm-qr-panel-hdr">
+                    <div className="adm-qr-icon-wrap"><IcQr /></div>
+                    <div>
+                      <p className="adm-qr-panel-title">QR Verification</p>
+                      <p className="adm-qr-panel-sub">Verify the returned item's authenticity</p>
+                    </div>
+                  </div>
+
+                  {/* Step-by-step verification */}
+                  <div className="adm-qr-steps">
+
+                    {/* Step 1: System record */}
+                    <div className="adm-qr-step">
+                      <div className="adm-qr-step-num">1</div>
+                      <div className="adm-qr-step-body">
+                        <p className="adm-qr-step-lbl">Registered QR (System Record)</p>
+                        <code className="adm-qr-code-chip">{selected.qrCode}</code>
+                      </div>
+                    </div>
+
+                    {/* Step 2: Scan */}
+                    <div className="adm-qr-step">
+                      <div className={`adm-qr-step-num${(verifyResult || selected.qrStatus) ? " adm-qr-step-num--done" : ""}`}>
+                        {(verifyResult || selected.qrStatus) ? "✓" : "2"}
+                      </div>
+                      <div className="adm-qr-step-body">
+                        <p className="adm-qr-step-lbl">Scan Returned Item</p>
+                        {!verifyResult && !selected.qrStatus ? (
+                          <button
+                            className={`adm-qr-scan-btn${scanning ? " adm-qr-scan-btn--scanning" : ""}`}
+                            onClick={scanQR}
+                            disabled={scanning || selected.status === "approved" || selected.status === "rejected"}
+                          >
+                            {scanning
+                              ? <><span className="adm-qr-scan-spinner" /> Scanning…</>
+                              : <><IcQr /> Scan QR Code</>}
+                          </button>
+                        ) : (
+                          <div className="adm-qr-scanned-row">
+                            <code className={`adm-qr-code-chip adm-qr-code-chip--${
+                              (verifyResult || selected.qrStatus) === "valid" ? "valid" : "invalid"
+                            }`}>
+                              {selected.scannedQr}
+                            </code>
+                            {verifyResult === "invalid" && (
+                              <button className="adm-qr-rescan-btn" onClick={() => setVerifyResult(null)}>↺ Re-scan</button>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Step 3: Result */}
+                    {(verifyResult || selected.qrStatus) && (() => {
+                      const res     = verifyResult || selected.qrStatus;
+                      const isMatch = res === "valid";
+                      const isUsed  = res === "used";
+                      return (
+                        <div className="adm-qr-step adm-qr-step--last">
+                          <div className={`adm-qr-step-num ${isMatch ? "adm-qr-step-num--match" : isUsed ? "adm-qr-step-num--used" : "adm-qr-step-num--mismatch"}`}>
+                            {isUsed ? "—" : isMatch ? "✓" : "✗"}
+                          </div>
+                          <div className="adm-qr-step-body">
+                            <p className="adm-qr-step-lbl">Verification Result</p>
+                            <div className={`adm-qr-result-card adm-qr-result-card--${isMatch ? "match" : isUsed ? "used" : "mismatch"}`}>
+                              <p className="adm-qr-result-card-title">
+                                {isUsed
+                                  ? `Already ${selected.status}`
+                                  : isMatch
+                                    ? "QR Match — Item Verified"
+                                    : "QR Mismatch — Item Not Verified"}
+                              </p>
+                              <p className="adm-qr-result-card-desc">
+                                {isUsed
+                                  ? "This return has already been resolved. No further action needed."
+                                  : isMatch
+                                    ? "Scanned code matches the registered unit. This item is genuine."
+                                    : "Scanned code does not match. Return has been flagged as suspicious."}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })()}
+                  </div>
+
+                  {/* Decision footer */}
+                  <div className="adm-qr-footer">
+                    {(selected.status === "approved" || selected.status === "rejected") ? (
+                      <div className={`adm-qr-resolved adm-qr-resolved--${selected.status}`}>
+                        <div className="adm-qr-resolved-ico">
+                          {selected.status === "approved" ? "✓" : "✗"}
+                        </div>
+                        <div>
+                          <p className="adm-qr-resolved-title">
+                            Return {selected.status === "approved" ? "Approved" : "Rejected"}
+                          </p>
+                          <p className="adm-qr-resolved-sub">This request has been resolved and closed.</p>
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        <p className={`adm-qr-footer-hint${(verifyResult === "valid" || selected.qrStatus === "valid") ? " adm-qr-footer-hint--ready" : ""}`}>
+                          {(verifyResult === "valid" || selected.qrStatus === "valid")
+                            ? "✓ QR verified — you may now approve or reject."
+                            : "Scan the QR code above to enable the decision."}
+                        </p>
+                        <div className="adm-qr-footer-btns">
+                          <button
+                            className="adm-qr-approve-btn"
+                            disabled={verifyResult !== "valid" && selected.qrStatus !== "valid"}
+                            onClick={approveReturn}
+                          >
+                            <IcCheck /> Approve Return
+                          </button>
+                          <button className="adm-qr-reject-btn" onClick={rejectReturn}>
+                            ✕ Reject
+                          </button>
+                        </div>
+                      </>
+                    )}
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════
    SIDEBAR NAV CONFIG
    ═══════════════════════════════════════════════════════════ */
 const NAV_ITEMS = [
@@ -939,6 +1548,7 @@ const NAV_ITEMS = [
   { id: "orders",        label: "Pesanan",         icon: <IcOrders />    },
   { id: "products",      label: "Produk",          icon: <IcProducts />  },
   { id: "customers",     label: "Pelanggan",       icon: <IcCustomers /> },
+  { id: "returns",       label: "Return Verify",   icon: <IcReturn />    },
   { id: "notifications", label: "Notifications",   icon: <IcNotif />     },
   { id: "settings",      label: "Pengaturan",      icon: <IcSettings />  },
 ];
@@ -951,8 +1561,9 @@ export default function AdminPage() {
   const [active, setActive] = useState("dashboard");
   const [query,  setQuery]  = useState("");
 
-  const pendingOrders = MOCK_ORDERS.filter(o => o.status === "pending").length;
-  const unreadNotifs  = MOCK_NOTIFICATIONS.filter(n => !n.read).length;
+  const pendingOrders  = MOCK_ORDERS.filter(o => o.status === "pending").length;
+  const unreadNotifs   = MOCK_NOTIFICATIONS.filter(n => !n.read).length;
+  const pendingReturns = MOCK_RETURN_REQUESTS.filter(r => r.status === "pending" || r.status === "flagged").length;
 
   const renderSection = () => {
     switch (active) {
@@ -960,6 +1571,7 @@ export default function AdminPage() {
       case "orders":    return <Orders />;
       case "products":  return <Products />;
       case "customers": return <Customers />;
+      case "returns":        return <Returns />;
       case "notifications":  return <Notifications />;
       case "settings":       return <Settings />;
       default:          return <Dashboard setActive={setActive} />;
@@ -993,6 +1605,9 @@ export default function AdminPage() {
               <span className="adm-nav-label">{item.label}</span>
               {item.id === "orders" && pendingOrders > 0 && (
                 <span className="adm-nav-badge adm-nav-badge--amber">{pendingOrders}</span>
+              )}
+              {item.id === "returns" && pendingReturns > 0 && (
+                <span className="adm-nav-badge adm-nav-badge--rose">{pendingReturns}</span>
               )}
               {item.id === "notifications" && unreadNotifs > 0 && (
                 <span className="adm-nav-badge adm-nav-badge--rose">{unreadNotifs}</span>
