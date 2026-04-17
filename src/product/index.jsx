@@ -7,7 +7,7 @@ import Footer from "../components/Footer";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
 import { useSearch } from "../context/SearchContext";
-import { PRODUCTS } from "../data/products.js";
+import { PRODUCTS, FALLBACK_IMG } from "../data/products.js";
 
 const PRODUCT_CATEGORIES = ["All", ...new Set(PRODUCTS.map((p) => p.category))];
 
@@ -151,9 +151,15 @@ export default function ProductPage() {
         ) : (
           <div className="all-products-grid">
             {filteredProducts.map((product) => (
-              <div key={product.id} className="bestseller-card">
-                <div className="bestseller-img-wrap">
-                  <img src={product.image} alt={product.name} className="bestseller-img" />
+              <div key={product.id} className="prod-card">
+                <div className="prod-img-wrap">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="prod-img"
+                    onError={e => { e.target.onerror = null; e.target.src = FALLBACK_IMG; }}
+                  />
+                  {product.bestseller && <span className="prod-badge">Bestseller</span>}
                   <button
                     className={`cat-fav-btn${favorites.has(product.id) ? " cat-fav-btn--active" : ""}`}
                     onClick={() => handleToggleFavorite(product)}
@@ -161,16 +167,19 @@ export default function ProductPage() {
                     <HeartIcon filled={favorites.has(product.id)} />
                   </button>
                 </div>
-                <div className="bestseller-info">
-                  <p className="bestseller-category-tag">{product.category}</p>
-                  <p className="bestseller-name">{product.name}</p>
-                  <p className="bestseller-reviews">
-                    ★ {product.rating} <span>({product.reviews})</span>
-                  </p>
-                  <p className="bestseller-price">{formatRupiah(product.price)}</p>
-                  <button className="add-to-bag-btn" onClick={() => addToCart(product)}>
-                    Add to Bag
-                  </button>
+                <div className="prod-info">
+                  <p className="prod-brand">{product.brand}</p>
+                  <p className="prod-name">{product.name}</p>
+                  <p className="prod-cat-tag">{product.category}</p>
+                  <div className="prod-bottom">
+                    <div>
+                      <p className="prod-rating">★ {product.rating} <span>({product.reviews})</span></p>
+                      <p className="prod-price">{formatRupiah(product.price)}</p>
+                    </div>
+                    <button className="prod-cart-btn" onClick={() => addToCart(product)}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}

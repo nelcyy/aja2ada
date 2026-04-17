@@ -1,0 +1,654 @@
+/* ══════════════════════════════════════════════════════════
+   ORDER DETAIL PAGE — Customer E-Receipt View
+   ══════════════════════════════════════════════════════════ */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap');
+
+:root {
+  --od-brand:        #c97269;
+  --od-brand-light:  #f9d4cf;
+  --od-brand-bg:     #fdf0ef;
+  --od-brand-border: #f0d5d2;
+  --od-text:         #2d2d2d;
+  --od-text-2:       #7a7a7a;
+  --od-text-3:       #b0a8a6;
+  --od-card-shadow:  0 2px 12px rgba(214,134,124,0.08);
+  --od-radius:       16px;
+}
+
+/* ── Root ──────────────────────────────────────────────── */
+.od-root {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top right, rgba(255,224,219,0.7) 0%, transparent 28%),
+    radial-gradient(circle at 8% 88%, rgba(201,114,105,0.1) 0%, transparent 30%),
+    linear-gradient(180deg, #fdf6f5 0%, #fffaf9 45%, #fdf6f5 100%);
+  font-family: 'DM Sans', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Main layout ───────────────────────────────────────── */
+.od-main {
+  flex: 1;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 28px 20px 60px;
+  width: 100%;
+}
+
+/* ── Back button ───────────────────────────────────────── */
+.od-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--od-text-2);
+  font-size: 13.5px;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  padding: 0;
+  margin-bottom: 20px;
+  transition: color 0.18s;
+}
+.od-back-btn:hover { color: var(--od-brand); }
+
+/* ── Page header ───────────────────────────────────────── */
+.od-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.od-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--od-text);
+  margin: 0 0 4px;
+}
+.od-order-id {
+  font-size: 14px;
+  color: var(--od-text-2);
+  font-weight: 500;
+  margin: 0;
+}
+.od-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ── Grid layout ───────────────────────────────────────── */
+.od-grid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 20px;
+}
+
+/* ── Card base ─────────────────────────────────────────── */
+.od-card {
+  background: rgba(255,255,255,0.9);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border-radius: var(--od-radius);
+  border: 1.5px solid rgba(255,255,255,0.85);
+  padding: 22px 24px;
+  box-shadow: 0 4px 24px rgba(201,114,105,0.09), 0 1px 6px rgba(0,0,0,0.04);
+  margin-bottom: 20px;
+}
+.od-card:last-child { margin-bottom: 0; }
+.od-card-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--od-text);
+  margin: 0 0 16px;
+}
+
+/* ── Status timeline ───────────────────────────────────── */
+.od-timeline-card {
+  margin-bottom: 20px;
+}
+.od-steps {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 6px 0 2px;
+  position: relative;
+}
+.od-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+.od-step-dot {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 800;
+  border: 2.5px solid transparent;
+  transition: all 0.2s;
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+}
+.od-step-dot--done {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  border-color: #22c55e;
+  color: white;
+}
+.od-step-dot--active {
+  background: linear-gradient(135deg, #c97269, #b05a52);
+  border-color: #c97269;
+  color: white;
+  box-shadow: 0 0 0 5px rgba(201,114,105,0.18);
+}
+.od-step-dot--pending {
+  background: rgba(255,255,255,0.6);
+  border-color: #e2d2cf;
+  color: #c9b8b5;
+}
+.od-step-label {
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 7px;
+  text-align: center;
+  white-space: nowrap;
+}
+.od-step-label--done   { color: #16a34a; }
+.od-step-label--active { color: var(--od-brand); font-weight: 800; }
+.od-step-label--pending { color: var(--od-text-3); }
+.od-step-line {
+  flex: 1;
+  height: 3px;
+  border-radius: 2px;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 0;
+}
+.od-step-line--done    { background: #22c55e; }
+.od-step-line--active  { background: linear-gradient(90deg, #22c55e, #c97269); }
+.od-step-line--pending { background: #e2d2cf; }
+
+/* ── Items list ────────────────────────────────────────── */
+.od-items { display: flex; flex-direction: column; gap: 14px; }
+.od-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px;
+  background: var(--od-brand-bg);
+  border-radius: 10px;
+  border: 1px solid var(--od-brand-border);
+}
+.od-item-img {
+  width: 52px;
+  height: 52px;
+  border-radius: 10px;
+  background: var(--od-brand-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--od-brand);
+  flex-shrink: 0;
+}
+.od-item-info { flex: 1; }
+.od-item-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--od-text);
+  margin: 0 0 4px;
+}
+.od-item-qty {
+  font-size: 12.5px;
+  color: var(--od-text-2);
+  margin: 0;
+}
+.od-item-right { text-align: right; }
+.od-item-unit {
+  font-size: 12px;
+  color: var(--od-text-3);
+  margin: 0 0 4px;
+}
+.od-item-subtotal {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--od-text);
+  margin: 0;
+}
+
+/* ── Payment summary ───────────────────────────────────── */
+.od-summary { display: flex; flex-direction: column; gap: 10px; }
+.od-summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: var(--od-text-2);
+}
+.od-free-ship { color: #22c55e; font-weight: 600; }
+.od-summary-divider {
+  height: 1px;
+  background: var(--od-brand-border);
+  margin: 4px 0;
+}
+.od-summary-total {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--od-text);
+}
+.od-summary-payment-method { color: var(--od-text-3); font-size: 13px; }
+
+/* ── Shipping info ─────────────────────────────────────── */
+.od-shipping { display: flex; flex-direction: column; gap: 12px; }
+.od-shipping-row { display: flex; flex-direction: column; gap: 3px; }
+.od-shipping-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--od-text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.od-shipping-val {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--od-text);
+}
+
+/* ══════════════════════════════════════════════════════════
+   E-RECEIPT CARD — bagian paling penting di sisi customer
+   ══════════════════════════════════════════════════════════ */
+.od-receipt-card {
+  border-color: var(--od-brand);
+  background: linear-gradient(135deg, #fffaf9 0%, #fff5f3 100%);
+  position: relative;
+  overflow: hidden;
+}
+.od-receipt-card::before {
+  content: "";
+  position: absolute;
+  top: -30px; right: -30px;
+  width: 100px; height: 100px;
+  background: radial-gradient(circle, rgba(201,114,105,0.12) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.od-receipt-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.od-receipt-icon-wrap {
+  width: 54px; height: 54px;
+  background: var(--od-brand-light);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--od-brand);
+  flex-shrink: 0;
+}
+.od-receipt-avail {
+  font-size: 12.5px;
+  color: #22c55e;
+  font-weight: 600;
+  margin: 0;
+}
+.od-receipt-desc {
+  font-size: 13.5px;
+  color: var(--od-text-2);
+  line-height: 1.6;
+  margin: 0 0 18px;
+}
+
+/* Tombol-tombol receipt */
+.od-receipt-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.od-btn-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--od-brand);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 11px 20px;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: background 0.18s, transform 0.15s;
+}
+.od-btn-download:hover { background: #b05a52; transform: translateY(-1px); }
+
+.od-btn-preview {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: transparent;
+  color: var(--od-brand);
+  border: 2px solid var(--od-brand);
+  border-radius: 10px;
+  padding: 9px 18px;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: background 0.18s, transform 0.15s;
+}
+.od-btn-preview:hover { background: var(--od-brand-bg); transform: translateY(-1px); }
+
+/* Keterangan keamanan */
+.od-receipt-security {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  padding: 10px 12px;
+  background: rgba(34,197,94,0.06);
+  border: 1px solid rgba(34,197,94,0.2);
+  border-radius: 8px;
+  color: #15803d;
+}
+.od-receipt-security p {
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 0;
+}
+.od-receipt-security svg { margin-top: 2px; flex-shrink: 0; }
+
+/* ══════════════════════════════════════════════════════════
+   PREVIEW MODAL
+   ══════════════════════════════════════════════════════════ */
+.od-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+.od-modal {
+  background: white;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 420px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+.od-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 0;
+}
+.od-modal-header h3 {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--od-text);
+  margin: 0;
+}
+.od-modal-close {
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: var(--od-text-3);
+  cursor: pointer;
+  width: 30px; height: 30px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  transition: background 0.15s;
+}
+.od-modal-close:hover { background: var(--od-brand-bg); color: var(--od-brand); }
+.od-modal-body { padding: 20px 24px 24px; }
+
+/* ── Receipt preview — modern olshop style ── */
+.od-receipt-preview {
+  background: white;
+  border: 1.5px solid var(--od-brand-border);
+  border-radius: 14px;
+  overflow: hidden;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* Receipt head */
+.od-rp-head {
+  background: linear-gradient(135deg, #d6867c 0%, #c97269 40%, #b05a52 100%);
+  padding: 20px 20px 16px;
+  text-align: center;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+.od-rp-head::before {
+  content: "";
+  position: absolute;
+  top: -28px; right: -28px;
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  pointer-events: none;
+}
+.od-rp-logo-img {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto 8px;
+  position: relative; z-index: 1;
+  box-shadow: 0 3px 16px rgba(0,0,0,0.18), 0 0 0 3px rgba(255,255,255,0.35);
+}
+.od-rp-head-id {
+  display: inline-block;
+  margin-top: 7px;
+  background: rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 50px;
+  padding: 3px 12px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  position: relative; z-index: 1;
+}
+.od-rp-tagline {
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  opacity: 0.85;
+  position: relative; z-index: 1;
+}
+
+/* Success badge */
+.od-rp-success {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 16px;
+  background: linear-gradient(90deg, #f0fdf4, #ecfdf5);
+  border-bottom: 1.5px dashed #86efac;
+  color: #15803d;
+  font-size: 12.5px;
+  font-weight: 700;
+}
+.od-rp-success-dot {
+  width: 22px; height: 22px;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: white;
+  font-size: 12px;
+  font-weight: 900;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(34,197,94,0.35);
+}
+
+/* Info grid */
+.od-rp-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+  padding: 14px 16px 10px;
+}
+.od-rp-info-box {
+  background: linear-gradient(135deg, #fffaf9, #fdf5f3);
+  border-radius: 8px;
+  padding: 10px 11px;
+  border: 1.5px solid var(--od-brand-border);
+}
+.od-rp-info-label { font-size: 9px; color: var(--od-text-3); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; margin: 0 0 3px; }
+.od-rp-info-val   { font-size: 12px; font-weight: 800; color: var(--od-text); margin: 0; line-height: 1.3; }
+
+.od-rp-divider {
+  height: 1px;
+  background: var(--od-brand-border);
+  margin: 4px 16px 12px;
+}
+
+.od-rp-items-label {
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--od-brand);
+  margin: 0 16px 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.od-rp-items-label::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--od-brand-border);
+}
+
+.od-rp-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  background: linear-gradient(135deg, #fffaf9, #fdf5f3);
+  border-radius: 8px;
+  border: 1.5px solid var(--od-brand-border);
+  margin: 0 16px 6px;
+}
+.od-rp-item-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #d6867c, #c97269);
+  flex-shrink: 0;
+}
+.od-rp-item-left { flex: 1; }
+.od-rp-item-name  { font-size: 12.5px; font-weight: 700; color: var(--od-text); margin: 0 0 2px; }
+.od-rp-item-qty   { font-size: 11px; color: var(--od-text-3); margin: 0; }
+.od-rp-item-total { font-size: 13px; font-weight: 900; color: var(--od-brand); white-space: nowrap; }
+
+/* Summary rows */
+.od-rp-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12.5px;
+  color: var(--od-text-2);
+  padding: 4px 16px;
+}
+.od-rp-row span:last-child { font-weight: 600; color: var(--od-text); }
+
+/* Total row */
+.od-rp-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, rgba(201,114,105,0.1) 0%, rgba(201,114,105,0.05) 100%);
+  border-top: 2px solid var(--od-brand-border);
+  margin-top: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--od-text-2);
+}
+.od-rp-total-val { font-size: 20px; font-weight: 900; color: var(--od-brand); letter-spacing: -0.5px; }
+
+/* Barcode */
+.od-rp-barcode-wrap {
+  padding: 14px 16px 10px;
+  text-align: center;
+  border-top: 1px solid #f5eeec;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.od-rp-barcode-num { font-size: 10px; color: var(--od-text-3); font-weight: 600; letter-spacing: 1.5px; }
+
+/* Footer */
+.od-rp-footer {
+  background: linear-gradient(135deg, #fdf0ef, #fff5f3);
+  border-top: 1.5px solid var(--od-brand-border);
+  padding: 14px 16px;
+  text-align: center;
+}
+.od-rp-footer-text {
+  font-size: 12.5px;
+  color: var(--od-text);
+  font-weight: 700;
+  margin: 0 0 3px;
+}
+.od-rp-footer-sub {
+  font-size: 11px;
+  color: var(--od-text-3);
+  margin: 0 0 8px;
+}
+.od-rp-footer-brand {
+  font-size: 9px;
+  color: var(--od-brand);
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  opacity: 0.65;
+  margin: 0;
+}
+
+/* ── Responsive ────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .od-grid {
+    grid-template-columns: 1fr;
+  }
+  .od-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .od-title { font-size: 20px; }
+  .od-receipt-actions { flex-direction: column; }
+  .od-btn-download, .od-btn-preview { width: 100%; justify-content: center; }
+}
+
+@media (max-width: 480px) {
+  .od-main { padding: 20px 16px 48px; }
+  .od-card { padding: 18px 16px; }
+}

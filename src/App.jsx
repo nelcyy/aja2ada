@@ -10,6 +10,7 @@ import WishlistPage from './wishlist/wishlist.jsx'
 import ContactPage from './contact/index.jsx'
 import CheckoutPage from './checkout/index.jsx'
 import AdminPage from './admin/index.jsx'
+import OrderDetailPage from './orderdetail/index.jsx'
 import { CartProvider } from './context/CartContext.jsx'
 import { WishlistProvider } from './context/WishlistContext.jsx'
 import { SearchProvider } from './context/SearchContext.jsx'
@@ -121,6 +122,7 @@ function App() {
               <Route path="/products" element={<ProductPage />} />
               <Route path="/wishlist" element={<WishlistPage />} />
               <Route path="/checkout" element={<CheckoutPage />} />
+              <Route path="/orderdetail" element={<OrderDetailPage />} />
             </Routes>
             <CartSidebar />
           </Router>
