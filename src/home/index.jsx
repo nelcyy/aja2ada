@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
 import Navbar from "../components/Navbar";
@@ -5,6 +6,9 @@ import Footer from "../components/Footer";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
 import { PRODUCTS } from "../data/products.js";
+
+// Top 3 by review count (most reviews = best seller)
+const TOP3 = [...PRODUCTS].sort((a, b) => b.reviews - a.reviews).slice(0, 3);
 
 const SHOP_CATEGORIES = [
   { id: "skincare", name: "Skincare", emoji: "Glow", desc: "Cleansers, toners, serums, and moisturizers" },
@@ -90,10 +94,19 @@ const HeartIcon = ({ filled }) => (
   </svg>
 );
 
+const CartPlusIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+    <line x1="12" y1="10" x2="12" y2="16"/><line x1="9" y1="13" x2="15" y2="13"/>
+  </svg>
+);
+
 export default function HomePage() {
   const navigate = useNavigate();
   const { addToCart, cart, cartOpen, setCartOpen, updateQty, removeItem, cartTotal } = useCart();
   const { favorites, toggleFavorite, addToWishlist } = useWishlist();
+  const [quickView, setQuickView] = useState(null);
 
   const categoryCount = new Set(PRODUCTS.map((product) => product.category)).size;
   const budgetCount = PRODUCTS.filter((product) => product.price <= 100000).length;
@@ -321,6 +334,104 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ══ TOP 3 TERLARIS ══ */}
+      <section className="top3-section">
+        <div className="top3-section-head">
+          <div>
+            <p className="top3-eyebrow">🏆 Produk Terlaris</p>
+            <h2 className="top3-title">Top 3 Pilihan Pelanggan</h2>
+          </div>
+          <button className="section-view-all" onClick={goToProducts}>Lihat semua →</button>
+        </div>
+        <div className="top3-grid">
+          {TOP3.map((product, idx) => {
+            const rank = idx + 1;
+            const rankEmoji = rank === 1 ? "🥇" : rank === 2 ? "🥈" : "🥉";
+            const maxReviews = TOP3[0].reviews;
+            return (
+              <div
+                key={product.id}
+                className={`top3-card${rank === 1 ? " top3-card--1" : ""}`}
+                onClick={() => setQuickView(product)}
+              >
+                <div className={`top3-rank-badge top3-rank-badge--${rank}`}>{rankEmoji}</div>
+                <button
+                  className={`top3-fav-btn${favorites.has(product.id) ? " top3-fav-btn--active" : ""}`}
+                  onClick={e => { e.stopPropagation(); handleToggleFavorite(product); }}
+                >
+                  <HeartIcon filled={favorites.has(product.id)} />
+                </button>
+                <div className="top3-img-wrap">
+                  <img src={product.image} alt={product.name} />
+                </div>
+                <div className="top3-info">
+                  <p className="top3-brand">{product.brand}</p>
+                  <p className="top3-name">{product.name}</p>
+                  <div className="top3-meta">
+                    <span className="top3-stars">★ {product.rating}</span>
+                    <span className="top3-reviews">{product.reviews.toLocaleString("id-ID")} reviews</span>
+                  </div>
+                  <div className="top3-reviews-bar">
+                    <div className="top3-reviews-fill" style={{ width: `${(product.reviews / maxReviews) * 100}%` }} />
+                  </div>
+                  <div className="top3-bottom" style={{ marginTop: 12 }}>
+                    <span className="top3-price">Rp {product.price.toLocaleString("id-ID")}</span>
+                    <button
+                      className="top3-add-btn"
+                      onClick={e => { e.stopPropagation(); addToCart(product); }}
+                    >
+                      <CartPlusIcon /> Beli
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* ══ HORIZONTAL SCROLL — BROWSE SEMUA PRODUK ══ */}
+      <section className="hscroll-section">
+        <div className="hscroll-head">
+          <div>
+            <p className="top3-eyebrow">✨ Semua Produk</p>
+            <h2 className="top3-title">Browse & Geser →</h2>
+          </div>
+          <button className="section-view-all" onClick={goToProducts}>Lihat halaman produk →</button>
+        </div>
+        <div className="hscroll-track-wrap">
+          <div className="hscroll-track">
+            {PRODUCTS.map(product => (
+              <div
+                key={product.id}
+                className="hscroll-card"
+                onClick={() => setQuickView(product)}
+              >
+                <div className="hscroll-img-wrap">
+                  {product.bestseller && (
+                    <span className="hscroll-bestseller-tag">Best Seller</span>
+                  )}
+                  <img src={product.image} alt={product.name} />
+                </div>
+                <div className="hscroll-info">
+                  <p className="hscroll-brand">{product.brand}</p>
+                  <p className="hscroll-name">{product.name}</p>
+                  <p className="hscroll-stars">★ {product.rating} <span style={{ color: "#b0a8a6", fontWeight: 400 }}>({product.reviews})</span></p>
+                  <div className="hscroll-bottom">
+                    <span className="hscroll-price">Rp {product.price.toLocaleString("id-ID")}</span>
+                    <button
+                      className="hscroll-cart-btn"
+                      onClick={e => { e.stopPropagation(); addToCart(product); }}
+                      title="Tambah ke keranjang"
+                    >+</button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="home-section" style={{ marginBottom: 60 }}>
         <div className="home-section-header">
           <h2 className="home-section-title">Best Sellers</h2>
@@ -389,6 +500,49 @@ export default function HomePage() {
       </section>
 
       <Footer />
+
+      {/* ══ QUICK VIEW MODAL ══ */}
+      {quickView && (
+        <div className="qv-overlay" onClick={() => setQuickView(null)}>
+          <div className="qv-modal" onClick={e => e.stopPropagation()}>
+            <button className="qv-close" onClick={() => setQuickView(null)}>✕</button>
+            <div className="qv-body">
+              <div className="qv-img-wrap">
+                <img src={quickView.image} alt={quickView.name} />
+                {quickView.bestseller && (
+                  <span className="qv-img-badge">Best Seller</span>
+                )}
+              </div>
+              <div className="qv-info">
+                <p className="qv-brand">{quickView.brand}</p>
+                <h3 className="qv-name">{quickView.name}</h3>
+                <span className="qv-category-tag">{quickView.category}</span>
+                <div className="qv-stars-row">
+                  <span className="qv-stars">★ {quickView.rating}</span>
+                  <span className="qv-review-count">({quickView.reviews.toLocaleString("id-ID")} reviews)</span>
+                </div>
+                <p className="qv-desc">{quickView.desc}</p>
+                <p className="qv-price">Rp {quickView.price.toLocaleString("id-ID")}</p>
+                <div className="qv-actions">
+                  <button
+                    className="qv-add-btn"
+                    onClick={() => { addToCart(quickView); setQuickView(null); }}
+                  >
+                    + Tambah ke Keranjang
+                  </button>
+                  <button
+                    className={`qv-fav-btn${favorites.has(quickView.id) ? " qv-fav-btn--active" : ""}`}
+                    onClick={() => handleToggleFavorite(quickView)}
+                    title="Simpan ke wishlist"
+                  >
+                    <HeartIcon filled={favorites.has(quickView.id)} />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {cartOpen && <div className="cart-overlay" onClick={() => setCartOpen(false)} />}
 
