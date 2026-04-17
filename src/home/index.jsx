@@ -5,16 +5,16 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
-import { PRODUCTS } from "../data/products.js";
+import { PRODUCTS, FALLBACK_IMG } from "../data/products.js";
 
 // Top 3 by review count (most reviews = best seller)
 const TOP3 = [...PRODUCTS].sort((a, b) => b.reviews - a.reviews).slice(0, 3);
 
 const SHOP_CATEGORIES = [
-  { id: "skincare", name: "Skincare", emoji: "Glow", desc: "Cleansers, toners, serums, and moisturizers" },
-  { id: "makeup", name: "Makeup", emoji: "Tint", desc: "Easy everyday picks for lips, base, and more" },
-  { id: "haircare", name: "Haircare", emoji: "Care", desc: "Scalp, strands, and styling support" },
-  { id: "tools", name: "Tools", emoji: "Tools", desc: "Little extras that complete the routine" },
+  { id: "skincare", name: "Skincare", label: "Glow", desc: "Cleansers, toners, serums & moisturizers", img: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&w=600&h=450&q=80" },
+  { id: "makeup", name: "Makeup", label: "Tint", desc: "Easy everyday picks for lips, base & more", img: "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&w=600&h=450&q=80" },
+  { id: "haircare", name: "Haircare", label: "Care", desc: "Scalp, strands & styling support", img: "https://images.unsplash.com/photo-1587854692152-cbe660dbde88?auto=format&fit=crop&w=600&h=450&q=80" },
+  { id: "tools", name: "Tools", label: "Tools", desc: "Little extras that complete the routine", img: "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=600&h=450&q=80" },
 ];
 
 const BEST_SELLERS = [PRODUCTS[2], PRODUCTS[3], PRODUCTS[4], PRODUCTS[5]];
@@ -267,8 +267,9 @@ export default function HomePage() {
         <div className="category-grid">
           {SHOP_CATEGORIES.map((cat) => (
             <div key={cat.id} className="cat-card" onClick={goToProducts}>
-              <div className="cat-card-img-wrap">
-                <span className="cat-card-emoji">{cat.emoji}</span>
+              <div className="cat-card-img-wrap" style={{ backgroundImage: `url(${cat.img})` }}>
+                <div className="cat-card-dim" />
+                <span className="cat-card-label">{cat.label}</span>
                 <div className="cat-card-overlay">Browse now</div>
               </div>
               <div className="cat-card-footer">
@@ -362,7 +363,7 @@ export default function HomePage() {
                   <HeartIcon filled={favorites.has(product.id)} />
                 </button>
                 <div className="top3-img-wrap">
-                  <img src={product.image} alt={product.name} />
+                  <img src={product.image} alt={product.name} onError={e => { e.target.onerror = null; e.target.src = FALLBACK_IMG; }} />
                 </div>
                 <div className="top3-info">
                   <p className="top3-brand">{product.brand}</p>
@@ -411,7 +412,7 @@ export default function HomePage() {
                   {product.bestseller && (
                     <span className="hscroll-bestseller-tag">Best Seller</span>
                   )}
-                  <img src={product.image} alt={product.name} />
+                  <img src={product.image} alt={product.name} onError={e => { e.target.onerror = null; e.target.src = FALLBACK_IMG; }} />
                 </div>
                 <div className="hscroll-info">
                   <p className="hscroll-brand">{product.brand}</p>
@@ -445,7 +446,7 @@ export default function HomePage() {
               {index === 0 && <span className="product-badge product-badge--hot">Top Pick</span>}
               {index === 2 && <span className="product-badge product-badge--new">Just In</span>}
               <div className="bestseller-img-wrap">
-                <img src={product.image} alt={product.name} className="bestseller-img" />
+                <img src={product.image} alt={product.name} className="bestseller-img" onError={e => { e.target.onerror = null; e.target.src = FALLBACK_IMG; }} />
                 <button
                   className={`cat-fav-btn${favorites.has(product.id) ? " cat-fav-btn--active" : ""}`}
                   onClick={() => handleToggleFavorite(product)}
@@ -508,7 +509,7 @@ export default function HomePage() {
             <button className="qv-close" onClick={() => setQuickView(null)}>✕</button>
             <div className="qv-body">
               <div className="qv-img-wrap">
-                <img src={quickView.image} alt={quickView.name} />
+                <img src={quickView.image} alt={quickView.name} onError={e => { e.target.onerror = null; e.target.src = FALLBACK_IMG; }} />
                 {quickView.bestseller && (
                   <span className="qv-img-badge">Best Seller</span>
                 )}

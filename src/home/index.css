@@ -591,20 +591,39 @@
 .cat-card-img-wrap {
   position: relative;
   aspect-ratio: 4 / 3;
-  background: linear-gradient(135deg, #fceae8, #fad4d0);
+  background-size: cover;
+  background-position: center;
+  background-color: #fceae8;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
 }
 
-.cat-card-emoji {
-  font-size: 52px;
+.cat-card-dim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, rgba(30,10,10,0.18) 0%, rgba(80,20,20,0.38) 100%);
+  transition: background 0.25s;
+}
+
+.cat-card:hover .cat-card-dim {
+  background: linear-gradient(160deg, rgba(201,114,105,0.45) 0%, rgba(120,40,40,0.55) 100%);
+}
+
+.cat-card-label {
+  position: relative;
+  z-index: 2;
+  font-size: 36px;
+  font-weight: 800;
+  color: rgba(255,255,255,0.92);
+  letter-spacing: -1px;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.3);
   transition: transform 0.3s ease;
 }
 
-.cat-card:hover .cat-card-emoji {
-  transform: scale(1.15);
+.cat-card:hover .cat-card-label {
+  transform: scale(1.1);
 }
 
 .cat-card-overlay {
@@ -1181,16 +1200,17 @@
 }
 
 .home-story-panel {
-  border-radius: 28px;
-  padding: 34px;
+  border-radius: 20px;
+  padding: 20px 24px;
   background:
     radial-gradient(circle at top right, rgba(255, 240, 236, 0.9), transparent 26%),
     #fff;
   border: 1px solid #f2ddd9;
-  box-shadow: 0 14px 38px rgba(214, 134, 124, 0.08);
+  box-shadow: 0 6px 20px rgba(214, 134, 124, 0.07);
   display: grid;
   grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
-  gap: 26px;
+  gap: 20px;
+  align-items: center;
 }
 
 .home-story-copy {
@@ -1258,13 +1278,13 @@
 .home-story-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+  gap: 10px;
 }
 
 .home-story-card {
-  min-height: 160px;
-  padding: 18px;
-  border-radius: 20px;
+  min-height: 100px;
+  padding: 14px;
+  border-radius: 14px;
   background: linear-gradient(180deg, #fff 0%, #fff7f5 100%);
   border: 1px solid #f3e1dd;
   transition: transform 0.18s ease, box-shadow 0.18s ease;
@@ -1286,16 +1306,17 @@
 }
 
 .home-story-card-title {
-  margin: 0 0 10px;
-  font-size: 17px;
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 700;
   line-height: 1.35;
   color: #2d2d2d;
 }
 
 .home-story-card-desc {
   margin: 0;
-  font-size: 13px;
-  line-height: 1.7;
+  font-size: 11px;
+  line-height: 1.6;
   color: #8d8d8d;
 }
 
@@ -1463,6 +1484,7 @@
   inset: 0;
   background: rgba(0, 0, 0, 0.35);
   z-index: 200;
+  -webkit-backdrop-filter: blur(2px);
   backdrop-filter: blur(2px);
 }
 
@@ -1706,7 +1728,7 @@
 .top3-grid {
   display: grid;
   grid-template-columns: 1fr 1.08fr 1fr;
-  gap: 16px;
+  gap: 28px;
   align-items: end;
 }
 .top3-card {
