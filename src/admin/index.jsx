@@ -1,6 +1,20 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PRODUCTS } from "../data/products.js";
+import {
+  ACCOUNT_TRUST_META,
+  ADMIN_AUDIT_LOGS,
+  ADMIN_LOGIN_CONTROL_USERS,
+  ADMIN_MONITORING_FLAGS,
+  ADMIN_SECURITY_STATE,
+  ADMIN_SENSITIVE_ACTIONS,
+  ADMIN_TRUSTED_DEVICES,
+  OTP_DEMO_CODE,
+} from "./mockData";
+import AccountTrustDrawer from "./components/AccountTrustDrawer";
+import MonitoringSection from "./components/MonitoringSection";
+import SecuritySection from "./components/SecuritySection";
+import StepUpOtpModal from "./components/StepUpOtpModal";
 import "./index.css";
 
 /* ═══════════════════════════════════════════════════════════
@@ -81,6 +95,14 @@ const YEARLY_REVENUE = [
 ];
 
 const fmt = (n) => "Rp " + n.toLocaleString("id-ID");
+const stampNow = () =>
+  new Intl.DateTimeFormat("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(new Date()).replace(",", "");
 
 const STATUS_META = {
   pending:   { label: "Awaiting Approval", color: "#e09a3a", bg: "rgba(224,154,58,0.1)"  },
@@ -113,6 +135,8 @@ const IcStore      = () => <svg width="16" height="16" viewBox="0 0 24 24" fill=
 const IcStar       = () => <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>;
 const IcPackage    = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>;
 const IcNotif      = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>;
+const IcShield     = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>;
+const IcMonitor    = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/><path d="M7 9h2l2-3 2 6 2-3h2"/></svg>;
 
 /* ═══════════════════════════════════════════════════════════
    COMPONENT: Revenue Chart (modern SVG area chart)
@@ -427,27 +451,92 @@ function Dashboard({ setActive }) {
 /* ═══════════════════════════════════════════════════════════
    SECTION: ORDERS
    ═══════════════════════════════════════════════════════════ */
-function Orders() {
+function Orders({ accountProfiles, monitoringFlags, onOpenAccount, onSensitiveAudit }) {
   const [orders, setOrders] = useState(MOCK_ORDERS);
-  const [tab, setTab]       = useState("all");
-  const [query, setQuery]   = useState("");
+  const [tab, setTab] = useState("all");
+  const [query, setQuery] = useState("");
+  const [otpAction, setOtpAction] = useState(null);
 
   const tabs = ["all", "pending", "packing", "shipped", "delivered"];
 
-  const filtered = orders.filter(o => {
-    const matchTab = tab === "all" || o.status === tab;
-    const q = query.toLowerCase();
-    const matchQ = !q || o.id.toLowerCase().includes(q) || o.customer.toLowerCase().includes(q) || o.products.some(p => p.toLowerCase().includes(q));
-    return matchTab && matchQ;
+  const filtered = orders.filter((order) => {
+    const matchTab = tab === "all" || order.status === tab;
+    const loweredQuery = query.toLowerCase();
+    const matchQuery = !loweredQuery
+      || order.id.toLowerCase().includes(loweredQuery)
+      || order.customer.toLowerCase().includes(loweredQuery)
+      || order.products.some((product) => product.toLowerCase().includes(loweredQuery));
+    return matchTab && matchQuery;
   });
 
   const advance = (id) => {
     const flow = { pending: "packing", packing: "shipped", shipped: "delivered" };
-    setOrders(prev => prev.map(o => o.id === id ? { ...o, status: flow[o.status] ?? o.status } : o));
+    setOrders((prev) => prev.map((order) => (
+      order.id === id ? { ...order, status: flow[order.status] ?? order.status } : order
+    )));
   };
 
   const cancel = (id) => {
-    setOrders(prev => prev.map(o => o.id === id ? { ...o, status: "cancelled" } : o));
+    setOrders((prev) => prev.map((order) => (
+      order.id === id ? { ...order, status: "cancelled" } : order
+    )));
+  };
+
+  const openOtpForOrder = (order, kind) => {
+    const account = accountProfiles.find((profile) => profile.email === order.email);
+    const title = kind === "approve-payment"
+      ? `Approve Payment for ${order.id}`
+      : `Reject Payment for ${order.id}`;
+    const description = kind === "approve-payment"
+      ? `Verify OTP before approving ${order.customer}'s payment and moving the order forward.`
+      : `Verify OTP before rejecting ${order.customer}'s payment confirmation.`;
+
+    const trustWarning = account
+      ? ` Account status: ${ACCOUNT_TRUST_META[account.trust_status].label}. ${account.suggestion}`
+      : "";
+
+    setOtpAction({ order, kind, title, description: description + trustWarning });
+  };
+
+  const verifyOrderOtp = async (code) => {
+    if (code !== OTP_DEMO_CODE) {
+      onSensitiveAudit?.({
+        action_type: "otp verification",
+        result_status: "failed",
+        note: otpAction?.title || "Order verification",
+        syncVerification: true,
+      });
+      return { ok: false, message: "OTP salah. Gunakan 123456 untuk demo." };
+    }
+
+    if (!otpAction) {
+      return { ok: false, message: "Aksi sensitif tidak ditemukan." };
+    }
+
+    onSensitiveAudit?.({
+      action_type: "otp verified",
+      note: otpAction.title,
+      syncVerification: false,
+    });
+
+    if (otpAction.kind === "approve-payment") {
+      advance(otpAction.order.id);
+      onSensitiveAudit?.({
+        action_type: "payment approved",
+        note: otpAction.title,
+        syncVerification: true,
+      });
+      return { ok: true, message: `${otpAction.order.id} berhasil dipindah ke tahap packing.` };
+    }
+
+    cancel(otpAction.order.id);
+    onSensitiveAudit?.({
+      action_type: "payment rejected",
+      result_status: "warning",
+      note: otpAction.title,
+      syncVerification: true,
+    });
+    return { ok: true, message: `${otpAction.order.id} berhasil ditandai sebagai rejected.` };
   };
 
   return (
@@ -459,24 +548,32 @@ function Orders() {
         </div>
       </div>
 
-      {/* Tabs */}
       <div className="adm-tabs">
-        {tabs.map(t => (
-          <button key={t} className={`adm-tab${tab === t ? " adm-tab--active" : ""}`} onClick={() => setTab(t)}>
-            {t === "all" ? "Semua" : STATUS_META[t]?.label}
-            <span className="adm-tab-count">{t === "all" ? orders.length : orders.filter(o => o.status === t).length}</span>
+        {tabs.map((status) => (
+          <button
+            key={status}
+            className={`adm-tab${tab === status ? " adm-tab--active" : ""}`}
+            onClick={() => setTab(status)}
+          >
+            {status === "all" ? "Semua" : STATUS_META[status]?.label}
+            <span className="adm-tab-count">
+              {status === "all" ? orders.length : orders.filter((order) => order.status === status).length}
+            </span>
           </button>
         ))}
       </div>
 
-      {/* Search */}
       <div className="adm-search-bar">
         <IcSearch />
-        <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Cari order ID, customer, produk…" className="adm-search-input" />
-        {query && <button className="adm-search-clear" onClick={() => setQuery("")}>✕</button>}
+        <input
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+          placeholder="Cari order ID, customer, atau produk..."
+          className="adm-search-input"
+        />
+        {query && <button className="adm-search-clear" onClick={() => setQuery("")}>x</button>}
       </div>
 
-      {/* Table */}
       <div className="adm-card adm-table-card">
         <table className="adm-table adm-table--orders">
           <thead>
@@ -487,56 +584,112 @@ function Orders() {
               <th>Total</th>
               <th>Tanggal</th>
               <th>Status</th>
+              <th>Trust Check</th>
               <th>Aksi</th>
             </tr>
           </thead>
           <tbody>
             {filtered.length === 0 ? (
-              <tr><td colSpan={7} className="adm-empty-row">Tidak ada pesanan ditemukan.</td></tr>
-            ) : filtered.map(o => {
-              const st = STATUS_META[o.status];
-              const canAdvance = ["pending","packing","shipped"].includes(o.status);
-              return (
-                <tr key={o.id}>
-                  <td><span className="adm-order-id">{o.id}</span></td>
-                  <td>
-                    <div className="adm-customer-cell">
-                      <Avatar name={o.customer} size={30} />
-                      <div>
-                        <p className="adm-customer-name">{o.customer}</p>
-                        <p className="adm-customer-email">{o.email}</p>
+              <tr><td colSpan={8} className="adm-empty-row">Tidak ada pesanan ditemukan.</td></tr>
+            ) : (
+              filtered.map((order) => {
+                const st = STATUS_META[order.status];
+                const canAdvance = ["packing", "shipped"].includes(order.status);
+                const account = accountProfiles.find((profile) => profile.email === order.email);
+                const trustMeta = account ? ACCOUNT_TRUST_META[account.trust_status] : null;
+                const linkedFlags = monitoringFlags.filter((flag) => flag.related_user === order.email || flag.related_order === order.id);
+                return (
+                  <tr key={order.id}>
+                    <td><span className="adm-order-id">{order.id}</span></td>
+                    <td>
+                      <div className="adm-customer-cell">
+                        <Avatar name={order.customer} size={30} />
+                        <div>
+                          <p className="adm-customer-name">{order.customer}</p>
+                          <p className="adm-customer-email">{order.email}</p>
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div className="adm-products-cell">
-                      {o.products.map((p, i) => <span key={i} className="adm-product-tag">{p}</span>)}
-                    </div>
-                  </td>
-                  <td><strong>{fmt(o.total)}</strong></td>
-                  <td className="adm-date-cell">{o.date}</td>
-                  <td>
-                    <span className="adm-status-pill" style={{ color: st.color, background: st.bg }}>{st.label}</span>
-                  </td>
-                  <td>
-                    <div className="adm-action-btns">
-                      {canAdvance && (
-                        <button className="adm-act-btn adm-act-btn--primary" title="Next step" onClick={() => advance(o.id)}>
-                          {o.status === "pending" ? <IcCheck /> : o.status === "packing" ? <IcTruck /> : <IcCheck />}
-                          {o.status === "pending" ? "Approve" : o.status === "packing" ? "Ship" : "Delivered"}
-                        </button>
+                    </td>
+                    <td>
+                      <div className="adm-products-cell">
+                        {order.products.map((product, index) => <span key={index} className="adm-product-tag">{product}</span>)}
+                      </div>
+                    </td>
+                    <td><strong>{fmt(order.total)}</strong></td>
+                    <td className="adm-date-cell">{order.date}</td>
+                    <td>
+                      <span className="adm-status-pill" style={{ color: st.color, background: st.bg }}>
+                        {st.label}
+                      </span>
+                    </td>
+                    <td>
+                      {account ? (
+                        <div className="adm-order-risk-cell">
+                          <span className="adm-status-pill" style={{ color: trustMeta.color, background: trustMeta.bg }}>
+                            {trustMeta.label}
+                          </span>
+                          <p className="adm-order-risk-meta">
+                            {linkedFlags.length} flag{linkedFlags.length === 1 ? "" : "s"} - {account.failed_logins_24h} login fail
+                          </p>
+                          <button className="adm-link-btn" onClick={() => onOpenAccount(order.email, `Risk review for ${order.id}`)}>
+                            Review risk
+                          </button>
+                        </div>
+                      ) : (
+                        <span className="adm-date-cell">No data</span>
                       )}
-                      {o.status !== "delivered" && o.status !== "cancelled" && (
-                        <button className="adm-act-btn adm-act-btn--danger" title="Cancel" onClick={() => cancel(o.id)}>✕</button>
-                      )}
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
+                    </td>
+                    <td>
+                      <div className="adm-action-btns">
+                        {order.status === "pending" ? (
+                          <>
+                            <button
+                              className="adm-act-btn adm-act-btn--primary"
+                              onClick={() => openOtpForOrder(order, "approve-payment")}
+                            >
+                              <IcCheck />
+                              Approve Payment
+                            </button>
+                            <button
+                              className="adm-act-btn adm-act-btn--danger adm-act-btn--danger-text"
+                              onClick={() => openOtpForOrder(order, "reject-payment")}
+                            >
+                              Reject Payment
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            {canAdvance && (
+                              <button className="adm-act-btn adm-act-btn--primary" onClick={() => advance(order.id)}>
+                                {order.status === "packing" ? <IcTruck /> : <IcCheck />}
+                                {order.status === "packing" ? "Ship" : "Delivered"}
+                              </button>
+                            )}
+                            {order.status !== "delivered" && order.status !== "cancelled" && (
+                              <button className="adm-act-btn adm-act-btn--danger" title="Cancel" onClick={() => cancel(order.id)}>
+                                x
+                              </button>
+                            )}
+                          </>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })
+            )}
           </tbody>
         </table>
       </div>
+
+      <StepUpOtpModal
+        open={Boolean(otpAction)}
+        title={otpAction?.title}
+        description={otpAction?.description}
+        demoCode={OTP_DEMO_CODE}
+        onVerify={verifyOrderOtp}
+        onClose={() => setOtpAction(null)}
+      />
     </div>
   );
 }
@@ -935,10 +1088,12 @@ function Notifications() {
    SIDEBAR NAV CONFIG
    ═══════════════════════════════════════════════════════════ */
 const NAV_ITEMS = [
-  { id: "dashboard",     label: "Dashboard",      icon: <IcGrid />      },
+  { id: "dashboard",     label: "Dashboard",       icon: <IcGrid />      },
   { id: "orders",        label: "Pesanan",         icon: <IcOrders />    },
   { id: "products",      label: "Produk",          icon: <IcProducts />  },
   { id: "customers",     label: "Pelanggan",       icon: <IcCustomers /> },
+  { id: "security",      label: "Security",        icon: <IcShield />    },
+  { id: "monitoring",    label: "Monitoring",      icon: <IcMonitor />   },
   { id: "notifications", label: "Notifications",   icon: <IcNotif />     },
   { id: "settings",      label: "Pengaturan",      icon: <IcSettings />  },
 ];
@@ -949,17 +1104,281 @@ const NAV_ITEMS = [
 export default function AdminPage() {
   const navigate = useNavigate();
   const [active, setActive] = useState("dashboard");
-  const [query,  setQuery]  = useState("");
+  const [query, setQuery] = useState("");
+  const [securityState, setSecurityState] = useState(ADMIN_SECURITY_STATE);
+  const [trustedDevices, setTrustedDevices] = useState(ADMIN_TRUSTED_DEVICES);
+  const [loginUsers, setLoginUsers] = useState(ADMIN_LOGIN_CONTROL_USERS);
+  const [monitoringFlags, setMonitoringFlags] = useState(ADMIN_MONITORING_FLAGS);
+  const [auditLogs, setAuditLogs] = useState(ADMIN_AUDIT_LOGS);
+  const [otpRequest, setOtpRequest] = useState(null);
+  const [accountDrawer, setAccountDrawer] = useState({ email: null, contextLabel: "" });
 
-  const pendingOrders = MOCK_ORDERS.filter(o => o.status === "pending").length;
-  const unreadNotifs  = MOCK_NOTIFICATIONS.filter(n => !n.read).length;
+  const pendingOrders = MOCK_ORDERS.filter((order) => order.status === "pending").length;
+  const unreadNotifs = MOCK_NOTIFICATIONS.filter((notif) => !notif.read).length;
+  const openFlags = monitoringFlags.filter((flag) => flag.status === "open").length;
+  const deviceWarnings = trustedDevices.filter((device) => device.status === "new").length;
+  const topbarAlerts = pendingOrders + openFlags;
+  const getAccountProfile = (email) => loginUsers.find((user) => user.email === email) || null;
+  const getRelatedFlags = (email) => monitoringFlags.filter((flag) => flag.related_user === email);
+
+  const pushAuditLog = ({
+    action_type,
+    actor = "Admin",
+    result_status = "success",
+    ip_address = "36.77.120.45",
+  }) => {
+    setAuditLogs((prev) => [
+      {
+        id: `AUD-${Date.now()}`,
+        action_type,
+        actor,
+        timestamp: stampNow(),
+        result_status,
+        ip_address,
+      },
+      ...prev,
+    ]);
+  };
+
+  const syncLastVerification = (label, status = "verified") => {
+    setSecurityState((prev) => ({
+      ...prev,
+      last_verification: {
+        label,
+        time: stampNow(),
+        method: "OTP step-up",
+        status,
+      },
+    }));
+  };
+
+  const handleSensitiveAudit = ({
+    action_type,
+    actor,
+    result_status = "success",
+    ip_address,
+    note,
+    syncVerification = false,
+  }) => {
+    pushAuditLog({ action_type, actor, result_status, ip_address });
+    if (syncVerification) {
+      syncLastVerification(note || action_type, result_status === "failed" ? "failed" : "verified");
+    }
+  };
+
+  const handleTrustDevice = (deviceId) => {
+    const targetDevice = trustedDevices.find((device) => device.id === deviceId);
+    if (!targetDevice) return;
+
+    setTrustedDevices((prev) => prev.map((device) => (
+      device.id === deviceId
+        ? { ...device, status: "trusted", trusted_since: stampNow(), last_active: "Just now" }
+        : device
+    )));
+
+    setSecurityState((prev) => ({
+      ...prev,
+      new_device_warning: prev.new_device_warning?.device_id === deviceId ? null : prev.new_device_warning,
+    }));
+
+    handleSensitiveAudit({
+      action_type: "device trusted",
+      note: `Trust Device ${targetDevice.name}`,
+      syncVerification: false,
+    });
+  };
+
+  const openAccountReview = (email, contextLabel = "Account trust review") => {
+    setAccountDrawer({ email, contextLabel });
+  };
+
+  const handleRequireReverifyUser = (userId) => {
+    const targetUser = loginUsers.find((user) => user.id === userId);
+    if (!targetUser) return;
+
+    setLoginUsers((prev) => prev.map((user) => (
+      user.id === userId ? { ...user, session_status: "reverification" } : user
+    )));
+
+    handleSensitiveAudit({
+      action_type: "user session reverification",
+      note: `Require Reverify for ${targetUser.email}`,
+      result_status: "warning",
+      syncVerification: false,
+    });
+  };
+
+  const handleForceLogoutUser = (userId) => {
+    const targetUser = loginUsers.find((user) => user.id === userId);
+    if (!targetUser) return;
+
+    setLoginUsers((prev) => prev.map((user) => (
+      user.id === userId ? { ...user, session_status: "logged_out", last_activity: "Session closed by admin" } : user
+    )));
+
+    handleSensitiveAudit({
+      action_type: "user force logout",
+      note: `Force Logout for ${targetUser.email}`,
+      result_status: "warning",
+      syncVerification: false,
+    });
+  };
+
+  const handleMarkAccountTrusted = (userId) => {
+    const targetUser = loginUsers.find((user) => user.id === userId);
+    if (!targetUser) return;
+
+    setLoginUsers((prev) => prev.map((user) => (
+      user.id === userId
+        ? {
+            ...user,
+            trust_status: "trusted",
+            suspicious_signals: ["Admin marked this account as trusted for the current demo review."],
+            suggestion: "Admin already reviewed this account and marked it as trusted for manual approval flow.",
+          }
+        : user
+    )));
+
+    handleSensitiveAudit({
+      action_type: "account marked trusted",
+      note: `Mark Trusted for ${targetUser.email}`,
+      result_status: "success",
+      syncVerification: false,
+    });
+  };
+
+  const requestSecurityAction = (action) => {
+    setOtpRequest({
+      title: action.label,
+      description: action.description,
+      successMessage: action.success_message,
+      auditAction: action.audit_action,
+      onSuccess: () => {
+        if (action.id === "resolve-flag") {
+          setMonitoringFlags((prev) => {
+            const firstOpenFlag = prev.find((flag) => flag.status === "open");
+            if (!firstOpenFlag) return prev;
+            return prev.map((flag) => (
+              flag.id === firstOpenFlag.id ? { ...flag, status: "resolved" } : flag
+            ));
+          });
+        }
+      },
+    });
+  };
+
+  const requestFlagResolution = (flag) => {
+    setOtpRequest({
+      title: `Resolve Flag ${flag.id}`,
+      description: `Verify OTP before resolving ${flag.rule_code} and closing the monitoring case.`,
+      successMessage: `${flag.id} resolved in demo mode.`,
+      auditAction: "monitoring flag resolved",
+      onSuccess: () => {
+        setMonitoringFlags((prev) => prev.map((item) => (
+          item.id === flag.id ? { ...item, status: "resolved" } : item
+        )));
+      },
+    });
+  };
+
+  const verifyGlobalOtp = async (code) => {
+    if (code !== OTP_DEMO_CODE) {
+      handleSensitiveAudit({
+        action_type: "otp verification",
+        result_status: "failed",
+        note: otpRequest?.title || "Step-up verification",
+        syncVerification: true,
+      });
+      return { ok: false, message: "OTP salah. Gunakan 123456 untuk demo." };
+    }
+
+    otpRequest?.onSuccess?.();
+
+    handleSensitiveAudit({
+      action_type: "otp verified",
+      note: otpRequest?.title || "Step-up verification",
+      syncVerification: false,
+    });
+
+    if (otpRequest?.auditAction) {
+      handleSensitiveAudit({
+        action_type: otpRequest.auditAction,
+        note: otpRequest.title,
+        result_status: "success",
+        syncVerification: true,
+      });
+    }
+
+    return {
+      ok: true,
+      message: otpRequest?.successMessage || "Sensitive action verified successfully.",
+    };
+  };
+
+  const handleMarkReviewed = (flag) => {
+    setMonitoringFlags((prev) => prev.map((item) => (
+      item.id === flag.id ? { ...item, status: "reviewed" } : item
+    )));
+    handleSensitiveAudit({
+      action_type: "monitoring flag reviewed",
+      note: `Mark Reviewed for ${flag.id}`,
+      result_status: "success",
+      syncVerification: false,
+    });
+  };
+
+  const handleEscalateFlag = (flag) => {
+    setMonitoringFlags((prev) => prev.map((item) => (
+      item.id === flag.id ? { ...item, status: "escalated" } : item
+    )));
+    handleSensitiveAudit({
+      action_type: "monitoring flag escalated",
+      note: `Escalate ${flag.id}`,
+      result_status: "warning",
+      syncVerification: false,
+    });
+  };
 
   const renderSection = () => {
     switch (active) {
       case "dashboard": return <Dashboard setActive={setActive} />;
-      case "orders":    return <Orders />;
+      case "orders":
+        return (
+          <Orders
+            accountProfiles={loginUsers}
+            monitoringFlags={monitoringFlags}
+            onOpenAccount={openAccountReview}
+            onSensitiveAudit={handleSensitiveAudit}
+          />
+        );
       case "products":  return <Products />;
       case "customers": return <Customers />;
+      case "security":
+        return (
+          <SecuritySection
+            securityState={securityState}
+            devices={trustedDevices}
+            loginUsers={loginUsers}
+            actionTemplates={ADMIN_SENSITIVE_ACTIONS}
+            onRequestAction={requestSecurityAction}
+            onTrustDevice={handleTrustDevice}
+            onOpenAccount={openAccountReview}
+            onRequireReverify={handleRequireReverifyUser}
+            onForceLogout={handleForceLogoutUser}
+          />
+        );
+      case "monitoring":
+        return (
+          <MonitoringSection
+            flags={monitoringFlags}
+            auditLogs={auditLogs}
+            accountProfiles={loginUsers}
+            onOpenAccount={openAccountReview}
+            onMarkReviewed={handleMarkReviewed}
+            onResolve={requestFlagResolution}
+            onEscalate={handleEscalateFlag}
+          />
+        );
       case "notifications":  return <Notifications />;
       case "settings":       return <Settings />;
       default:          return <Dashboard setActive={setActive} />;
@@ -993,6 +1412,12 @@ export default function AdminPage() {
               <span className="adm-nav-label">{item.label}</span>
               {item.id === "orders" && pendingOrders > 0 && (
                 <span className="adm-nav-badge adm-nav-badge--amber">{pendingOrders}</span>
+              )}
+              {item.id === "security" && deviceWarnings > 0 && (
+                <span className="adm-nav-badge adm-nav-badge--amber">{deviceWarnings}</span>
+              )}
+              {item.id === "monitoring" && openFlags > 0 && (
+                <span className="adm-nav-badge adm-nav-badge--rose">{openFlags}</span>
               )}
               {item.id === "notifications" && unreadNotifs > 0 && (
                 <span className="adm-nav-badge adm-nav-badge--rose">{unreadNotifs}</span>
@@ -1032,8 +1457,8 @@ export default function AdminPage() {
             {/* Notification bell */}
             <button className="adm-topbar-icon-btn">
               <IcBell />
-              {pendingOrders > 0 && (
-                <span className="adm-notif-dot">{pendingOrders}</span>
+              {topbarAlerts > 0 && (
+                <span className="adm-notif-dot">{topbarAlerts}</span>
               )}
             </button>
 
@@ -1053,6 +1478,26 @@ export default function AdminPage() {
           {renderSection()}
         </main>
       </div>
+
+      <StepUpOtpModal
+        open={Boolean(otpRequest)}
+        title={otpRequest?.title}
+        description={otpRequest?.description}
+        demoCode={OTP_DEMO_CODE}
+        onVerify={verifyGlobalOtp}
+        onClose={() => setOtpRequest(null)}
+      />
+
+      <AccountTrustDrawer
+        open={Boolean(accountDrawer.email)}
+        account={getAccountProfile(accountDrawer.email)}
+        relatedFlags={getRelatedFlags(accountDrawer.email)}
+        contextLabel={accountDrawer.contextLabel}
+        onClose={() => setAccountDrawer({ email: null, contextLabel: "" })}
+        onRequireReverify={handleRequireReverifyUser}
+        onForceLogout={handleForceLogoutUser}
+        onMarkTrusted={handleMarkAccountTrusted}
+      />
     </div>
   );
 }
